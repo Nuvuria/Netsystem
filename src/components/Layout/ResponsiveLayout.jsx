@@ -3,7 +3,6 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import '../GlobalLayout.css';
 
 const ResponsiveLayout = ({ children, title }) => {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
@@ -20,16 +19,7 @@ const ResponsiveLayout = ({ children, title }) => {
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
-  // Fechar sidebar ao navegar (mobile)
-  useEffect(() => {
-    if (isMobile) {
-      setSidebarOpen(false);
-    }
-  }, [location, isMobile]);
 
-  const toggleSidebar = () => {
-    setSidebarOpen(!sidebarOpen);
-  };
 /*
   const closeSidebar = () => {
     setSidebarOpen(false);
@@ -44,6 +34,12 @@ const ResponsiveLayout = ({ children, title }) => {
   ];
 
   const handleNavigation = (path) => {
+    if (path === '/') {
+      // Lógica de Logout
+      localStorage.removeItem('userId');
+      localStorage.removeItem('manterLogado');
+      alert('🔒 Logout efetuado com sucesso!');
+    }
     navigate(path);
   };
 
@@ -53,23 +49,7 @@ const ResponsiveLayout = ({ children, title }) => {
 
   return (
     <div className="app-container responsive-layout-container">
-      {/* Botão Atualizar Mobile */}
-      {isMobile && (
-        <button 
-          className="mobile-menu-btn" 
-          onClick={() => {
-            if (isMobile) {
-                toggleSidebar();
-            } else {
-                window.location.reload();
-            }
-          }}
-          aria-label="Atualizar página"
-          title="Atualizar"
-        >
-          🔄
-        </button>
-      )}
+
 
       {/* Sidebar */}
       <nav className="app-sidebar">

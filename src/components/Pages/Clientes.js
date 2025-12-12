@@ -284,8 +284,8 @@ function Clientes() {
                                 <p><strong>Tel:</strong> {cliente.numeroTelefone}</p>
                                 <p><strong>CPF:</strong> {cliente.cpf}</p>
                                 <p><strong>Plano:</strong> {cliente.plano}</p>
-                                <p><strong>Endereço:</strong> {cliente.endereco}</p>
-                                <p><strong>Vencimento:</strong> Dia {cliente.vencimento}</p>
+                                <p><strong>End:</strong> {cliente.endereco}</p>
+                                <p><strong>Venc:</strong> Dia {cliente.vencimento}</p>
                             </div>
                             <div className="cliente-card-actions">
                                 <button onClick={() => handleEditar(cliente)} className="btn-edit">Editar</button>

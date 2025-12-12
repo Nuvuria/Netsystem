@@ -149,7 +149,20 @@ input:focus, select:focus {
     background-color: #c82333;
 }
 
+/* Garante que o container de cards não apareça no desktop */
+.mobile-cards-container {
+    display: none;
+}
+
 @media (max-width: 768px) {
+    .clientes-container {
+        padding: 10px; /* Reduz padding do container geral */
+    }
+
+    .list-section {
+        padding: 10px; /* Reduz padding da seção de lista */
+    }
+
     .form-row {
         flex-direction: column;
         gap: 15px;
@@ -162,40 +175,60 @@ input:focus, select:focus {
 
     /* Cards para mobile */
     .mobile-cards-container {
-        display: flex;
-        flex-direction: column;
-        gap: 15px;
+        display: grid;
+        grid-template-columns: 1fr 1fr; /* Lado a lado (2 colunas) */
+        gap: 8px; /* Gap um pouco menor */
+        width: 100%;
     }
 
     .cliente-card {
         background-color: #2a2a2a;
-        padding: 15px;
-        border-radius: 8px;
+        padding: 8px; 
+        border-radius: 6px;
         border: 1px solid #444;
         display: flex;
         flex-direction: column;
-        gap: 10px;
+        justify-content: space-between;
+        gap: 5px;
+        min-height: 150px; 
+        min-width: 0; /* CRUCIAL: Permite que o card encolha abaixo do conteúdo */
+        overflow: hidden; /* Garante que nada saia do card */
     }
 
     .cliente-card-header {
         display: flex;
-        justify-content: space-between;
-        align-items: center;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 2px;
         border-bottom: 1px solid #444;
-        padding-bottom: 8px;
-        margin-bottom: 5px;
+        padding-bottom: 4px;
+        margin-bottom: 4px;
     }
 
     .cliente-card-header h4 {
         margin: 0;
         color: #fff;
-        font-size: 1.1em;
+        font-size: 0.85em; /* Fonte menor */
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        width: 100%;
+    }
+    
+    .status-badge {
+        font-size: 0.65em; /* Badge menor */
+        padding: 1px 5px;
+        align-self: flex-start;
     }
 
     .cliente-card-body p {
-        margin: 5px 0;
+        margin: 2px 0;
         color: #ccc;
-        font-size: 0.95em;
+        font-size: 0.75em; /* Texto de dados bem menor */
+        line-height: 1.1;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
     .cliente-card-body strong {
@@ -204,15 +237,26 @@ input:focus, select:focus {
 
     .cliente-card-actions {
         display: flex;
-        gap: 10px;
-        margin-top: 10px;
-        justify-content: flex-end;
+        gap: 5px;
+        margin-top: auto; /* Empurra para baixo */
+        justify-content: stretch;
     }
 
     .btn-edit, .btn-delete {
         flex: 1;
         text-align: center;
-        padding: 10px;
+        padding: 6px 4px; /* Botões slim */
+        font-size: 0.75em;
+    }
+
+    .header-actions {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+    }
+    
+    .btn-novo {
+        justify-content: center;
     }
 }
 
@@ -295,25 +339,4 @@ input:focus, select:focus {
 
 .btn-novo:hover {
     background-color: #218838;
-}
-
-/* Garante que o container de cards não apareça no desktop */
-.mobile-cards-container {
-    display: none;
-}
-
-@media (max-width: 768px) {
-    .mobile-cards-container {
-        display: flex; /* Reativa no mobile */
-    }
-    
-    .header-actions {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 10px;
-    }
-    
-    .btn-novo {
-        justify-content: center;
-    }
 }

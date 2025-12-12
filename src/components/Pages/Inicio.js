@@ -20,6 +20,13 @@ function Inicio() {
   const [clientesVencendo, setClientesVencendo] = useState([]);
   const [clientesVencendo5Dias, setClientesVencendo5Dias] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth <= 768);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   useEffect(() => {
     fetchDashboardData();
@@ -129,9 +136,14 @@ function Inicio() {
                 <h3>Total Clientes</h3>
                 <p className="kpi-value">{stats.totalClientes}</p>
               </div>
-              <div className="kpi-card">
-                <h3>Clientes Ativos</h3>
-                <p className="kpi-value">{stats.clientesAtivos}</p>
+              <div className="kpi-card danger">
+                <h3>Clientes Atrasados</h3>
+                <p className="kpi-value">{stats.clientesVencidos?.length || 0}</p>
+              </div>
+              <div className="kpi-card success">
+                <h3>Clientes Pagos</h3>
+                <p className="kpi-value">{stats.clientesPagos?.length || 0}</p>
+                <small>Este Mês</small>
               </div>
               <div className="kpi-card alert">
                 <h3>Vencendo Hoje</h3>
@@ -145,15 +157,15 @@ function Inicio() {
               <div className="left-column">
                 <div className="chart-card">
                   <h3>Status dos Clientes</h3>
-                  <div style={{ width: '100%', height: 300 }}>
+                  <div className="chart-wrapper">
                     <ResponsiveContainer>
                       <PieChart>
                         <Pie
                           data={dataGrafico}
                           cx="50%"
                           cy="50%"
-                          innerRadius={60}
-                          outerRadius={80}
+                          innerRadius={isMobile ? "40%" : 60}
+                          outerRadius={isMobile ? "70%" : 80}
                           fill="#8884d8"
                           paddingAngle={5}
                           dataKey="value"
@@ -166,57 +178,33 @@ function Inicio() {
                           contentStyle={{ backgroundColor: '#333', border: 'none' }}
                           itemStyle={{ color: '#fff' }}
                         />
-                        <Legend verticalAlign="bottom" height={36}/>
+                        <Legend verticalAlign="bottom" height={36} iconSize={10} wrapperStyle={{ fontSize: '12px' }}/>
                       </PieChart>
                     </ResponsiveContainer>
                   </div>
                 </div>
 
-                <div className="chart-card" style={{ marginTop: '25px' }}>
+                <div className="chart-card">
                   <h3>Planos Mais Utilizados</h3>
-                  <div style={{ width: '100%', height: 300 }}>
+                  <div className="chart-wrapper">
                     <ResponsiveContainer>
                       <BarChart
                         data={stats.planos || []}
                         layout="vertical"
-                        margin={{ top: 5, right: 30, left: 40, bottom: 5 }}
+                        margin={isMobile ? { top: 5, right: 10, left: 10, bottom: 5 } : { top: 5, right: 30, left: 40, bottom: 5 }}
                       >
                         <CartesianGrid strokeDasharray="3 3" stroke="#444" horizontal={false} />
-                        <XAxis type="number" stroke="#ccc" />
-                        <YAxis dataKey="name" type="category" stroke="#ccc" width={100} tick={{fill: '#ccc', fontSize: 12}} />
+                        <XAxis type="number" stroke="#ccc" hide={isMobile} />
+                        <YAxis dataKey="name" type="category" stroke="#ccc" width={isMobile ? 50 : 100} tick={{fill: '#ccc', fontSize: isMobile ? 10 : 12}} />
                         <Tooltip 
                           cursor={{fill: '#2a2a2a'}}
                           contentStyle={{ backgroundColor: '#333', border: 'none' }}
                           itemStyle={{ color: '#fff' }}
                         />
-                        <Bar dataKey="value" fill="#2196F3" barSize={20} radius={[0, 4, 4, 0]} />
+                        <Bar dataKey="value" fill="#2196F3" barSize={isMobile ? 15 : 20} radius={[0, 4, 4, 0]} />
                       </BarChart>
                     </ResponsiveContainer>
                   </div>
-                </div>
-
-                <div className="chart-card success-card" style={{ marginTop: '25px' }}>
-                    <div className="card-header">
-                        <h3>✅ Já Pagaram (Mês Atual)</h3>
-                        <span className="badge-count success">{stats.clientesPagos ? stats.clientesPagos.length : 0}</span>
-                    </div>
-                    {(!stats.clientesPagos || stats.clientesPagos.length === 0) ? (
-                    <p className="empty-msg">Nenhum pagamento registrado este mês.</p>
-                    ) : (
-                    <ul className="vencendo-list">
-                        {stats.clientesPagos.map(cliente => (
-                        <li key={cliente.id} className="vencendo-item">
-                            <div className="vencendo-info">
-                                <strong>{cliente.nome}</strong>
-                                <span>Pago em: {new Date(cliente.dataUltimoPagamento).toLocaleDateString()}</span>
-                            </div>
-                            <div style={{ display: 'flex', gap: '5px' }}>
-                                <span style={{ color: '#28a745', fontWeight: 'bold', fontSize: '0.9em' }}>✅ Pago</span>
-                            </div>
-                        </li>
-                        ))}
-                    </ul>
-                    )}
                 </div>
               </div>
 
@@ -235,23 +223,22 @@ function Inicio() {
                         <li key={cliente.id} className="vencendo-item">
                             <div className="vencendo-info">
                                 <strong>{cliente.nome}</strong>
-                                <span>Venceu dia: {cliente.vencimento}</span>
+                                <span>{cliente.vencimento}</span>
                             </div>
                             <div style={{ display: 'flex', gap: '5px' }}>
                                 <button 
-                                    className="btn-whatsapp overdue-btn"
+                                    className="btn-slim cobranca"
                                     onClick={() => handleEnviarWhatsappCobranca(cliente)}
                                     title="Cobrar Atraso"
                                 >
-                                    ⚠️ Cobrar
+                                    Cobrar
                                 </button>
                                 <button 
-                                    className="btn-whatsapp"
+                                    className="btn-slim pago"
                                     onClick={() => handleRegistrarPagamento(cliente)}
                                     title="Já pagou"
-                                    style={{ backgroundColor: '#4CAF50' }}
                                 >
-                                    ✅ Já pagou
+                                    Pago
                                 </button>
                             </div>
                         </li>
@@ -277,19 +264,18 @@ function Inicio() {
                             </div>
                             <div style={{ display: 'flex', gap: '5px' }}>
                                 <button 
-                                    className="btn-whatsapp"
+                                    className="btn-slim cobranca"
                                     onClick={() => handleEnviarWhatsapp(cliente)}
                                     title="Enviar cobrança"
                                 >
-                                    <i className="fa fa-whatsapp"></i> Cobrar
+                                    Cobrar
                                 </button>
                                 <button 
-                                    className="btn-whatsapp"
+                                    className="btn-slim pago"
                                     onClick={() => handleRegistrarPagamento(cliente)}
                                     title="Já pagou"
-                                    style={{ backgroundColor: '#4CAF50' }}
                                 >
-                                    ✅ Já pagou
+                                    Pago
                                 </button>
                             </div>
                         </li>
@@ -315,19 +301,18 @@ function Inicio() {
                             </div>
                             <div style={{ display: 'flex', gap: '5px' }}>
                                 <button 
-                                    className="btn-whatsapp btn-lembrete"
+                                    className="btn-slim lembrete"
                                     onClick={() => handleEnviarWhatsappLembrete(cliente)}
                                     title="Enviar lembrete"
                                 >
                                     Lembrar
                                 </button>
                                 <button 
-                                    className="btn-whatsapp"
+                                    className="btn-slim pago"
                                     onClick={() => handleRegistrarPagamento(cliente)}
                                     title="Já pagou"
-                                    style={{ backgroundColor: '#4CAF50' }}
                                 >
-                                    ✅ Já pagou
+                                    Pago
                                 </button>
                             </div>
                         </li>
@@ -336,7 +321,29 @@ function Inicio() {
                     )}
                 </div>
 
-
+                <div className="chart-card success-card" style={{ marginTop: '25px' }}>
+                    <div className="card-header">
+                        <h3>✅ Já Pagaram (Mês Atual)</h3>
+                        <span className="badge-count success">{stats.clientesPagos ? stats.clientesPagos.length : 0}</span>
+                    </div>
+                    {(!stats.clientesPagos || stats.clientesPagos.length === 0) ? (
+                    <p className="empty-msg">Nenhum pagamento registrado este mês.</p>
+                    ) : (
+                    <ul className="vencendo-list">
+                        {stats.clientesPagos.map(cliente => (
+                        <li key={cliente.id} className="vencendo-item">
+                            <div className="vencendo-info">
+                                <strong>{cliente.nome}</strong>
+                                <span>Pago em: {new Date(cliente.dataUltimoPagamento).toLocaleDateString()}</span>
+                            </div>
+                            <div style={{ display: 'flex', gap: '5px' }}>
+                                <span className="btn-slim pago" style={{ cursor: 'default' }}>Pago</span>
+                            </div>
+                        </li>
+                        ))}
+                    </ul>
+                    )}
+                </div>
               </div>
             </div>
           </>
