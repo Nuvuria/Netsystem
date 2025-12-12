@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 import ResponsiveLayout from '../Layout/ResponsiveLayout';
 import { PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid } from 'recharts';
 import '../GlobalLayout.css';
@@ -8,7 +8,7 @@ import './Inicio.css';
 const API_BASE = process.env.REACT_APP_API_BASE_URL || 'http://localhost:3001';
 
 function Inicio() {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [stats, setStats] = useState({
     totalClientes: 0,
     clientesAtivos: 0,

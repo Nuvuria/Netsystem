@@ -30,11 +30,11 @@ const ResponsiveLayout = ({ children, title }) => {
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
   };
-
+/*
   const closeSidebar = () => {
     setSidebarOpen(false);
   };
-
+*/
   const navigationItems = [
     { path: '/inicio', label: 'Início', icon: '🏠' },
     { path: '/clientes', label: 'Clientes', icon: '👥' },
@@ -57,7 +57,13 @@ const ResponsiveLayout = ({ children, title }) => {
       {isMobile && (
         <button 
           className="mobile-menu-btn" 
-          onClick={() => window.location.reload()}
+          onClick={() => {
+            if (isMobile) {
+                toggleSidebar();
+            } else {
+                window.location.reload();
+            }
+          }}
           aria-label="Atualizar página"
           title="Atualizar"
         >

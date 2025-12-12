@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Login from './components/Login/Login.js';
 import Register from './components/Login/Register.js';
@@ -16,12 +16,6 @@ import AgendamentoExterno from './components/Pages/AgendamentoExterno.js';
 
 
 function App() {
-  const [metas, setMetas] = useState({
-    study: 5,
-    leisure: 5,
-    dev: 5,
-  });
-
   return (
     <SettingsProvider>
       <Router>

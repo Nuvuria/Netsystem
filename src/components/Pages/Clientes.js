@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 import ResponsiveLayout from '../Layout/ResponsiveLayout';
 import './Clientes.css';
 import '../GlobalLayout.css';
 
 function Clientes() {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [clientes, setClientes] = useState([]);
   const [novoCliente, setNovoCliente] = useState({
     id: '',
@@ -24,6 +24,7 @@ function Clientes() {
 
   useEffect(() => {
     fetchClientes();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const fetchClientes = async () => {

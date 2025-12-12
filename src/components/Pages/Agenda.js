@@ -27,7 +27,10 @@ function Agenda() {
     }
   };
 
-  useEffect(() => { carregar(); }, []);
+  useEffect(() => { 
+    carregar(); 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const copiarLink = () => {
     navigator.clipboard.writeText(PUBLIC_LINK);

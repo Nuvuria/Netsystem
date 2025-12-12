@@ -1,9 +1,10 @@
 // src/pages/LoginCodeRequest.js
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React from 'react';
+// import { useNavigate } from 'react-router-dom';
 import './Login.css';
 
 const LoginCodeRequest = () => {
+/*
   const [email, setEmail] = useState('');
   const [mensagem, setMensagem] = useState('');
   const navigate = useNavigate();
@@ -27,7 +28,7 @@ const LoginCodeRequest = () => {
       setMensagem('Erro ao solicitar código.');
     }
   };
-
+*/
 return (
      <div className="login-container">
     
