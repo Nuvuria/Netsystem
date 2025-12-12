@@ -1,0 +1,310 @@
+.agenda-container {
+  padding: 20px;
+}
+
+.agenda-header-card {
+  background: linear-gradient(145deg, #1e1e1e, #252525);
+  border: 1px solid #333;
+  border-radius: 12px;
+  padding: 25px;
+  margin-bottom: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+
+.agenda-header-content h3 {
+  color: #fff;
+  margin: 0 0 8px 0;
+  font-size: 1.2rem;
+}
+
+.agenda-header-content p {
+  color: #aaa;
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+.link-box {
+  background-color: #121212;
+  border: 1px solid #333;
+  border-radius: 6px;
+  padding: 12px;
+  font-family: 'Consolas', monospace;
+  color: #4CAF50;
+  word-break: break-all;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.btn-copy {
+  background-color: #333;
+  color: #fff;
+  border: 1px solid #555;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-weight: 500;
+}
+
+.btn-copy:hover {
+  background-color: #444;
+  border-color: #666;
+  transform: translateY(-1px);
+}
+
+.agenda-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.agenda-controls h3 {
+  color: #eee;
+  font-size: 1.4rem;
+  margin: 0;
+}
+
+.btn-refresh {
+  background-color: transparent;
+  color: #007bff;
+  border: 1px solid #007bff;
+  padding: 8px 16px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.btn-refresh:hover {
+  background-color: rgba(0, 123, 255, 0.1);
+}
+
+.agenda-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.agenda-card {
+  background-color: #1e1e1e;
+  border: 1px solid #333;
+  border-radius: 12px;
+  padding: 20px;
+  transition: transform 0.2s, box-shadow 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+
+.agenda-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+  border-color: #444;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 15px;
+}
+
+.badge-type {
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.badge-inst {
+  background-color: rgba(0, 123, 255, 0.2);
+  color: #4dabf7;
+  border: 1px solid rgba(0, 123, 255, 0.3);
+}
+
+.badge-rep {
+  background-color: rgba(255, 193, 7, 0.2);
+  color: #ffc107;
+  border: 1px solid rgba(255, 193, 7, 0.3);
+}
+
+.badge-status {
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.status-pendente {
+  background-color: #333;
+  color: #ccc;
+}
+
+.status-concluido {
+  background-color: rgba(40, 167, 69, 0.2);
+  color: #28a745;
+}
+
+.status-avisado {
+  background-color: rgba(255, 152, 0, 0.2);
+  color: #ff9800;
+  border: 1px solid rgba(255, 152, 0, 0.3);
+}
+
+.section-avisados {
+  margin-bottom: 40px;
+  background-color: rgba(255, 152, 0, 0.05);
+  padding: 20px;
+  border-radius: 12px;
+  border: 1px dashed #555;
+}
+
+.section-title {
+  color: #eee;
+  font-size: 1.3rem;
+  margin-top: 0;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #444;
+  padding-bottom: 10px;
+}
+
+.section-finalizado {
+  margin-top: 40px;
+  background-color: rgba(40, 167, 69, 0.05);
+  padding: 20px;
+  border-radius: 12px;
+  border: 1px dashed #28a745;
+}
+
+.scroll-container {
+  max-height: 500px;
+  overflow-y: auto;
+  padding-right: 10px;
+}
+
+/* Scrollbar personalizada */
+.scroll-container::-webkit-scrollbar {
+  width: 8px;
+}
+.scroll-container::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+}
+.scroll-container::-webkit-scrollbar-thumb {
+  background: #555;
+  border-radius: 4px;
+}
+.scroll-container::-webkit-scrollbar-thumb:hover {
+  background: #777;
+}
+
+.status-finalizado {
+  background-color: rgba(40, 167, 69, 0.2);
+  color: #28a745;
+  border: 1px solid rgba(40, 167, 69, 0.3);
+}
+
+.card-body h4 {
+  color: #fff;
+  margin: 0 0 5px 0;
+  font-size: 1.1rem;
+}
+
+.card-body .phone {
+  color: #888;
+  margin: 0 0 15px 0;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.info-row {
+  margin-bottom: 8px;
+  color: #ddd;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.info-icon {
+  color: #666;
+  min-width: 20px;
+}
+
+.card-actions {
+  margin-top: 20px;
+  padding-top: 15px;
+  border-top: 1px solid #333;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.btn-action {
+  padding: 8px 14px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: opacity 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.btn-conclude {
+  background-color: #28a745;
+  color: white;
+}
+
+.btn-whatsapp {
+  background-color: #25D366;
+  color: white;
+  border: 1px solid #25D366;
+  text-decoration: none;
+}
+
+.btn-whatsapp:hover {
+  background-color: #128C7E;
+  border-color: #128C7E;
+  color: white;
+}
+
+.btn-delete {
+  background-color: transparent;
+  color: #ff4d4f;
+  border: 1px solid #ff4d4f;
+}
+
+.btn-delete:hover {
+  background-color: rgba(255, 77, 79, 0.1);
+}
+
+.btn-action:hover {
+  opacity: 0.9;
+}
+
+@media (min-width: 768px) {
+  .agenda-header-card {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .link-box {
+    min-width: 300px;
+  }
+}
