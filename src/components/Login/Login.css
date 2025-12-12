@@ -6,14 +6,19 @@ body {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  height: 100vh;
+  background-attachment: fixed; /* Garante que o fundo não role */
+  min-height: 100vh; /* Garante altura mínima total */
+  width: 100%;
 }
 
 .login-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  min-height: 100vh; /* Garante que o container ocupe toda a altura */
+  width: 100%;
+  padding: 20px; /* Adiciona padding para telas muito pequenas */
+  box-sizing: border-box;
 }
 
 .login-form {
