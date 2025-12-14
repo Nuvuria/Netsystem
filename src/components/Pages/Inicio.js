@@ -38,13 +38,22 @@ function Inicio() {
       const data = await res.json();
       setStats(data);
 
+      const pagouEsteMes = (dataPagamento) => {
+        if (!dataPagamento) return false;
+        const d = new Date(dataPagamento);
+        const now = new Date();
+        return d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear();
+      };
+
       // Buscar lista de clientes vencendo hoje
       const today = new Date();
       const todayDay = today.getDate().toString();
       const resClientes = await fetch(`${API_BASE}/clientes?vencimento=${todayDay}`);
       const dataClientes = await resClientes.json();
       if (Array.isArray(dataClientes)) {
-        setClientesVencendo(dataClientes);
+        // Filter out clients who already paid this month
+        const filteredVencendo = dataClientes.filter(c => !pagouEsteMes(c.dataUltimoPagamento));
+        setClientesVencendo(filteredVencendo);
       }
 
       // Buscar lista de clientes vencendo em 5 dias
@@ -54,7 +63,9 @@ function Inicio() {
       const resClientesFuturo = await fetch(`${API_BASE}/clientes?vencimento=${futureDay}`);
       const dataClientesFuturo = await resClientesFuturo.json();
       if (Array.isArray(dataClientesFuturo)) {
-        setClientesVencendo5Dias(dataClientesFuturo);
+        // Filter out clients who already paid this month
+        const filteredFuturo = dataClientesFuturo.filter(c => !pagouEsteMes(c.dataUltimoPagamento));
+        setClientesVencendo5Dias(filteredFuturo);
       }
 
     } catch (err) {
@@ -65,6 +76,7 @@ function Inicio() {
   };
 
   const handleEnviarWhatsapp = (cliente) => {
+    if (!window.confirm(`Você tem certeza que deseja cobrar ${cliente.nome}?`)) return;
     if (!cliente.numeroTelefone) {
         alert("Cliente sem número de telefone cadastrado.");
         return;
@@ -76,6 +88,7 @@ function Inicio() {
   };
 
   const handleEnviarWhatsappLembrete = (cliente) => {
+    if (!window.confirm(`Você tem certeza que deseja enviar lembrete para ${cliente.nome}?`)) return;
     if (!cliente.numeroTelefone) {
         alert("Cliente sem número de telefone cadastrado.");
         return;
@@ -107,6 +120,7 @@ function Inicio() {
   };
 
   const handleEnviarWhatsappCobranca = (cliente) => {
+    if (!window.confirm(`Você tem certeza que deseja cobrar ${cliente.nome}?`)) return;
     if (!cliente.numeroTelefone) {
         alert("Cliente sem número de telefone cadastrado.");
         return;

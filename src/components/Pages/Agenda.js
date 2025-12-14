@@ -6,6 +6,7 @@ import '../GlobalLayout.css';
 function Agenda() {
   const [agendamentos, setAgendamentos] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [showFinalizados, setShowFinalizados] = useState(false);
 
   const API_BASE = process.env.REACT_APP_API_BASE_URL || 'http://localhost:3001';
   const PUBLIC_LINK = `${window.location.origin}/agendamento-externo`;
@@ -195,12 +196,24 @@ function Agenda() {
             {/* Seção Finalizados */}
             {finalizados.length > 0 && (
                <div className="section-finalizado">
-                  <h3 className="section-title">✅ Finalizados ({finalizados.length})</h3>
-                  <div className="scroll-container">
-                    <div className="agenda-grid">
-                        {finalizados.map(renderCard)}
-                    </div>
+                  <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px'}}>
+                      <h3 className="section-title" style={{marginBottom: 0, borderBottom: 'none'}}>✅ Finalizados ({finalizados.length})</h3>
+                      <button 
+                        onClick={() => setShowFinalizados(!showFinalizados)}
+                        className="btn-refresh"
+                        style={{fontSize: '0.9rem', padding: '6px 12px'}}
+                      >
+                        {showFinalizados ? '👁️ Ocultar' : '👁️ Visualizar'}
+                      </button>
                   </div>
+                  
+                  {showFinalizados && (
+                      <div className="scroll-container">
+                        <div className="agenda-grid">
+                            {finalizados.map(renderCard)}
+                        </div>
+                      </div>
+                  )}
                </div>
             )}
           </>
