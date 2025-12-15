@@ -9,12 +9,21 @@ function Agenda() {
   const [showFinalizados, setShowFinalizados] = useState(false);
 
   const API_BASE = process.env.REACT_APP_API_BASE_URL || 'http://localhost:3001';
-  const PUBLIC_LINK = `${window.location.origin}/agendamento-externo`;
+  const userId = localStorage.getItem('userId');
+  const PUBLIC_LINK = `${window.location.origin}/agendamento-externo?uid=${userId}`;
+
+  const getHeaders = () => {
+    const token = localStorage.getItem('token');
+    return {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+    };
+  };
 
   const carregar = async () => {
     setLoading(true);
     try {
-      const res = await fetch(`${API_BASE}/agenda`);
+      const res = await fetch(`${API_BASE}/agenda`, { headers: getHeaders() });
       if (res.ok) {
         const data = await res.json();
         setAgendamentos(data);
@@ -42,7 +51,7 @@ function Agenda() {
     try {
       const res = await fetch(`${API_BASE}/agenda/${id}`, {
         method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
+        headers: getHeaders(),
         body: JSON.stringify({ status: novoStatus })
       });
       if (res.ok) carregar();
@@ -55,7 +64,10 @@ function Agenda() {
   const excluir = async (id) => {
     if (!window.confirm('Excluir este agendamento?')) return;
     try {
-      const res = await fetch(`${API_BASE}/agenda/${id}`, { method: 'DELETE' });
+      const res = await fetch(`${API_BASE}/agenda/${id}`, { 
+          method: 'DELETE',
+          headers: getHeaders()
+      });
       if (res.ok) carregar();
     } catch (e) {
       console.error(e);

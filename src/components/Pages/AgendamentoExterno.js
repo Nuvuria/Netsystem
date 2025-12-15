@@ -22,11 +22,21 @@ const AgendamentoExterno = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
+
+    const params = new URLSearchParams(window.location.search);
+    const usuarioId = params.get('uid');
+
+    if (!usuarioId) {
+        alert('Link inválido (ID do usuário faltando). Peça um novo link.');
+        setLoading(false);
+        return;
+    }
+
     try {
-      const res = await fetch(`${API_BASE}/agenda`, {
+      const res = await fetch(`${API_BASE}/public/agenda`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData)
+        body: JSON.stringify({ ...formData, usuarioId })
       });
       if (res.ok) {
         setSubmitted(true);

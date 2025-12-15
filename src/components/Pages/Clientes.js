@@ -22,6 +22,14 @@ function Clientes() {
 
   const API_URL = `${process.env.REACT_APP_API_BASE_URL || 'http://localhost:3001'}/clientes`;
 
+  const getHeaders = () => {
+    const token = localStorage.getItem('token');
+    return {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+    };
+  };
+
   useEffect(() => {
     fetchClientes();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -30,7 +38,7 @@ function Clientes() {
   const fetchClientes = async () => {
     try {
       setLoading(true);
-      const res = await fetch(API_URL);
+      const res = await fetch(API_URL, { headers: getHeaders() });
       const data = await res.json();
       if (Array.isArray(data)) {
         setClientes(data);
@@ -61,7 +69,7 @@ function Clientes() {
     try {
       const res = await fetch(API_URL, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: getHeaders(),
         body: JSON.stringify(novoCliente)
       });
 
@@ -83,7 +91,10 @@ function Clientes() {
     if (!window.confirm('Tem certeza que deseja excluir este cliente?')) return;
 
     try {
-      const res = await fetch(`${API_URL}/${id}`, { method: 'DELETE' });
+      const res = await fetch(`${API_URL}/${id}`, { 
+        method: 'DELETE',
+        headers: getHeaders()
+      });
       if (res.ok) {
         fetchClientes();
       } else {

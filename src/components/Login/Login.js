@@ -34,6 +34,7 @@ const Login = () => {
 
       if (response.ok) {
         localStorage.setItem('userId', data.id);
+        localStorage.setItem('token', data.token);
         
         // Salvar preferência "manter logado"
         if (manterLogado) {

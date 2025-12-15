@@ -33,8 +33,18 @@ function Inicio() {
   }, []);
 
   const fetchDashboardData = async () => {
+    const token = localStorage.getItem('token');
+    const headers = { 
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+    };
+    
     try {
-      const res = await fetch(`${API_BASE}/dashboard`);
+      const res = await fetch(`${API_BASE}/dashboard`, { headers });
+      if (res.status === 401 || res.status === 403) {
+          // Handle logout redirect if needed
+          return;
+      }
       const data = await res.json();
       setStats(data);
 
@@ -48,7 +58,7 @@ function Inicio() {
       // Buscar lista de clientes vencendo hoje
       const today = new Date();
       const todayDay = today.getDate().toString();
-      const resClientes = await fetch(`${API_BASE}/clientes?vencimento=${todayDay}`);
+      const resClientes = await fetch(`${API_BASE}/clientes?vencimento=${todayDay}`, { headers });
       const dataClientes = await resClientes.json();
       if (Array.isArray(dataClientes)) {
         // Filter out clients who already paid this month
@@ -60,7 +70,7 @@ function Inicio() {
       const futureDate = new Date();
       futureDate.setDate(futureDate.getDate() + 5);
       const futureDay = futureDate.getDate().toString();
-      const resClientesFuturo = await fetch(`${API_BASE}/clientes?vencimento=${futureDay}`);
+      const resClientesFuturo = await fetch(`${API_BASE}/clientes?vencimento=${futureDay}`, { headers });
       const dataClientesFuturo = await resClientesFuturo.json();
       if (Array.isArray(dataClientesFuturo)) {
         // Filter out clients who already paid this month
@@ -103,9 +113,13 @@ function Inicio() {
     if (!window.confirm(`Você tem certeza que deseja confirmar o pagamento de ${cliente.nome}?`)) return;
 
     try {
+        const token = localStorage.getItem('token');
         const res = await fetch(`${API_BASE}/clientes/${cliente.id}/pagamento`, {
             method: 'PATCH',
-            headers: { 'Content-Type': 'application/json' }
+            headers: { 
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
         });
         if (res.ok) {
             // alert('Pagamento registrado com sucesso!'); // Feedback visual rápido é melhor, talvez remover o alert se for incômodo, mas manter por segurança
