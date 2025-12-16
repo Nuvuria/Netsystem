@@ -102,7 +102,8 @@ function Inicio() {
         // Filter out clients who already paid this month
         const filteredVencendo = dataClientes
           .filter(c => !pagouEsteMes(c.dataUltimoPagamento))
-          .filter(c => (c.status || '').toLowerCase() !== 'inativo');
+          .filter(c => (c.status || '').toLowerCase() !== 'inativo')
+          .filter(c => (c.status || '').toLowerCase() !== 'pendente');
         setClientesVencendo(filteredVencendo);
       }
 
@@ -116,7 +117,8 @@ function Inicio() {
         // Filter out clients who already paid this month
         const filteredFuturo = dataClientesFuturo
           .filter(c => !pagouEsteMes(c.dataUltimoPagamento))
-          .filter(c => (c.status || '').toLowerCase() !== 'inativo');
+          .filter(c => (c.status || '').toLowerCase() !== 'inativo')
+          .filter(c => (c.status || '').toLowerCase() !== 'pendente');
         setClientesVencendo5Dias(filteredFuturo);
       }
 
