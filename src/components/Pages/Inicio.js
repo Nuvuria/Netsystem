@@ -185,6 +185,29 @@ function Inicio() {
     }
   };
 
+  const handleMarcarInstalado = async (cliente) => {
+    if (!window.confirm(`Marcar ${cliente.nome} como instalado (Ativo)?`)) return;
+    try {
+      const token = localStorage.getItem('token');
+      const res = await fetch(`${API_BASE}/clientes/${cliente.id}/status`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ status: 'Ativo' })
+      });
+      if (res.ok) {
+        fetchDashboardData();
+      } else {
+        alert('Erro ao atualizar status.');
+      }
+    } catch (e) {
+      console.error(e);
+      alert('Erro ao conectar com o servidor.');
+    }
+  };
+
   const handleEnviarWhatsappCobranca = (cliente) => {
     if (!window.confirm(`Você tem certeza que deseja cobrar ${cliente.nome}?`)) return;
     if (!cliente.numeroTelefone) {
@@ -360,6 +383,13 @@ function Inicio() {
                                   >
                                       Contato
                                   </button>
+                                  <button 
+                                      className="btn-slim pago"
+                                      onClick={() => handleMarcarInstalado(cliente)}
+                                      title="Marcar como instalado"
+                                  >
+                                      Instalado
+                                  </button>
                               </div>
                           </li>
                         ))}
@@ -369,13 +399,15 @@ function Inicio() {
                 <div className="chart-card overdue-card">
                     <div className="card-header">
                         <h3>🚫 Vencidos / Atrasados</h3>
-                        <span className="badge-count overdue">{stats.clientesVencidos ? stats.clientesVencidos.length : 0}</span>
+                        <span className="badge-count overdue">{(stats.clientesVencidos || []).filter(c => (c.status || '').toLowerCase() !== 'inativo' && (c.status || '').toLowerCase() !== 'pendente').length}</span>
                     </div>
-                    {(!stats.clientesVencidos || stats.clientesVencidos.length === 0) ? (
+                    {(!stats.clientesVencidos || (stats.clientesVencidos.filter(c => (c.status || '').toLowerCase() !== 'inativo' && (c.status || '').toLowerCase() !== 'pendente')).length === 0) ? (
                     <p className="empty-msg">Nenhum cliente com pagamento atrasado.</p>
                     ) : (
                     <ul className="vencendo-list">
-                        {stats.clientesVencidos.map(cliente => (
+                        {stats.clientesVencidos
+                          .filter(cliente => (cliente.status || '').toLowerCase() !== 'inativo' && (cliente.status || '').toLowerCase() !== 'pendente')
+                          .map(cliente => (
                         <li key={cliente.id} className="vencendo-item">
                             <div className="vencendo-info">
                                 <strong>{cliente.nome}</strong>
