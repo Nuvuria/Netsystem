@@ -163,6 +163,18 @@ function Inicio() {
     window.open(url, '_blank');
   };
 
+  const handleEnviarWhatsappInstalacao = (cliente) => {
+    if (!window.confirm(`Enviar mensagem de instalação para ${cliente.nome}?`)) return;
+    if (!cliente.numeroTelefone) {
+        alert("Cliente sem número de telefone cadastrado.");
+        return;
+    }
+    const message = "Olá, você ja está disponivel para instalação da sua internet ?";
+    const encodedMessage = encodeURIComponent(message);
+    const url = `https://wa.me/55${cliente.numeroTelefone.replace(/\D/g, '')}?text=${encodedMessage}`;
+    window.open(url, '_blank');
+  };
+
   const handleRegistrarPagamento = async (cliente) => {
     if (!window.confirm(`Você tem certeza que deseja confirmar o pagamento de ${cliente.nome}?`)) return;
 
@@ -380,7 +392,7 @@ function Inicio() {
                               <div style={{ display: 'flex', gap: '5px' }}>
                                   <button 
                                       className="btn-slim cobranca"
-                                      onClick={() => handleEnviarWhatsappLembrete(cliente)}
+                                      onClick={() => handleEnviarWhatsappInstalacao(cliente)}
                                       title="Contato"
                                   >
                                       Contato
