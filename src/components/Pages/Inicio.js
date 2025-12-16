@@ -19,6 +19,7 @@ function Inicio() {
   });
   const [clientesVencendo, setClientesVencendo] = useState([]);
   const [clientesVencendo5Dias, setClientesVencendo5Dias] = useState([]);
+  const [clientesPendentesInstalacao, setClientesPendentesInstalacao] = useState([]);
   const [agendamentosPendentes, setAgendamentosPendentes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
@@ -99,7 +100,9 @@ function Inicio() {
       const dataClientes = await resClientes.json();
       if (Array.isArray(dataClientes)) {
         // Filter out clients who already paid this month
-        const filteredVencendo = dataClientes.filter(c => !pagouEsteMes(c.dataUltimoPagamento));
+        const filteredVencendo = dataClientes
+          .filter(c => !pagouEsteMes(c.dataUltimoPagamento))
+          .filter(c => (c.status || '').toLowerCase() !== 'inativo');
         setClientesVencendo(filteredVencendo);
       }
 
@@ -111,8 +114,20 @@ function Inicio() {
       const dataClientesFuturo = await resClientesFuturo.json();
       if (Array.isArray(dataClientesFuturo)) {
         // Filter out clients who already paid this month
-        const filteredFuturo = dataClientesFuturo.filter(c => !pagouEsteMes(c.dataUltimoPagamento));
+        const filteredFuturo = dataClientesFuturo
+          .filter(c => !pagouEsteMes(c.dataUltimoPagamento))
+          .filter(c => (c.status || '').toLowerCase() !== 'inativo');
         setClientesVencendo5Dias(filteredFuturo);
+      }
+
+      // Buscar clientes com Status Pendente (instalação)
+      const resPendentes = await fetch(`${API_BASE}/clientes?status=Pendente`, { headers });
+      const dataPendentes = await resPendentes.json();
+      if (Array.isArray(dataPendentes)) {
+        const filteredPendentes = dataPendentes
+          .filter(c => (c.status || '').toLowerCase() === 'pendente')
+          .filter(c => (c.status || '').toLowerCase() !== 'inativo');
+        setClientesPendentesInstalacao(filteredPendentes);
       }
 
     } catch (err) {
@@ -322,6 +337,35 @@ function Inicio() {
 
               {/* Coluna da Direita: Listas */}
               <div className="right-column">
+                <div className="chart-card warning-card">
+                    <div className="card-header">
+                        <h3>📦 Instalação pendente</h3>
+                        <span className="badge-count">{clientesPendentesInstalacao.length}</span>
+                    </div>
+                    {clientesPendentesInstalacao.length === 0 ? (
+                      <p className="empty-msg">Nenhum cliente com instalação pendente.</p>
+                    ) : (
+                      <ul className="vencendo-list">
+                        {clientesPendentesInstalacao.map(cliente => (
+                          <li key={cliente.id} className="vencendo-item">
+                              <div className="vencendo-info">
+                                  <strong>{cliente.nome}</strong>
+                                  <span>{cliente.numeroTelefone}</span>
+                              </div>
+                              <div style={{ display: 'flex', gap: '5px' }}>
+                                  <button 
+                                      className="btn-slim cobranca"
+                                      onClick={() => handleEnviarWhatsappLembrete(cliente)}
+                                      title="Contato"
+                                  >
+                                      Contato
+                                  </button>
+                              </div>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                </div>
                 <div className="chart-card overdue-card">
                     <div className="card-header">
                         <h3>🚫 Vencidos / Atrasados</h3>
