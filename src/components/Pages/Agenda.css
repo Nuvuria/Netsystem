@@ -32,7 +32,7 @@
   border-radius: 6px;
   padding: 12px;
   font-family: 'Consolas', monospace;
-  color: #4CAF50;
+  color: #e92131;
   word-break: break-all;
   display: flex;
   align-items: center;
@@ -151,8 +151,8 @@
 }
 
 .status-concluido {
-  background-color: rgba(40, 167, 69, 0.2);
-  color: #28a745;
+  background-color: rgba(233, 33, 49, 0.2);
+  color: #e92131;
 }
 
 .status-avisado {
@@ -180,10 +180,10 @@
 
 .section-finalizado {
   margin-top: 40px;
-  background-color: rgba(40, 167, 69, 0.05);
+  background-color: rgba(233, 33, 49, 0.05);
   padding: 20px;
   border-radius: 12px;
-  border: 1px dashed #28a745;
+  border: 1px dashed #e92131;
 }
 
 .scroll-container {
@@ -209,9 +209,9 @@
 }
 
 .status-finalizado {
-  background-color: rgba(40, 167, 69, 0.2);
-  color: #28a745;
-  border: 1px solid rgba(40, 167, 69, 0.3);
+  background-color: rgba(233, 33, 49, 0.2);
+  color: #e92131;
+  border: 1px solid rgba(233, 33, 49, 0.3);
 }
 
 .card-body h4 {
@@ -266,7 +266,7 @@
 }
 
 .btn-conclude {
-  background-color: #28a745;
+  background-color: #e92131;
   color: white;
 }
 

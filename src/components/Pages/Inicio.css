@@ -16,7 +16,7 @@
 
 .kpi-card {
     background-color: #1e1e1e;
-    border-left: 5px solid #00ff00;
+    border-left: 5px solid #e92131;
     border-radius: 8px;
     padding: 25px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
@@ -63,11 +63,11 @@
 }
 
 .kpi-card.success {
-    border-color: #28a745;
+    border-color: #e92131;
 }
 
 .kpi-card.success h3 {
-    color: #28a745;
+    color: #e92131;
 }
 
 /* Dashboard Main Grid */
@@ -126,7 +126,7 @@
 }
 
 .success-card {
-    border-top: 4px solid #28a745; /* Verde para sucesso/pago */
+    border-top: 4px solid #e92131; /* Verde para sucesso/pago */
 }
 
 /* Card Header e Badges */
@@ -162,7 +162,7 @@
 }
 
 .badge-count.success {
-    background-color: #28a745;
+    background-color: #e92131;
 }
 
 
@@ -222,7 +222,7 @@
 }
 
 .btn-slim.pago {
-    background-color: #4CAF50;
+    background-color: #e92131;
     color: white;
 }
 

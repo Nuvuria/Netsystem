@@ -29,7 +29,7 @@ const ResponsiveLayout = ({ children, title }) => {
     { path: '/inicio', label: 'Início', icon: '🏠' },
     { path: '/clientes', label: 'Clientes', icon: '👥' },
     // { path: '/finalizados', label: 'Finalizados', icon: '✅' }, // removido
-    { path: '/agenda', label: 'Agenda', icon: '📅' },
+    // { path: '/agenda', label: 'Agenda', icon: '📅' },
     { path: '/', label: 'Logout', icon: '🚪' }
   ];
 
@@ -65,7 +65,7 @@ const ResponsiveLayout = ({ children, title }) => {
             fontSize: '18px',
             fontWeight: 'bold'
           }}>
-            🚀 NUVURIA
+            🚀 Mensalix
           </h2>
         </div>
 

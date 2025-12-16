@@ -1,6 +1,8 @@
 {
-  "name": "login-system",
-  "version": "0.1.0",
+  "name": "mensalix",
+  "version": "1.0.0",
+  "description": "Sistema de Gestão Mensalix",
+  "author": "Mensalix",
   "private": true,
   "dependencies": {
     "@testing-library/dom": "^10.4.0",

@@ -26,7 +26,7 @@ body {
 .sidebar {
   width: 200px;
   background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%);
-  border-right: 2px solid #00ff00;
+  border-right: 2px solid #e92131;
   padding: 20px 0;
   position: fixed;
   height: 100vh;
@@ -47,22 +47,22 @@ body {
   padding: 15px 20px;
   background: transparent;
   border: none;
-  color: #00ff00;
+  color: #e92131;
   font-size: 16px;
   font-weight: bold;
   cursor: pointer;
   transition: all 0.3s ease;
   text-align: left;
-  border-bottom: 1px solid rgba(0, 255, 0, 0.2);
+  border-bottom: 1px solid rgba(233, 33, 49, 0.2);
 }
 
 .sidebar button:hover {
-  background: rgba(0, 255, 0, 0.1);
+  background: rgba(233, 33, 49, 0.1);
   transform: translateX(5px);
 }
 
 .sidebar button:active {
-  background: rgba(0, 255, 0, 0.2);
+  background: rgba(233, 33, 49, 0.2);
 }
 
 /* ===== CONTEÚDO PRINCIPAL ===== */
@@ -85,14 +85,14 @@ body {
   align-items: center;
   margin-bottom: 30px;
   padding-bottom: 20px;
-  border-bottom: 2px solid #00ff00;
+  border-bottom: 2px solid #e92131;
 }
 
 .page-title {
   font-size: 28px;
-  color: #00ff00;
+  color: #e92131;
   font-weight: bold;
-  text-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+  text-shadow: 0 0 10px rgba(233, 33, 49, 0.5);
 }
 
 .header-actions {

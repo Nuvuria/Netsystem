@@ -138,7 +138,7 @@ function Clientes() {
   };
 
   return (
-    <ResponsiveLayout title="Gerenciar Clientes">
+    <ResponsiveLayout title="">
       <div className="clientes-container">
         
         {/* Modal de Formulário */}

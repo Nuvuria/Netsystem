@@ -59,15 +59,15 @@
   top: 20px;
   left: 20px;
   z-index: 1001;
-  background-color: #00ff00;
-  color: #000;
+  background-color: #e92131;
+  color: white;
   border: none;
   padding: 12px;
   border-radius: 8px;
   cursor: pointer;
   font-size: 18px;
   font-weight: bold;
-  box-shadow: 0 4px 15px rgba(0, 255, 0, 0.3);
+  box-shadow: 0 4px 15px rgba(233, 33, 49, 0.3);
 }
 
 /* Content Area */
@@ -112,8 +112,8 @@
 
 .mobile-footer-btn:hover,
 .mobile-footer-btn.active {
-  background-color: #00ff00;
-  color: #000;
+  background-color: #e92131;
+  color: white;
 }
 
 /* ===== MEDIA QUERIES RESPONSIVAS ===== */
@@ -193,16 +193,16 @@
 /* Cards */
 .card {
   background-color: rgba(139, 0, 0, 0.75);
-  border: 2px solid #0f0;
+  border: 2px solid #e92131;
   border-radius: 12px;
   padding: 20px;
-  box-shadow: 0 0 15px rgba(0, 255, 0, 0.3);
+  box-shadow: 0 0 15px rgba(233, 33, 49, 0.3);
   transition: all 0.3s ease;
 }
 
 .card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 5px 25px rgba(0, 255, 0, 0.5);
+  box-shadow: 0 5px 25px rgba(233, 33, 49, 0.5);
 }
 
 /* Grid Responsivo */
@@ -229,8 +229,8 @@
 
 /* Botões Responsivos */
 .btn-primary {
-  background-color: #00ff00;
-  color: #000;
+  background-color: #e92131;
+  color: #fff;
   border: none;
   padding: 12px 24px;
   border-radius: 8px;
@@ -240,7 +240,7 @@
 }
 
 .btn-primary:hover {
-  background-color: #00cc00;
+  background-color: #c01c29;
   transform: translateY(-2px);
 }
 

@@ -25,9 +25,10 @@ const AgendamentoExterno = () => {
 
     const params = new URLSearchParams(window.location.search);
     const usuarioId = params.get('uid');
+    const nomeUsuario = params.get('user');
 
-    if (!usuarioId) {
-        alert('Link inválido (ID do usuário faltando). Peça um novo link.');
+    if (!usuarioId && !nomeUsuario) {
+        alert('Link inválido (Identificação do usuário faltando). Peça um novo link.');
         setLoading(false);
         return;
     }
@@ -36,12 +37,13 @@ const AgendamentoExterno = () => {
       const res = await fetch(`${API_BASE}/public/agenda`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...formData, usuarioId })
+        body: JSON.stringify({ ...formData, usuarioId, nomeUsuario })
       });
       if (res.ok) {
         setSubmitted(true);
       } else {
-        alert('Erro ao enviar solicitação. Tente novamente.');
+        const errData = await res.json();
+        alert(`Erro ao enviar solicitação: ${errData.error || 'Tente novamente.'}`);
       }
     } catch (error) {
       console.error(error);

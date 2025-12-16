@@ -11,6 +11,19 @@ body {
   width: 100%;
 }
 
+@media (max-width: 768px) {
+  body {
+    background-size: contain;
+    background-position: top center;
+    background-color: #000; /* Cor de fundo para preencher o resto */
+  }
+  
+  .login-container {
+    align-items: flex-start;
+    padding-top: 150px; /* Ajuste conforme a altura da imagem no mobile */
+  }
+}
+
 .login-container {
   display: flex;
   justify-content: center;
@@ -25,7 +38,7 @@ body {
   background-color: rgba(0, 0, 0, 0.7);
   padding: 30px;
   border-radius: 12px;
-  box-shadow: 0 0 20px rgba(0, 255, 0, 0.4);
+  box-shadow: 0 0 20px rgba(233, 33, 49, 0.4);
   text-align: center;
   width: 300px;
   color: white;
@@ -50,14 +63,14 @@ body {
   padding: 10px;
   border: none;
   border-radius: 8px;
-  background-color: #4CAF50;
+  background-color: #e92131;
   color: white;
   cursor: pointer;
   transition: background-color 0.3s;
 }
 
 .login-form button:hover {
-  background-color: #45a049;
+  background-color: #c01c29;
 }
 
 .manter-logado {
@@ -74,7 +87,7 @@ body {
   width: auto;
   margin: 0;
   transform: scale(1.2);
-  accent-color: #4CAF50;
+  accent-color: #e92131;
 }
 
 .manter-logado label {

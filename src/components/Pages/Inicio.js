@@ -19,8 +19,11 @@ function Inicio() {
   });
   const [clientesVencendo, setClientesVencendo] = useState([]);
   const [clientesVencendo5Dias, setClientesVencendo5Dias] = useState([]);
+  const [agendamentosPendentes, setAgendamentosPendentes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+
+  const userName = localStorage.getItem('userName');
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth <= 768);
@@ -30,7 +33,41 @@ function Inicio() {
 
   useEffect(() => {
     fetchDashboardData();
+    fetchAgenda();
   }, []);
+
+  const fetchAgenda = async () => {
+    const token = localStorage.getItem('token');
+    try {
+      const res = await fetch(`${API_BASE}/agenda`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setAgendamentosPendentes(data.filter(i => i.status === 'Pendente'));
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const concluirAgendamento = async (id) => {
+      if(!window.confirm('Marcar como finalizado?')) return;
+      const token = localStorage.getItem('token');
+      try {
+          const res = await fetch(`${API_BASE}/agenda/${id}`, {
+              method: 'PATCH',
+              headers: { 
+                  'Content-Type': 'application/json',
+                  'Authorization': `Bearer ${token}`
+              },
+              body: JSON.stringify({ status: 'Finalizado' })
+          });
+          if (res.ok) fetchAgenda();
+      } catch (e) {
+          console.error(e);
+      }
+  };
 
   const fetchDashboardData = async () => {
     const token = localStorage.getItem('token');
@@ -153,12 +190,59 @@ function Inicio() {
   const COLORS = ['#00ff00', '#555555'];
 
   return (
-    <ResponsiveLayout title="Início - Visão Geral">
+    <ResponsiveLayout title="">
       <div className="inicio-container">
         {loading ? (
           <p>Carregando dados...</p>
         ) : (
           <>
+            {/* Seção de Agenda e Link */}
+            <div className="agenda-section-inicio" style={{marginBottom: '20px'}}>
+                
+                {agendamentosPendentes.length > 0 && (
+                    <div className="pendentes-card" style={{
+                        background: 'rgba(255, 193, 7, 0.1)',
+                        padding: '20px',
+                        borderRadius: '12px',
+                        border: '1px solid #ffc107',
+                        marginBottom: '20px'
+                    }}>
+                        <h3 style={{color: '#ffc107', marginTop: 0}}>⚠️ Solicitações de Agenda Pendentes ({agendamentosPendentes.length})</h3>
+                        <div className="pendentes-grid" style={{display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: '10px'}}>
+                            {agendamentosPendentes.map(item => (
+                                <div key={item.id} style={{background: '#222', padding: '15px', borderRadius: '8px', border: '1px solid #444'}}>
+                                    <h4 style={{margin: '0 0 5px 0', color: '#fff'}}>{item.nome}</h4>
+                                    <p style={{margin: '0 0 5px 0', color: '#aaa'}}>{item.tipo}</p>
+                                    <p style={{margin: '0 0 10px 0', color: '#ddd'}}>📞 {item.telefone}</p>
+                                    <div style={{display: 'flex', gap: '10px'}}>
+                                        <a 
+                                            href={`https://wa.me/55${item.telefone?.replace(/\D/g, '')}?text=Olá, gostaria de confirmar o agendamento.`}
+                                            target="_blank"
+                                            rel="noreferrer"
+                                            style={{
+                                                flex: 1, textAlign: 'center', background: '#25D366', color: '#fff', 
+                                                padding: '8px', borderRadius: '4px', textDecoration: 'none', fontSize: '0.9rem'
+                                            }}
+                                        >
+                                            Whatsapp
+                                        </a>
+                                        <button 
+                                            onClick={() => concluirAgendamento(item.id)}
+                                            style={{
+                                                flex: 1, background: '#28a745', color: '#fff', border: 'none',
+                                                padding: '8px', borderRadius: '4px', cursor: 'pointer'
+                                            }}
+                                        >
+                                            Finalizar
+                                        </button>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                )}
+            </div>
+
             <div className="kpi-grid">
               <div className="kpi-card">
                 <h3>Total Clientes</h3>

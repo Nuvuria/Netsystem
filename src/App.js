@@ -11,7 +11,7 @@ import RegisterCodeVerify from './components/Login/RegisterCodeVerify.js';
 import Inicio from './components/Pages/Inicio.js';
 import Clientes from './components/Pages/Clientes.js'
 // import Finalizados from './components/Pages/Finalizados.js'; // removido
-import Agenda from './components/Pages/Agenda.js';
+// import Agenda from './components/Pages/Agenda.js';
 import AgendamentoExterno from './components/Pages/AgendamentoExterno.js';
 
 
@@ -47,8 +47,8 @@ function App() {
           {/* <Route path="/finalizados" element={<Finalizados />} /> */}
           
           {/* Rota para Agenda (antigo Quartos) */}
-          <Route path="/agenda" element={<Agenda />} />
-          <Route path="/quartos" element={<Agenda />} /> {/* Redirecionamento legado se necessário */}
+          {/* <Route path="/agenda" element={<Agenda />} /> */}
+          {/* <Route path="/quartos" element={<Agenda />} /> */}
 
           {/* Rota Pública para Clientes Externos */}
           <Route path="/agendamento-externo" element={<AgendamentoExterno />} />

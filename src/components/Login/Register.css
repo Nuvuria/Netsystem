@@ -10,7 +10,7 @@
   background-color: rgba(255, 255, 255, 0.05);
   padding: 30px;
   border-radius: 12px;
-  box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
+  box-shadow: 0 0 20px rgba(233, 33, 49, 0.3);
   width: 300px;
   display: flex;
   flex-direction: column;
@@ -35,18 +35,18 @@
   padding: 10px;
   border: none;
   border-radius: 8px;
-  background-color: #4CAF50;
+  background-color: #e92131;
   color: white;
   cursor: pointer;
   transition: background-color 0.3s;
 }
 
 .register-form button:hover {
-  background-color: #45a049;
+  background-color: #c01c29;
 }
 
 .register-form a {
-  color: #00ffcc;
+  color: #ff6b6b;
   text-decoration: none;
   text-align: center;
   margin-top: 10px;
