@@ -4,10 +4,10 @@ import ResponsiveLayout from '../Layout/ResponsiveLayout';
 import './Clientes.css';
 import '../GlobalLayout.css';
 
-function Clientes() {
-  // const navigate = useNavigate();
-  const [clientes, setClientes] = useState([]);
-  const [novoCliente, setNovoCliente] = useState({
+  function Clientes() {
+    // const navigate = useNavigate();
+    const [clientes, setClientes] = useState([]);
+    const [novoCliente, setNovoCliente] = useState({
     id: '',
     nome: '',
     numeroTelefone: '',
@@ -102,6 +102,48 @@ function Clientes() {
       }
     } catch (err) {
       console.error('Erro ao excluir:', err);
+    }
+  };
+
+  const handlePasteFromClipboard = async () => {
+    try {
+      const text = await navigator.clipboard.readText();
+      
+      const getValue = (key) => {
+        const regex = new RegExp(`${key}:\\s*(.*)`, 'i');
+        const match = text.match(regex);
+        return match ? match[1].trim() : '';
+      };
+
+      const nome = getValue('Nome completo');
+      const cpf = getValue('CPF');
+      const telefone = getValue('Telefone');
+      const endereco = getValue('Endereço');
+      const plano = getValue('Plano');
+      const vencimento = getValue('Dia do vencimento');
+      const status = getValue('Status');
+
+      if (!nome && !telefone) {
+        alert('Formato inválido ou área de transferência vazia.');
+        return;
+      }
+
+      setNovoCliente({
+        id: '',
+        nome: nome || '',
+        numeroTelefone: telefone || '',
+        endereco: endereco || '',
+        plano: plano || '',
+        vencimento: vencimento || '',
+        cpf: cpf || '',
+        status: status || 'Pendente'
+      });
+      
+      setIsModalOpen(true);
+      
+    } catch (err) {
+      console.error('Erro ao ler área de transferência:', err);
+      alert('Não foi possível acessar a área de transferência. Verifique as permissões.');
     }
   };
 
@@ -234,9 +276,14 @@ function Clientes() {
         <div className="list-section">
           <div className="header-actions">
               <h3>Lista de Clientes ({clientes.length})</h3>
-              <button onClick={openModal} className="btn-novo">
-                  <span style={{fontSize: '1.2em'}}>+</span> Novo Cliente
-              </button>
+              <div style={{ display: 'flex', gap: '10px' }}>
+                <button onClick={handlePasteFromClipboard} className="btn-novo" style={{ backgroundColor: '#ff9800' }}>
+                    📋 COLAR
+                </button>
+                <button onClick={openModal} className="btn-novo">
+                    <span style={{fontSize: '1.2em'}}>+</span> Novo Cliente
+                </button>
+              </div>
           </div>
 
           {loading ? <p>Carregando...</p> : (
