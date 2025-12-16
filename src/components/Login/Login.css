@@ -36,13 +36,25 @@ body {
 }
 
 .login-form {
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color: rgba(0, 0, 0, 0.40);
   padding: 30px;
   border-radius: 12px;
   box-shadow: 0 0 20px rgba(233, 33, 49, 0.4);
   text-align: center;
   width: 300px;
   color: white;
+  margin-top: 6cm;
+}
+
+.login-form h2,
+.login-form label,
+.login-form p,
+.login-form .manter-logado {
+  opacity: 0.55;
+}
+
+.login-form input::placeholder {
+  opacity: 0.55;
 }
 
 .login-form h2 {
