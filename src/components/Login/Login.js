@@ -6,9 +6,99 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
-  const [manterLogado, setManterLogado] = useState(false);
+ const [manterLogado, setManterLogado] = useState(false);
   const [deferredPrompt, setDeferredPrompt] = useState(null);
   const navigate = useNavigate();
+  const youtubeEmbedUrl =
+    process.env.REACT_APP_LOGIN_VIDEO_URL ||
+    'https://youtu.be/oMBw9MVHvAw';
+  const [player, setPlayer] = useState(null);
+  const [audioEnabled, setAudioEnabled] = useState(false);
+  const toggleAudio = () => {
+    if (!player) return;
+    try {
+      if (audioEnabled) {
+        player.mute();
+        setAudioEnabled(false);
+      } else {
+        player.unMute();
+        player.setVolume(100);
+        setAudioEnabled(true);
+      }
+    } catch {}
+  };
+
+  const extractYouTubeId = (url) => {
+    try {
+      const u = new URL(url);
+      if (u.hostname.includes('youtube.com')) {
+        if (u.pathname.startsWith('/embed/')) {
+          return u.pathname.split('/embed/')[1].split('?')[0];
+        }
+        if (u.pathname === '/watch') {
+          return u.searchParams.get('v');
+        }
+      }
+      if (u.hostname === 'youtu.be') {
+        return u.pathname.slice(1);
+      }
+    } catch {}
+    return 'dQw4w9WgXcQ';
+  };
+
+  useEffect(() => {
+    const scriptId = 'yt-iframe-api';
+    if (!document.getElementById(scriptId)) {
+      const tag = document.createElement('script');
+      tag.src = 'https://www.youtube.com/iframe_api';
+      tag.id = scriptId;
+      document.body.appendChild(tag);
+    }
+    const initPlayer = () => {
+      const id = extractYouTubeId(youtubeEmbedUrl);
+      if (window.YT && window.YT.Player) {
+        new window.YT.Player('yt-player', {
+          width: '100%',
+          height: '100%',
+          videoId: id,
+          playerVars: {
+            autoplay: 1,
+            controls: 0,
+            disablekb: 1,
+            modestbranding: 1,
+            rel: 0,
+            playsinline: 1,
+            loop: 1,
+            playlist: id,
+          },
+          events: {
+            onReady: (e) => {
+              try {
+                e.target.mute();
+              } catch {}
+              e.target.playVideo();
+              setPlayer(e.target);
+              setAudioEnabled(false);
+            },
+            onStateChange: (ev) => {
+              try {
+                const playingState =
+                  (window.YT && window.YT.PlayerState && window.YT.PlayerState.PLAYING) || 1;
+                if (ev.data !== playingState) {
+                  ev.target.playVideo();
+                }
+              } catch {}
+            },
+          },
+        });
+      }
+    };
+    if (window.YT && window.YT.Player) {
+      initPlayer();
+    } else {
+      window.onYouTubeIframeAPIReady = initPlayer;
+    }
+  }, [youtubeEmbedUrl]);
 
   // Verificar se já está logado ao carregar
   useEffect(() => {
@@ -83,8 +173,21 @@ const Login = () => {
   };
 
   return (
-    <div className="login-container">
-      <form className="login-form" onSubmit={handleLogin}>
+    <div className="login-page">
+      <div className="desktop-left">
+        <div id="yt-player" />
+        {player && (
+          <button
+            className="unmute-btn"
+            onClick={toggleAudio}
+          >
+            {audioEnabled ? 'Desativar áudio' : 'Ativar áudio'}
+          </button>
+        )}
+      </div>
+      <div className="desktop-right">
+        <div className="login-container">
+          <form className="login-form" onSubmit={handleLogin}>
         <h2>Login</h2>
         <input
           type="email"
@@ -173,10 +276,11 @@ const Login = () => {
             </button>
           </div>
         </div>
-      </form>
+          </form>
+        </div>
+      </div>
     </div>
   );
 };
 
 export default Login;
-
