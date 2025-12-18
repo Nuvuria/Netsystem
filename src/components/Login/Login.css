@@ -43,7 +43,7 @@ body {
   text-align: center;
   width: 300px;
   color: white;
-  transform: translate(0.3cm, 3cm);
+  transform: translateY(3cm);
 }
 
 .login-form h2,
