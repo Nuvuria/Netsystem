@@ -5,6 +5,7 @@ import {
 } from 'recharts';
 import './Dashboard.css';
 import '../GlobalLayout.css';
+import '../Layout/ResponsiveLayout.css';
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -98,26 +99,28 @@ const Dashboard = () => {
 
       {/* Seção de Gráficos */}
       <div className="dashboard-charts-section">
-        
-        {/* Gráfico 1: Notificação do Sistema */}
+        {/* Gráfico de Notificações */}
         <div className="chart-container">
           <h3 className="chart-title">Notificações</h3>
           <div className="chart-wrapper">
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={notificationData}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#444" vertical={false} />
-                <XAxis dataKey="name" stroke="#ccc" tick={{ fontSize: 10 }} interval={0} />
-                <YAxis stroke="#ccc" tick={{ fontSize: 10 }} width={30} />
-                <Tooltip 
-                  contentStyle={{ backgroundColor: '#1f1f2e', border: 'none', color: '#fff', fontSize: '12px' }} 
-                />
-                <Bar dataKey="value" radius={[4, 4, 0, 0]} barSize={20} />
-              </BarChart>
-            </ResponsiveContainer>
+             <ResponsiveContainer width="100%" height="100%">
+                <AreaChart data={notificationData}>
+                  <defs>
+                    <linearGradient id="colorValue" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%" stopColor="#8884d8" stopOpacity={0.8}/>
+                      <stop offset="95%" stopColor="#8884d8" stopOpacity={0}/>
+                    </linearGradient>
+                  </defs>
+                  <Tooltip 
+                    contentStyle={{ backgroundColor: '#1f1f2e', border: 'none', color: '#fff', fontSize: '12px' }}
+                  />
+                  <Area type="monotone" dataKey="value" stroke="#8884d8" fillOpacity={1} fill="url(#colorValue)" />
+                </AreaChart>
+             </ResponsiveContainer>
           </div>
         </div>
 
-        {/* Gráfico 2: Total de Clientes */}
+        {/* Gráfico de Clientes */}
         <div className="chart-container">
           <h3 className="chart-title">Clientes</h3>
           <div className="chart-wrapper">
@@ -127,21 +130,15 @@ const Dashboard = () => {
                 <XAxis dataKey="name" stroke="#ccc" tick={{ fontSize: 10 }} interval={0} />
                 <YAxis stroke="#ccc" tick={{ fontSize: 10 }} width={30} />
                 <Tooltip 
-                  contentStyle={{ backgroundColor: '#1f1f2e', border: 'none', color: '#fff', fontSize: '12px' }} 
+                  contentStyle={{ backgroundColor: '#1f1f2e', border: 'none', color: '#fff', fontSize: '12px' }}
                 />
-                <Line 
-                  type="monotone" 
-                  dataKey="total" 
-                  stroke="#00d4ff" 
-                  strokeWidth={2} 
-                  dot={{ r: 2, fill: '#00d4ff' }}
-                />
+                <Line type="monotone" dataKey="total" stroke="#82ca9d" strokeWidth={2} dot={{ r: 3 }} />
               </LineChart>
             </ResponsiveContainer>
           </div>
         </div>
 
-        {/* Gráfico 3: Faturamento Mensal */}
+        {/* Gráfico de Faturamento Mensal */}
         <div className="chart-container">
           <h3 className="chart-title">Faturamento Mensal</h3>
           <div className="chart-wrapper">
@@ -177,9 +174,9 @@ const Dashboard = () => {
           </div>
         </div>
 
-        {/* Gráfico 4: Notificações na Agenda */}
+        {/* Gráfico de Agenda Pendentes */}
         <div className="chart-container">
-          <h3 className="chart-title">Agenda (Pendentes)</h3>
+          <h3 className="chart-title">Notificações Agenda</h3>
           <div className="chart-wrapper">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={agendaData}>
@@ -194,8 +191,20 @@ const Dashboard = () => {
             </ResponsiveContainer>
           </div>
         </div>
-
       </div>
+
+      {/* Universal Footer (Same as ResponsiveLayout) */}
+      <footer className="universal-footer">
+        <nav className="footer-nav">
+          <button
+            className="footer-btn dashboard-home-btn"
+            onClick={() => window.location.reload()}
+            title="Atualizar Dashboard"
+          >
+            <div className="btn-icon">⚡</div>
+          </button>
+        </nav>
+      </footer>
     </div>
   );
 };

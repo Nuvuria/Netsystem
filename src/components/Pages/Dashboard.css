@@ -117,113 +117,98 @@
 /* --- Mobile / Tablet Responsive Rules --- */
 @media (max-width: 768px) {
   .dashboard-container {
-    padding: 1rem 0.5rem; /* Reduced padding for maximum screen usage */
+    padding: 1rem;
+    padding-bottom: 100px; /* Space for Universal Footer on Mobile */
     background: var(--mobile-bg) no-repeat center center;
     background-size: cover;
+    min-height: 100vh;
+    height: auto;
+    overflow-y: auto; /* Restore scrolling */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
   }
 
   .dashboard-title {
+    display: block;
     font-size: 1.5rem;
-    font-weight: 700;
-    margin-bottom: 1rem;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
-    background: linear-gradient(90deg, #fff, #b0b8c0);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    margin-bottom: 1.5rem;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
   }
   
   /* 
-   * CRITICAL: Mobile Grid Layout 
-   * Requirement: Side-by-side (2 columns)
-   * Alignment: Must match chart section below
+   * RESTORED LARGE ICONS SECTION
    */
   .dashboard-grid {
-    grid-template-columns: repeat(2, 1fr) !important; /* Enforce 2 columns FORCE */
-    gap: 0.5rem; /* Strict gap consistency */
-    padding: 0;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 1rem;
     width: 100%;
     margin: 0;
+    flex: none;
   }
 
-  /* 
-   * REMOVED: 1-column constraint for small screens
-   * User explicitly requested side-by-side (2 columns) even on mobile
-   */
-
-
   .dashboard-card {
-    min-width: 0; /* CRITICAL FIX: Allows grid items to shrink below content size */
-    border-radius: 8px;
+    min-width: 0;
     border: none;
     box-shadow: none;
     background: transparent;
     height: auto;
-    width: 100%; /* Ensure full width */
-    min-height: 0;
-    padding: 8px; /* Mobile padding */
+    padding: 0;
   }
 
   .card-image-wrapper {
-    /* Mobile Aspect Ratio: Keep it square-ish but flexible */
-    aspect-ratio: 1 / 1; 
-    max-height: 400px; /* Doubled from 200px */
+    aspect-ratio: 1 / 1;
+    height: auto;
+    max-height: 400px; /* Restored large size (doubled state) */
     width: 100%;
-  }
-
-  .dashboard-card:active {
-    transform: scale(0.98);
-    transition: transform 0.1s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .card-image {
     width: 100%;
     height: 100%;
-    object-fit: contain; /* Ensure full visibility */
+    max-width: 100%;
+    object-fit: contain;
     opacity: 0.95;
+    mix-blend-mode: screen;
   }
 
   /* 
-   * CRITICAL: Mobile Charts Section 
-   * Requirement: Side-by-side (Grid 2 columns)
+   * RESTORED STANDARD CHARTS SECTION
    */
   .dashboard-charts-section {
     display: grid;
-    grid-template-columns: repeat(2, 1fr) !important;
-    margin-top: 1rem;
-    gap: 0.5rem;
+    grid-template-columns: repeat(2, 1fr) !important; /* Maintain 2 columns */
+    margin-top: 3rem;
+    gap: 1rem;
     width: 100%;
     padding: 0;
+    flex: none;
   }
 
   .chart-container {
-    min-height: 120px;
-    padding: 0.5rem;
+    min-height: 250px; /* Standard usable height */
+    height: auto;
+    padding: 0.75rem;
     background: linear-gradient(145deg, #151525, #1a1a2e);
     border: 1px solid rgba(255, 255, 255, 0.05);
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
     border-radius: 8px;
-    flex: 1;
     display: flex;
     flex-direction: column;
   }
 
   .chart-title {
-    font-size: 0.75rem;
-    font-weight: 600;
-    color: #e0e0e0;
-    margin-bottom: 0.5rem;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    border-bottom: none;
-    padding-bottom: 0;
-    text-align: center;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    font-size: 0.9rem;
+    margin-bottom: 0.75rem;
+    margin-top: 0;
+    white-space: normal; /* Allow wrap */
   }
-  
+
   .chart-wrapper {
-      min-height: 80px;
+    flex: 1;
+    min-height: 180px;
   }
 }
