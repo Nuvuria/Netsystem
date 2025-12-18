@@ -1,0 +1,174 @@
+.planos-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.planos-header h2 {
+    color: var(--text-color);
+}
+
+.btn-add-plano {
+    background-color: var(--primary-color);
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-weight: bold;
+    box-shadow: 0 0 10px rgba(157, 0, 255, 0.3);
+    transition: all 0.3s ease;
+}
+
+.btn-add-plano:hover {
+    background-color: var(--primary-hover);
+    box-shadow: 0 0 15px rgba(157, 0, 255, 0.5);
+    transform: translateY(-2px);
+}
+
+.plano-form-container {
+    background-color: var(--card-bg);
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    border: 1px solid var(--border-color);
+}
+
+.plano-form {
+    display: grid;
+    gap: 15px;
+}
+
+.form-group label {
+    color: var(--text-muted);
+    display: block;
+    margin-bottom: 5px;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid var(--border-color);
+    background-color: var(--surface-color);
+    color: var(--text-color);
+}
+
+.form-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+}
+
+.btn-cancel {
+    padding: 10px 20px;
+    border-radius: 5px;
+    border: 1px solid var(--border-color);
+    background-color: transparent;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-cancel:hover {
+    background-color: var(--surface-color);
+    color: var(--text-color);
+}
+
+.btn-save {
+    padding: 10px 20px;
+    border-radius: 5px;
+    border: none;
+    background-color: var(--primary-color);
+    color: #fff;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(157, 0, 255, 0.3);
+    transition: all 0.3s ease;
+}
+
+.btn-save:hover {
+    background-color: var(--primary-hover);
+    box-shadow: 0 0 15px rgba(157, 0, 255, 0.5);
+}
+
+.loading-msg {
+    color: var(--text-muted);
+    text-align: center;
+}
+
+.empty-planos {
+    text-align: center;
+    color: var(--text-muted);
+    margin-top: 50px;
+}
+
+.planos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.plano-card {
+    background-color: var(--card-bg);
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid var(--border-color);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    transition: all 0.3s ease;
+}
+
+.plano-card:hover {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 15px rgba(157, 0, 255, 0.2);
+    transform: translateY(-5px);
+}
+
+.plano-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+}
+
+.plano-card-header h3 {
+    margin: 0;
+    color: var(--secondary-color);
+    font-size: 1.2rem;
+}
+
+.btn-delete-plano {
+    background: transparent;
+    border: none;
+    color: var(--danger-color);
+    cursor: pointer;
+    padding: 5px;
+    transition: transform 0.2s;
+}
+
+.btn-delete-plano:hover {
+    transform: scale(1.1);
+}
+
+.plano-value {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-color);
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.plano-desc {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}

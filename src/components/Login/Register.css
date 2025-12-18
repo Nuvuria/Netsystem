@@ -3,21 +3,22 @@
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background: rgba(0, 0, 0, 0.6);
+  background: var(--background-color);
 }
 
 .register-form {
-  background-color: rgba(255, 255, 255, 0.05);
+  background-color: var(--card-bg);
   padding: 30px;
   border-radius: 12px;
-  box-shadow: 0 0 20px rgba(233, 33, 49, 0.3);
+  box-shadow: 0 0 20px rgba(157, 0, 255, 0.3);
   width: 300px;
   display: flex;
   flex-direction: column;
+  border: 1px solid var(--border-color);
 }
 
 .register-form h2 {
-  color: white;
+  color: var(--text-color);
   margin-bottom: 20px;
   text-align: center;
 }
@@ -25,28 +26,30 @@
 .register-form input {
   margin-bottom: 15px;
   padding: 10px;
-  border: none;
+  border: 1px solid var(--border-color);
   border-radius: 8px;
-  background-color: rgba(255, 255, 255, 0.1);
-  color: white;
+  background-color: var(--surface-color);
+  color: var(--text-color);
 }
 
 .register-form button {
   padding: 10px;
   border: none;
   border-radius: 8px;
-  background-color: #e92131;
+  background-color: var(--primary-color);
   color: white;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: all 0.3s;
+  box-shadow: 0 0 10px rgba(157, 0, 255, 0.3);
 }
 
 .register-form button:hover {
-  background-color: #c01c29;
+  background-color: var(--primary-hover);
+  box-shadow: 0 0 15px rgba(157, 0, 255, 0.5);
 }
 
 .register-form a {
-  color: #ff6b6b;
+  color: var(--secondary-color);
   text-decoration: none;
   text-align: center;
   margin-top: 10px;

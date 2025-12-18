@@ -3,36 +3,37 @@
 }
 
 .agenda-header-card {
-  background: linear-gradient(145deg, #1e1e1e, #252525);
-  border: 1px solid #333;
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
   border-radius: 12px;
   padding: 25px;
   margin-bottom: 30px;
   display: flex;
   flex-direction: column;
   gap: 15px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+  box-shadow: 0 0 15px rgba(157, 0, 255, 0.1);
 }
 
 .agenda-header-content h3 {
-  color: #fff;
+  color: var(--secondary-color);
   margin: 0 0 8px 0;
   font-size: 1.2rem;
+  text-shadow: 0 0 5px rgba(0, 212, 255, 0.5);
 }
 
 .agenda-header-content p {
-  color: #aaa;
+  color: var(--text-muted);
   margin: 0;
   font-size: 0.95rem;
 }
 
 .link-box {
-  background-color: #121212;
-  border: 1px solid #333;
+  background-color: var(--surface-color);
+  border: 1px solid var(--border-color);
   border-radius: 6px;
   padding: 12px;
   font-family: 'Consolas', monospace;
-  color: #e92131;
+  color: var(--secondary-color);
   word-break: break-all;
   display: flex;
   align-items: center;
@@ -41,9 +42,9 @@
 }
 
 .btn-copy {
-  background-color: #333;
-  color: #fff;
-  border: 1px solid #555;
+  background-color: var(--card-bg);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
   padding: 8px 16px;
   border-radius: 6px;
   cursor: pointer;
@@ -52,8 +53,8 @@
 }
 
 .btn-copy:hover {
-  background-color: #444;
-  border-color: #666;
+  background-color: var(--border-color);
+  border-color: var(--text-muted);
   transform: translateY(-1px);
 }
 
@@ -65,15 +66,15 @@
 }
 
 .agenda-controls h3 {
-  color: #eee;
+  color: var(--text-color);
   font-size: 1.4rem;
   margin: 0;
 }
 
 .btn-refresh {
   background-color: transparent;
-  color: #007bff;
-  border: 1px solid #007bff;
+  color: var(--secondary-color);
+  border: 1px solid var(--secondary-color);
   padding: 8px 16px;
   border-radius: 20px;
   cursor: pointer;
@@ -82,10 +83,12 @@
   display: flex;
   align-items: center;
   gap: 6px;
+  box-shadow: 0 0 5px rgba(0, 212, 255, 0.2);
 }
 
 .btn-refresh:hover {
-  background-color: rgba(0, 123, 255, 0.1);
+  background-color: rgba(0, 212, 255, 0.1);
+  box-shadow: 0 0 10px rgba(0, 212, 255, 0.4);
 }
 
 .agenda-grid {
@@ -95,8 +98,8 @@
 }
 
 .agenda-card {
-  background-color: #1e1e1e;
-  border: 1px solid #333;
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
   border-radius: 12px;
   padding: 20px;
   transition: transform 0.2s, box-shadow 0.2s;
@@ -106,8 +109,8 @@
 
 .agenda-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 8px 24px rgba(0,0,0,0.4);
-  border-color: #444;
+  box-shadow: 0 0 15px rgba(157, 0, 255, 0.2);
+  border-color: var(--primary-color);
 }
 
 .card-header {
@@ -127,15 +130,16 @@
 }
 
 .badge-inst {
-  background-color: rgba(0, 123, 255, 0.2);
-  color: #4dabf7;
-  border: 1px solid rgba(0, 123, 255, 0.3);
+  background-color: rgba(0, 212, 255, 0.1);
+  color: var(--secondary-color);
+  border: 1px solid var(--secondary-color);
+  box-shadow: 0 0 5px rgba(0, 212, 255, 0.3);
 }
 
 .badge-rep {
-  background-color: rgba(255, 193, 7, 0.2);
-  color: #ffc107;
-  border: 1px solid rgba(255, 193, 7, 0.3);
+  background-color: rgba(255, 152, 0, 0.1);
+  color: #ff9800;
+  border: 1px solid #ff9800;
 }
 
 .badge-status {
@@ -146,19 +150,21 @@
 }
 
 .status-pendente {
-  background-color: #333;
-  color: #ccc;
+  background-color: var(--surface-color);
+  color: var(--text-muted);
+  border: 1px solid var(--border-color);
 }
 
 .status-concluido {
-  background-color: rgba(233, 33, 49, 0.2);
-  color: #e92131;
+  background-color: rgba(0, 255, 127, 0.1);
+  color: #00ff7f;
+  border: 1px solid #00ff7f;
 }
 
 .status-avisado {
-  background-color: rgba(255, 152, 0, 0.2);
+  background-color: rgba(255, 152, 0, 0.1);
   color: #ff9800;
-  border: 1px solid rgba(255, 152, 0, 0.3);
+  border: 1px solid #ff9800;
 }
 
 .section-avisados {
@@ -166,24 +172,24 @@
   background-color: rgba(255, 152, 0, 0.05);
   padding: 20px;
   border-radius: 12px;
-  border: 1px dashed #555;
+  border: 1px dashed #ff9800;
 }
 
 .section-title {
-  color: #eee;
+  color: var(--text-color);
   font-size: 1.3rem;
   margin-top: 0;
   margin-bottom: 20px;
-  border-bottom: 1px solid #444;
+  border-bottom: 1px solid var(--border-color);
   padding-bottom: 10px;
 }
 
 .section-finalizado {
   margin-top: 40px;
-  background-color: rgba(233, 33, 49, 0.05);
+  background-color: rgba(0, 255, 127, 0.05);
   padding: 20px;
   border-radius: 12px;
-  border: 1px dashed #e92131;
+  border: 1px dashed #00ff7f;
 }
 
 .scroll-container {
@@ -197,31 +203,31 @@
   width: 8px;
 }
 .scroll-container::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.05);
+  background: var(--surface-color);
   border-radius: 4px;
 }
 .scroll-container::-webkit-scrollbar-thumb {
-  background: #555;
+  background: var(--border-color);
   border-radius: 4px;
 }
 .scroll-container::-webkit-scrollbar-thumb:hover {
-  background: #777;
+  background: var(--text-muted);
 }
 
 .status-finalizado {
-  background-color: rgba(233, 33, 49, 0.2);
-  color: #e92131;
-  border: 1px solid rgba(233, 33, 49, 0.3);
+  background-color: rgba(0, 255, 127, 0.1);
+  color: #00ff7f;
+  border: 1px solid #00ff7f;
 }
 
 .card-body h4 {
-  color: #fff;
+  color: var(--text-color);
   margin: 0 0 5px 0;
   font-size: 1.1rem;
 }
 
 .card-body .phone {
-  color: #888;
+  color: var(--text-muted);
   margin: 0 0 15px 0;
   font-size: 0.9rem;
   display: flex;
@@ -231,7 +237,7 @@
 
 .info-row {
   margin-bottom: 8px;
-  color: #ddd;
+  color: var(--text-muted);
   font-size: 0.95rem;
   display: flex;
   align-items: flex-start;
@@ -239,14 +245,14 @@
 }
 
 .info-icon {
-  color: #666;
+  color: var(--secondary-color);
   min-width: 20px;
 }
 
 .card-actions {
   margin-top: 20px;
   padding-top: 15px;
-  border-top: 1px solid #333;
+  border-top: 1px solid var(--border-color);
   display: flex;
   justify-content: flex-end;
   gap: 10px;
@@ -266,8 +272,9 @@
 }
 
 .btn-conclude {
-  background-color: #e92131;
+  background-color: var(--primary-color);
   color: white;
+  box-shadow: 0 0 10px rgba(157, 0, 255, 0.3);
 }
 
 .btn-whatsapp {
@@ -285,12 +292,13 @@
 
 .btn-delete {
   background-color: transparent;
-  color: #ff4d4f;
-  border: 1px solid #ff4d4f;
+  color: var(--danger-color);
+  border: 1px solid var(--danger-color);
 }
 
 .btn-delete:hover {
-  background-color: rgba(255, 77, 79, 0.1);
+  background-color: rgba(255, 0, 85, 0.1);
+  box-shadow: 0 0 10px rgba(255, 0, 85, 0.3);
 }
 
 .btn-action:hover {

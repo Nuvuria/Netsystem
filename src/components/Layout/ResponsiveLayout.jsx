@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import '../GlobalLayout.css';
+import './ResponsiveLayout.css';
 
 const ResponsiveLayout = ({ children, title }) => {
   const [isMobile, setIsMobile] = useState(false);
@@ -25,13 +26,20 @@ const ResponsiveLayout = ({ children, title }) => {
     setSidebarOpen(false);
   };
 */
+  /*
   const navigationItems = [
+    { path: '/dashboard', label: 'Dashboard', icon: '⚡' },
     { path: '/inicio', label: 'Início', icon: '🏠' },
     { path: '/clientes', label: 'Clientes', icon: '👥' },
-    // { path: '/finalizados', label: 'Finalizados', icon: '✅' }, // removido
-    // { path: '/agenda', label: 'Agenda', icon: '📅' },
+    { path: '/relatorio', label: 'Relatório', icon: '📊' },
+    { path: '/chatbot', label: 'Chatbot', icon: '🤖' },
     { path: '/', label: 'Logout', icon: '🚪' }
   ];
+
+  const isActivePage = (path) => {
+    return location.pathname === path;
+  };
+  */
 
   const handleNavigation = (path) => {
     if (path === '/') {
@@ -43,91 +51,48 @@ const ResponsiveLayout = ({ children, title }) => {
     navigate(path);
   };
 
-  const isActivePage = (path) => {
-    return location.pathname === path;
-  };
-
   return (
-    <div className="app-container responsive-layout-container">
+    <div 
+      className="app-container responsive-layout-container"
+      style={{ '--mobile-bg': "url('/backgroundmobile.jpeg')" }}
+    >
 
 
-      {/* Sidebar */}
+      {/* Sidebar REMOVED via Commenting out */}
+      {/* 
       <nav className="app-sidebar">
-        {/* Header do Sidebar */}
-        <div style={{ 
-          marginBottom: '30px', 
-          textAlign: 'center',
-          borderBottom: '2px solid #00ff00',
-          paddingBottom: '15px'
-        }}>
-          <h2 style={{ 
-            color: '#00ff00', 
-            fontSize: '18px',
-            fontWeight: 'bold'
-          }}>
+        <div className="sidebar-header">
+          <h2 className="sidebar-title">
             🚀 Mensalix
           </h2>
         </div>
 
-        {/* Navegação Desktop */}
-        {!isMobile && navigationItems.map((item) => (
+        {navigationItems.map((item) => (
           <button
             key={item.path}
             onClick={() => handleNavigation(item.path)}
-            style={{
-              backgroundColor: isActivePage(item.path) ? '#00ff00' : '#333',
-              color: isActivePage(item.path) ? '#000' : 'white',
-            }}
+            className={`nav-button ${isActivePage(item.path) ? 'active' : ''}`}
           >
             {item.icon} {item.label}
           </button>
         ))}
 
-        {/* Navegação Mobile */}
-        {isMobile && navigationItems.map((item) => (
-          <button
-            key={item.path}
-            onClick={() => handleNavigation(item.path)}
-            style={{
-              backgroundColor: isActivePage(item.path) ? '#00ff00' : '#333',
-              color: isActivePage(item.path) ? '#000' : 'white',
-              fontSize: '16px',
-              padding: '15px'
-            }}
-          >
-            {item.icon} {item.label}
-          </button>
-        ))}
-
-        {/* Botão de Atualizar */}
         <button 
           onClick={() => window.location.reload()} 
           title="Atualizar"
-          style={{
-            marginTop: 'auto',
-            backgroundColor: '#444',
-            fontSize: '20px'
-          }}
+          className="update-button"
         >
           🔄
         </button>
       </nav>
+      */}
 
       {/* Conteúdo Principal */}
       <main className="app-content">
-        {title && (
-          <header style={{ 
-            marginBottom: '30px',
-            borderBottom: '2px solid #00ff00',
-            paddingBottom: '15px'
-          }}>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12 }}>
-              <h1 style={{ 
-                color: '#00ff00', 
-                fontSize: isMobile ? '24px' : '32px',
-                textAlign: isMobile ? 'center' : 'left',
-                margin: 0
-              }}>
+        {!isMobile && title && (
+          <header className="content-header">
+            <div className="header-flex">
+              <h1 className="page-title">
                 {title}
               </h1>
             </div>
@@ -137,23 +102,18 @@ const ResponsiveLayout = ({ children, title }) => {
         {children}
       </main>
 
-      {/* Footer Mobile */}
-      {isMobile && (
-        <footer className="mobile-footer">
-          <nav className="mobile-footer-nav">
-            {navigationItems.map((item) => (
-              <button
-                key={item.path}
-                className={`mobile-footer-btn ${isActivePage(item.path) ? 'active' : ''}`}
-                onClick={() => handleNavigation(item.path)}
-              >
-                <div>{item.icon}</div>
-                <div>{item.label}</div>
-              </button>
-            ))}
-          </nav>
-        </footer>
-      )}
+      {/* Universal Footer (Mobile & Desktop) */}
+      <footer className="universal-footer">
+        <nav className="footer-nav">
+          <button
+            className="footer-btn dashboard-home-btn"
+            onClick={() => handleNavigation('/dashboard')}
+            title="Voltar ao Dashboard"
+          >
+            <div className="btn-icon">⚡</div>
+          </button>
+        </nav>
+      </footer>
     </div>
   );
 };

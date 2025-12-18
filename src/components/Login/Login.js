@@ -8,10 +8,11 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
  const [manterLogado, setManterLogado] = useState(false);
   const [deferredPrompt, setDeferredPrompt] = useState(null);
+  const [isStandalone, setIsStandalone] = useState(false);
   const navigate = useNavigate();
   const youtubeEmbedUrl =
     process.env.REACT_APP_LOGIN_VIDEO_URL ||
-    'https://youtu.be/oMBw9MVHvAw';
+    'https://youtu.be/sG9hGnehEyE';
   const [player, setPlayer] = useState(null);
   const [audioEnabled, setAudioEnabled] = useState(false);
   const toggleAudio = () => {
@@ -106,7 +107,7 @@ const Login = () => {
     const manterLogadoSalvo = localStorage.getItem('manterLogado');
     
     if (userId && manterLogadoSalvo === 'true') {
-      navigate('/inicio');
+      navigate('/dashboard');
     }
   }, [navigate]);
 
@@ -117,6 +118,10 @@ const Login = () => {
     };
 
     window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+
+    if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true) {
+      setIsStandalone(true);
+    }
 
     return () => {
       window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
@@ -131,6 +136,13 @@ const Login = () => {
         console.log('User accepted the install prompt');
       }
       setDeferredPrompt(null);
+    } else {
+      const isMobile = /Android|iPhone|iPad/i.test(navigator.userAgent);
+      if (isMobile) {
+        alert("Para instalar, toque no menu do navegador (três pontos) e selecione 'Adicionar à Tela Inicial' ou 'Instalar Aplicativo'.");
+      } else {
+        alert("Para instalar no Windows, clique no ícone de instalação (geralmente um + ou um computador) na barra de endereços do seu navegador.");
+      }
     }
   };
 
@@ -160,7 +172,7 @@ const Login = () => {
         }
         
         alert('✅ Login realizado com sucesso!');
-        navigate('/inicio');
+        navigate('/dashboard');
       } else {
         alert(`❌ Erro: ${data.message || 'Falha no login.'}`);
       }
@@ -222,60 +234,28 @@ const Login = () => {
           
         </div>
 
-        <div className="app-download-section" style={{ marginTop: '20px', borderTop: '1px solid #444', paddingTop: '15px' }}>
-          <p style={{ fontSize: '0.9rem', color: '#ccc', marginBottom: '10px' }}>Baixe nossos aplicativos:</p>
-          <div style={{ display: 'flex', gap: '10px', flexDirection: 'column' }}>
+        {!isStandalone && (
+        <div className="app-download-section">
+          <p className="download-title">Baixe nossos aplicativos:</p>
+          <div className="download-buttons-container">
             <button 
+              type="button"
               onClick={handleInstallClick}
               className="download-apk-btn"
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: '8px',
-                backgroundColor: '#333',
-                color: '#fff',
-                padding: '10px',
-                borderRadius: '8px',
-                border: '1px solid #555',
-                transition: 'all 0.3s',
-                cursor: 'pointer',
-                fontFamily: 'inherit',
-                fontSize: '1rem',
-                width: '100%'
-              }}
-              onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#444'}
-              onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#333'}
             >
               <span style={{ fontSize: '1.2rem' }}>🤖</span> Baixar Android
             </button>
             
             <button 
+              type="button"
               onClick={handleInstallClick}
               className="download-win-btn"
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: '8px',
-                backgroundColor: '#0078d7',
-                color: '#fff',
-                padding: '10px',
-                borderRadius: '8px',
-                border: '1px solid #005a9e',
-                transition: 'all 0.3s',
-                cursor: 'pointer',
-                fontFamily: 'inherit',
-                fontSize: '1rem',
-                width: '100%'
-              }}
-              onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#1084d9'}
-              onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#0078d7'}
             >
               <span style={{ fontSize: '1.2rem' }}>💻</span> Baixar Windows
             </button>
           </div>
         </div>
+        )}
           </form>
         </div>
       </div>

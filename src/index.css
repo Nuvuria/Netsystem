@@ -1,19 +1,24 @@
+:root {
+  --primary-color: #9D00FF;
+  --primary-hover: #7d00cc;
+  --secondary-color: #00D4FF;
+  --background-color: #050510;
+  --surface-color: #0a0a1a;
+  --card-bg: #101025;
+  --text-color: #F0F8FF;
+  --text-muted: #b0b8c0;
+  --border-color: #2a2a4a;
+  --gradient-start: #7000FF;
+  --gradient-end: #00C2FF;
+  --danger-color: #ff0055;
+}
+
 body {
   margin: 0;
   padding: 0;
   font-family: Arial, sans-serif;
-   background-image: url('imag.png');
-  background-size: cover;
-  background-position: center;
-  background-size: cover;
-  background-position: center;
-  height: 80vh;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  min-height: 100vh;
 }
 
-@media (max-width: 768px) {
-  body {
-    background-image: url('imagmobile.png');
-    background-size: cover;
-    background-position: center;
-  }
-}

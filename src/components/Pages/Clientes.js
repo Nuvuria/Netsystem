@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 // import { useNavigate } from 'react-router-dom';
-import ResponsiveLayout from '../Layout/ResponsiveLayout';
 import './Clientes.css';
 import '../GlobalLayout.css';
 
   function Clientes() {
     // const navigate = useNavigate();
     const [clientes, setClientes] = useState([]);
-    const [novoCliente, setNovoCliente] = useState({
+  const [planosDisponiveis, setPlanosDisponiveis] = useState([]);
+  const [novoCliente, setNovoCliente] = useState({
     id: '',
     nome: '',
     numeroTelefone: '',
@@ -17,10 +17,16 @@ import '../GlobalLayout.css';
     cpf: '',
     status: ''
   });
+  
+  // States para Planos
+  const [showPlanoForm, setShowPlanoForm] = useState(false);
+  const [novoPlano, setNovoPlano] = useState({ nome: '', valor: '', descricao: '' });
+
   const [loading, setLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const API_URL = `${process.env.REACT_APP_API_BASE_URL || 'http://localhost:3001'}/clientes`;
+  const PLANOS_URL = `${process.env.REACT_APP_API_BASE_URL || 'http://localhost:3001'}/planos`;
 
   const getHeaders = () => {
     const token = localStorage.getItem('token');
@@ -32,8 +38,68 @@ import '../GlobalLayout.css';
 
   useEffect(() => {
     fetchClientes();
+    fetchPlanos();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const fetchPlanos = async () => {
+    try {
+        const res = await fetch(PLANOS_URL, { headers: getHeaders() });
+        if (res.ok) {
+            const data = await res.json();
+            console.log('Planos carregados:', data);
+            setPlanosDisponiveis(data);
+        } else {
+            console.error('Erro ao buscar planos:', res.statusText);
+        }
+    } catch (error) {
+        console.error("Erro ao buscar planos:", error);
+    }
+  };
+
+  const handleSalvarPlano = async (e) => {
+      e.preventDefault();
+      if (!novoPlano.nome || !novoPlano.valor) return alert('Nome e Valor são obrigatórios');
+
+      try {
+          const res = await fetch(PLANOS_URL, {
+              method: 'POST',
+              headers: getHeaders(),
+              body: JSON.stringify(novoPlano)
+          });
+
+          if (res.ok) {
+              setShowPlanoForm(false);
+              setNovoPlano({ nome: '', valor: '', descricao: '' });
+              fetchPlanos();
+              alert('Plano salvo com sucesso!');
+          } else {
+              alert('Erro ao salvar plano');
+          }
+      } catch (error) {
+          console.error(error);
+          alert('Erro ao conectar com o servidor');
+      }
+  };
+
+  const handleExcluirPlano = async (id) => {
+      if (!window.confirm('Tem certeza que deseja excluir este plano?')) return;
+
+      try {
+          const res = await fetch(`${PLANOS_URL}/${id}`, {
+              method: 'DELETE',
+              headers: getHeaders()
+          });
+
+          if (res.ok) {
+              fetchPlanos();
+          } else {
+              alert('Erro ao excluir plano');
+          }
+      } catch (error) {
+          console.error(error);
+      }
+  };
 
   const fetchClientes = async () => {
     try {
@@ -180,7 +246,6 @@ import '../GlobalLayout.css';
   };
 
   return (
-    <ResponsiveLayout title="">
       <div className="clientes-container">
         
         {/* Modal de Formulário */}
@@ -236,13 +301,27 @@ import '../GlobalLayout.css';
                         <div className="form-row">
                             <div className="form-group">
                                 <label>Plano:</label>
-                                <input
-                                    type="text"
+                                <select
                                     name="plano"
                                     value={novoCliente.plano}
                                     onChange={handleChange}
-                                    placeholder="Ex: 100MB"
-                                />
+                                    style={{
+                                        width: '100%',
+                                        padding: '10px',
+                                        borderRadius: '5px',
+                                        border: '1px solid var(--border-color)',
+                                        backgroundColor: 'var(--surface-color)',
+                                        color: 'var(--text-color)',
+                                        marginBottom: '10px'
+                                    }}
+                                >
+                                    <option value="">Selecione um plano</option>
+                                    {planosDisponiveis.map(plano => (
+                                        <option key={plano.id} value={`${plano.nome} - R$ ${plano.valor.toFixed(2)}`}>
+                                            {plano.nome} - R$ {plano.valor.toFixed(2)}
+                                        </option>
+                                    ))}
+                                </select>
                             </div>
                             <div className="form-group">
                                 <label>Vencimento (Dia):</label>
@@ -277,11 +356,11 @@ import '../GlobalLayout.css';
           <div className="header-actions">
               <h3>Lista de Clientes ({clientes.length})</h3>
               <div style={{ display: 'flex', gap: '10px' }}>
-                <button onClick={handlePasteFromClipboard} className="btn-novo" style={{ backgroundColor: '#ff9800' }}>
-                    📋 COLAR
+                <button onClick={handlePasteFromClipboard} className="btn-novo" style={{ backgroundColor: 'var(--secondary-color)', color: '#000' }}>
+                    COLAR
                 </button>
                 <button onClick={openModal} className="btn-novo">
-                    <span style={{fontSize: '1.2em'}}>+</span> Novo Cliente
+                    Novo Cliente
                 </button>
               </div>
           </div>
@@ -289,7 +368,7 @@ import '../GlobalLayout.css';
           {loading ? <p>Carregando...</p> : (
             <>
                 {/* Tabela para Desktop */}
-                <div className="table-responsive">
+                <div className="table-responsive desktop-view">
                     <table className="clientes-table">
                         <thead>
                             <tr>
@@ -298,6 +377,7 @@ import '../GlobalLayout.css';
                                 <th>CPF</th>
                                 <th>Plano</th>
                                 <th>Status</th>
+                                <th>Adicionado em</th>
                                 <th>Ações</th>
                             </tr>
                         </thead>
@@ -314,14 +394,19 @@ import '../GlobalLayout.css';
                                         </span>
                                     </td>
                                     <td>
-                                        <button onClick={() => handleEditar(cliente)} className="btn-edit">Editar</button>
-                                        <button onClick={() => handleExcluirCliente(cliente.id)} className="btn-delete">Excluir</button>
+                                        {cliente.createdAt ? new Date(cliente.createdAt).toLocaleDateString('pt-BR') : '-'}
+                                    </td>
+                                    <td>
+                                        <div style={{ display: 'flex', gap: '5px' }}>
+                                            <button onClick={() => handleEditar(cliente)} className="btn-edit">Editar</button>
+                                            <button onClick={() => handleExcluirCliente(cliente.id)} className="btn-delete">Excluir</button>
+                                        </div>
                                     </td>
                                 </tr>
                             ))}
                             {clientes.length === 0 && (
                                 <tr>
-                                    <td colSpan="6" style={{textAlign: 'center'}}>Nenhum cliente encontrado.</td>
+                                    <td colSpan="7" style={{textAlign: 'center'}}>Nenhum cliente encontrado.</td>
                                 </tr>
                             )}
                         </tbody>
@@ -344,6 +429,7 @@ import '../GlobalLayout.css';
                                 <p><strong>Plano:</strong> {cliente.plano}</p>
                                 <p><strong>End:</strong> {cliente.endereco}</p>
                                 <p><strong>Venc:</strong> Dia {cliente.vencimento}</p>
+                                <p><strong>Criado em:</strong> {cliente.createdAt ? new Date(cliente.createdAt).toLocaleDateString('pt-BR') : '-'}</p>
                             </div>
                             <div className="cliente-card-actions">
                                 <button onClick={() => handleEditar(cliente)} className="btn-edit">Editar</button>
@@ -358,8 +444,125 @@ import '../GlobalLayout.css';
             </>
           )}
         </div>
+
+        {/* Seção de Planos (Abaixo de Clientes) */}
+        <div className="list-section" style={{ marginTop: '30px' }}>
+            <div className="header-actions">
+                <h3>Gerenciar Planos</h3>
+                <button 
+                    onClick={() => setShowPlanoForm(!showPlanoForm)}
+                    className="btn-novo"
+                    style={{ backgroundColor: 'var(--primary-color)', color: '#fff', boxShadow: '0 0 10px rgba(157, 0, 255, 0.3)' }}
+                >
+                    Novo Plano
+                </button>
+            </div>
+
+            {/* Formulário de Planos */}
+            {showPlanoForm && (
+                <div style={{
+                    backgroundColor: 'var(--card-bg)',
+                    padding: '20px',
+                    borderRadius: '10px',
+                    marginBottom: '20px',
+                    border: '1px solid var(--border-color)'
+                }}>
+                    <form onSubmit={handleSalvarPlano} style={{ display: 'grid', gap: '15px' }}>
+                        <div>
+                            <label style={{ color: 'var(--text-muted)', display: 'block', marginBottom: '5px' }}>Nome do Plano</label>
+                            <input 
+                                type="text" 
+                                value={novoPlano.nome} 
+                                onChange={(e) => setNovoPlano({...novoPlano, nome: e.target.value})}
+                                placeholder="Ex: Internet 500MB"
+                                style={{ width: '100%', padding: '10px', borderRadius: '5px', border: '1px solid var(--border-color)', backgroundColor: 'var(--surface-color)', color: 'var(--text-color)' }}
+                            />
+                        </div>
+                        <div>
+                            <label style={{ color: 'var(--text-muted)', display: 'block', marginBottom: '5px' }}>Valor (R$)</label>
+                            <input 
+                                type="number" 
+                                step="0.01"
+                                value={novoPlano.valor} 
+                                onChange={(e) => setNovoPlano({...novoPlano, valor: e.target.value})}
+                                placeholder="99.90"
+                                style={{ width: '100%', padding: '10px', borderRadius: '5px', border: '1px solid var(--border-color)', backgroundColor: 'var(--surface-color)', color: 'var(--text-color)' }}
+                            />
+                        </div>
+                        <div>
+                            <label style={{ color: 'var(--text-muted)', display: 'block', marginBottom: '5px' }}>Descrição (Opcional)</label>
+                            <input 
+                                type="text" 
+                                value={novoPlano.descricao} 
+                                onChange={(e) => setNovoPlano({...novoPlano, descricao: e.target.value})}
+                                placeholder="Detalhes do plano..."
+                                style={{ width: '100%', padding: '10px', borderRadius: '5px', border: '1px solid var(--border-color)', backgroundColor: 'var(--surface-color)', color: 'var(--text-color)' }}
+                            />
+                        </div>
+                        <div style={{ display: 'flex', gap: '10px', justifyContent: 'flex-end' }}>
+                            <button 
+                                type="button" 
+                                onClick={() => setShowPlanoForm(false)}
+                                style={{ padding: '10px 20px', borderRadius: '5px', border: '1px solid var(--border-color)', backgroundColor: 'transparent', color: 'var(--text-muted)', cursor: 'pointer' }}
+                            >
+                                Cancelar
+                            </button>
+                            <button 
+                                type="submit" 
+                                style={{ padding: '10px 20px', borderRadius: '5px', border: 'none', backgroundColor: 'var(--primary-color)', color: '#fff', fontWeight: 'bold', cursor: 'pointer', boxShadow: '0 0 10px rgba(157, 0, 255, 0.3)' }}
+                            >
+                                Salvar
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            )}
+
+            {/* Lista de Planos em Cards */}
+            <div style={{ 
+                display: 'grid', 
+                gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))', 
+                gap: '20px' 
+            }}>
+                {planosDisponiveis.map(plano => (
+                    <div key={plano.id} style={{
+                        backgroundColor: 'var(--card-bg)',
+                        padding: '20px',
+                        borderRadius: '10px',
+                        border: '1px solid var(--border-color)',
+                        position: 'relative',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        gap: '10px'
+                    }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start' }}>
+                            <h3 style={{ margin: 0, color: 'var(--secondary-color)', fontSize: '1.2rem' }}>{plano.nome}</h3>
+                            <button 
+                                onClick={() => handleExcluirPlano(plano.id)}
+                                style={{ background: 'transparent', border: 'none', color: 'var(--danger-color)', cursor: 'pointer', fontWeight: 'bold' }}
+                                title="Excluir"
+                            >
+                                Excluir
+                            </button>
+                        </div>
+                        
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--text-color)', fontSize: '1.5rem', fontWeight: 'bold' }}>
+                            R$ {plano.valor.toFixed(2)}
+                        </div>
+
+                        {plano.descricao && (
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--text-muted)', fontSize: '0.9rem' }}>
+                                {plano.descricao}
+                            </div>
+                        )}
+                    </div>
+                ))}
+                {planosDisponiveis.length === 0 && (
+                    <p style={{ color: 'var(--text-muted)', gridColumn: '1 / -1', textAlign: 'center' }}>Nenhum plano cadastrado.</p>
+                )}
+            </div>
+        </div>
       </div>
-    </ResponsiveLayout>
   );
 }
 

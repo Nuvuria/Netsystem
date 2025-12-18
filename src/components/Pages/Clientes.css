@@ -2,15 +2,16 @@
     padding: 20px;
     max-width: 1200px;
     margin: 0 auto;
-    color: #fff;
+    color: var(--text-color);
 }
 
 .form-section {
-    background-color: #1f1f1f;
+    background-color: var(--card-bg);
     padding: 20px;
     border-radius: 8px;
     margin-bottom: 30px;
     box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+    border: 1px solid var(--border-color);
 }
 
 .cliente-form {
@@ -36,43 +37,74 @@
 
 label {
     font-weight: bold;
-    color: #ccc;
+    color: var(--text-muted);
 }
 
 input, select {
     padding: 10px;
     border-radius: 4px;
-    border: 1px solid #444;
-    background-color: #333;
-    color: #fff;
+    border: 1px solid var(--border-color);
+    background-color: var(--surface-color);
+    color: var(--text-color);
 }
 
 input:focus, select:focus {
     outline: none;
-    border-color: #007bff;
+    border-color: var(--secondary-color);
+    box-shadow: 0 0 5px var(--secondary-color);
 }
 
 .btn-save {
     padding: 12px;
-    background-color: #e92131;
+    background-color: var(--primary-color);
     color: white;
     border: none;
     border-radius: 4px;
     cursor: pointer;
     font-weight: bold;
     margin-top: 10px;
-    transition: background-color 0.2s;
+    transition: all 0.2s;
+    box-shadow: 0 0 10px rgba(157, 0, 255, 0.3);
 }
 
 .btn-save:hover {
-    background-color: #c01c29;
+    background-color: var(--primary-hover);
+    box-shadow: 0 0 15px rgba(157, 0, 255, 0.5);
+}
+
+.btn-novo {
+    padding: 10px 20px;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: all 0.2s;
+    box-shadow: 0 0 10px rgba(157, 0, 255, 0.3);
+}
+
+.btn-novo:hover {
+    background-color: var(--primary-hover);
+    box-shadow: 0 0 15px rgba(157, 0, 255, 0.5);
 }
 
 .list-section {
-    background-color: #1f1f1f;
+    background-color: var(--card-bg);
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+    border: 1px solid var(--border-color);
+}
+
+.header-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
 }
 
 .table-responsive {
@@ -88,38 +120,42 @@ input:focus, select:focus {
 .clientes-table th, .clientes-table td {
     padding: 12px;
     text-align: left;
-    border-bottom: 1px solid #444;
+    border-bottom: 1px solid var(--border-color);
 }
 
 .clientes-table th {
-    background-color: #333;
-    color: #eee;
+    background-color: var(--surface-color);
+    color: var(--primary-color);
+    font-weight: bold;
 }
 
 .clientes-table tr:hover {
-    background-color: #2a2a2a;
+    background-color: var(--surface-color);
 }
 
 .status-badge {
     padding: 4px 8px;
-    border-radius: 12px;
+    border-radius: 4px;
     font-size: 0.85em;
     font-weight: bold;
 }
 
 .status-badge.ativo {
-    background-color: #e92131;
-    color: white;
+    background-color: rgba(0, 212, 255, 0.2);
+    color: var(--secondary-color);
+    border: 1px solid var(--secondary-color);
 }
 
 .status-badge.inativo {
-    background-color: #dc3545;
-    color: white;
+    background-color: rgba(255, 0, 85, 0.2);
+    color: var(--danger-color);
+    border: 1px solid var(--danger-color);
 }
 
 .status-badge.pendente {
-    background-color: #ffc107;
-    color: #333;
+    background-color: rgba(255, 193, 7, 0.2);
+    color: #ffc107;
+    border: 1px solid #ffc107;
 }
 
 .btn-edit, .btn-delete {
@@ -128,215 +164,103 @@ input:focus, select:focus {
     border-radius: 4px;
     cursor: pointer;
     margin-right: 5px;
-    font-size: 0.9em;
+    font-weight: bold;
+    transition: all 0.2s;
 }
 
 .btn-edit {
-    background-color: #007bff;
-    color: white;
+    background-color: transparent;
+    color: var(--secondary-color);
+    border: 1px solid var(--secondary-color);
 }
 
 .btn-edit:hover {
-    background-color: #0056b3;
+    background-color: rgba(0, 212, 255, 0.1);
+    box-shadow: 0 0 10px rgba(0, 212, 255, 0.3);
 }
 
 .btn-delete {
-    background-color: #dc3545;
-    color: white;
+    background-color: transparent;
+    color: var(--danger-color);
+    border: 1px solid var(--danger-color);
 }
 
 .btn-delete:hover {
-    background-color: #c82333;
+    background-color: rgba(255, 0, 85, 0.1);
+    box-shadow: 0 0 10px rgba(255, 0, 85, 0.3);
 }
 
-/* Garante que o container de cards não apareça no desktop */
+/* Mobile Cards Styles */
 .mobile-cards-container {
     display: none;
+    gap: 15px;
 }
 
+.cliente-card {
+    background-color: var(--surface-color);
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+}
+
+.cliente-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.cliente-card-header h4 {
+    margin: 0;
+    color: var(--primary-color);
+}
+
+.cliente-card-body p {
+    margin: 5px 0;
+    font-size: 0.9em;
+}
+
+.cliente-card-actions {
+    margin-top: 15px;
+    display: flex;
+    gap: 10px;
+}
+
+.cliente-card-actions button {
+    flex: 1;
+}
+
+/* Media Queries */
 @media (max-width: 768px) {
-    .clientes-container {
-        padding: 10px; /* Reduz padding do container geral */
-    }
-
-    .list-section {
-        padding: 10px; /* Reduz padding da seção de lista */
-    }
-
-    .form-row {
-        flex-direction: column;
-        gap: 15px;
-    }
-
-    /* Esconde a tabela no mobile */
-    .clientes-table, .table-responsive {
+    .desktop-view {
         display: none;
     }
 
-    /* Cards para mobile */
-    .mobile-cards-container {
+    .mobile-view {
         display: grid;
-        grid-template-columns: 1fr 1fr; /* Lado a lado (2 colunas) */
-        gap: 8px; /* Gap um pouco menor */
-        width: 100%;
-    }
-
-    .cliente-card {
-        background-color: #2a2a2a;
-        padding: 8px; 
-        border-radius: 6px;
-        border: 1px solid #444;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        gap: 5px;
-        min-height: 150px; 
-        min-width: 0; /* CRUCIAL: Permite que o card encolha abaixo do conteúdo */
-        overflow: hidden; /* Garante que nada saia do card */
-    }
-
-    .cliente-card-header {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 2px;
-        border-bottom: 1px solid #444;
-        padding-bottom: 4px;
-        margin-bottom: 4px;
-    }
-
-    .cliente-card-header h4 {
-        margin: 0;
-        color: #fff;
-        font-size: 0.85em; /* Fonte menor */
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        width: 100%;
-    }
-    
-    .status-badge {
-        font-size: 0.65em; /* Badge menor */
-        padding: 1px 5px;
-        align-self: flex-start;
-    }
-
-    .cliente-card-body p {
-        margin: 2px 0;
-        color: #ccc;
-        font-size: 0.75em; /* Texto de dados bem menor */
-        line-height: 1.1;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-
-    .cliente-card-body strong {
-        color: #eee;
-    }
-
-    .cliente-card-actions {
-        display: flex;
-        gap: 5px;
-        margin-top: auto; /* Empurra para baixo */
-        justify-content: stretch;
-    }
-
-    .btn-edit, .btn-delete {
-        flex: 1;
-        text-align: center;
-        padding: 6px 4px; /* Botões slim */
-        font-size: 0.75em;
+        grid-template-columns: 1fr;
     }
 
     .header-actions {
         flex-direction: column;
-        align-items: stretch;
-        gap: 10px;
+        align-items: flex-start;
+        gap: 15px;
     }
     
-    .btn-novo {
+    .header-actions button {
+        width: 100%;
         justify-content: center;
+    }
+
+    .form-row {
+        flex-direction: column;
+        gap: 10px;
     }
 }
 
-/* Modal Styles */
-.modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.7);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-    padding: 15px;
-}
-
-.modal-content {
-    background-color: #1f1f1f;
-    padding: 25px;
-    border-radius: 8px;
-    width: 100%;
-    max-width: 600px;
-    max-height: 90vh;
-    overflow-y: auto;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-    position: relative;
-    border: 1px solid #444;
-}
-
-.modal-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-    border-bottom: 1px solid #444;
-    padding-bottom: 10px;
-}
-
-.modal-header h3 {
-    margin: 0;
-    color: #fff;
-}
-
-.close-modal-btn {
-    background: none;
-    border: none;
-    color: #aaa;
-    font-size: 1.5rem;
-    cursor: pointer;
-    transition: color 0.2s;
-}
-
-.close-modal-btn:hover {
-    color: #fff;
-}
-
-/* Botão Novo Cliente */
-.header-actions {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-}
-
-.btn-novo {
-    background-color: #e92131;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-weight: bold;
-    font-size: 1rem;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.btn-novo:hover {
-    background-color: #c01c29;
+/* Default state for mobile view on desktop */
+.mobile-view {
+    display: none;
 }

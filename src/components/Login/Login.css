@@ -6,22 +6,18 @@ body {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  background-attachment: fixed; /* Garante que o fundo não role */
-  min-height: 100vh; /* Garante altura mínima total */
+  background-attachment: fixed;
+  min-height: 100vh;
   width: 100%;
+  color: var(--text-color);
 }
 
 @media (max-width: 768px) {
   body {
     background-size: contain;
     background-position: top center;
-    background-color: #000; /* Cor de fundo para preencher o resto */
+    background-color: var(--background-color);
     background-image: url('../../imagmobile.png');
-  }
-  
-  .login-container {
-    align-items: center;
-    padding-top: 0;
   }
 }
 
@@ -29,61 +25,74 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh; /* Garante que o container ocupe toda a altura */
+  min-height: 100vh;
   width: 100%;
-  padding: 20px; /* Adiciona padding para telas muito pequenas */
+  padding: 20px;
   box-sizing: border-box;
 }
 
 .login-form {
-  background-color: rgba(0, 0, 0, 0.40);
+  background-color: rgba(5, 5, 16, 0.95); /* Darker, more opaque */
   padding: 30px;
   border-radius: 12px;
-  box-shadow: 0 0 20px rgba(233, 33, 49, 0.4);
+  box-shadow: 0 0 20px rgba(157, 0, 255, 0.4);
   text-align: center;
   width: 300px;
-  color: white;
+  color: var(--text-color);
   transform: translateY(3cm);
+  border: 1px solid var(--border-color);
 }
 
 .login-form h2,
 .login-form label,
 .login-form p,
 .login-form .manter-logado {
-  opacity: 0.55;
+  opacity: 0.9;
+  color: var(--text-color);
 }
 
 .login-form input::placeholder {
   opacity: 0.55;
+  color: var(--text-muted);
 }
 
 .login-form h2 {
   margin-bottom: 20px;
+  color: var(--primary-color);
+  text-shadow: 0 0 5px rgba(157, 0, 255, 0.5);
 }
 
 .login-form input {
   width: 60%;
   padding: 10px;
   margin-bottom: 15px;
-  border: none;
+  border: 1px solid var(--border-color);
   border-radius: 8px;
-  background-color: rgba(255, 255, 255, 0.1);
-  color: white;
+  background-color: var(--input-bg);
+  color: var(--text-color);
 }
 
-.login-form button {
+.login-form input:focus {
+  outline: none;
+  border-color: var(--secondary-color);
+  box-shadow: 0 0 5px rgba(0, 212, 255, 0.5);
+}
+
+.login-form button[type="submit"] {
   width: 40%;
   padding: 10px;
   border: none;
   border-radius: 8px;
-  background-color: #e92131;
+  background-color: var(--primary-color);
   color: white;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: all 0.3s;
+  box-shadow: 0 0 10px rgba(157, 0, 255, 0.3);
 }
 
-.login-form button:hover {
-  background-color: #c01c29;
+.login-form button[type="submit"]:hover {
+  background-color: var(--primary-hover);
+  box-shadow: 0 0 15px rgba(157, 0, 255, 0.5);
 }
 
 .manter-logado {
@@ -92,7 +101,7 @@ body {
   justify-content: center;
   gap: 8px;
   margin: 15px 0;
-  color: #fff;
+  color: var(--text-color);
   font-size: 14px;
 }
 
@@ -100,7 +109,7 @@ body {
   width: auto;
   margin: 0;
   transform: scale(1.2);
-  accent-color: #e92131;
+  accent-color: var(--secondary-color);
 }
 
 .manter-logado label {
@@ -115,13 +124,14 @@ body {
 }
 
 .extra-options a {
-  color: #aaa;
+  color: var(--text-muted);
   font-size: 0.9em;
   text-decoration: none;
 }
 
 .extra-options a:hover {
   text-decoration: underline;
+  color: var(--secondary-color);
 }
 
 .spinner {
@@ -129,7 +139,7 @@ body {
   width: 24px;
   height: 24px;
   border: 4px solid rgba(255, 255, 255, 0.3);
-  border-top: 4px solid #ffffff;
+  border-top: 4px solid var(--secondary-color);
   border-radius: 50%;
   animation: spin 1s linear infinite;
   display: block;
@@ -151,6 +161,73 @@ button {
 button:disabled {
   opacity: 0.6;
   cursor: not-allowed;
+}
+
+/* Download Buttons */
+.app-download-section {
+    margin-top: 20px;
+    border-top: 1px solid var(--border-color);
+    padding-top: 15px;
+}
+
+.download-title {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    margin-bottom: 10px;
+}
+
+.download-buttons-container {
+    display: flex;
+    gap: 10px;
+    flex-direction: column;
+}
+
+.download-apk-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background-color: var(--surface-color);
+    color: var(--text-color);
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    transition: all 0.3s;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 1rem;
+    width: 100%;
+}
+
+.download-apk-btn:hover {
+    background-color: var(--card-bg);
+    border-color: var(--secondary-color);
+    box-shadow: 0 0 10px rgba(0, 212, 255, 0.2);
+}
+
+.download-win-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background-color: var(--secondary-color); /* Use secondary instead of windows blue */
+    color: #000;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid var(--secondary-color);
+    transition: all 0.3s;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 1rem;
+    width: 100%;
+    font-weight: bold;
+}
+
+.download-win-btn:hover {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    color: #fff;
+    box-shadow: 0 0 10px rgba(157, 0, 255, 0.4);
 }
 
 /* Layout desktop 50/50: vídeo (esquerda) + background com login (direita) */

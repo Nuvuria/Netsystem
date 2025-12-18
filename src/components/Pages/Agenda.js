@@ -116,7 +116,7 @@ function Agenda() {
         {item.descricao && (
           <div className="info-row">
             <span className="info-icon">📝</span>
-            <span style={{fontStyle: 'italic', color: '#bbb'}}>{item.descricao}</span>
+            <span style={{fontStyle: 'italic', color: 'var(--text-muted)'}}>{item.descricao}</span>
           </div>
         )}
       </div>
@@ -127,7 +127,7 @@ function Agenda() {
           onClick={() => excluir(item.id)}
           title="Excluir"
         >
-          🗑️
+          Excluir
         </button>
         
         {item.status !== 'Finalizado' && item.status !== 'Concluído' && item.status !== 'Pago' && (
@@ -142,7 +142,7 @@ function Agenda() {
                 }
              }}
            >
-             📱 Contatar
+             Contatar
            </a>
         )}
 
@@ -151,7 +151,7 @@ function Agenda() {
             className="btn-action btn-conclude" 
             onClick={() => atualizarStatus(item.id, 'Finalizado')}
           >
-            ✅ Finalizado
+            Finalizado
           </button>
         )}
       </div>
@@ -177,7 +177,7 @@ function Agenda() {
         {/* Controles */}
         <div className="agenda-controls">
           <button className="btn-refresh" onClick={carregar}>
-            🔄 Atualizar
+            Atualizar
           </button>
         </div>
 
@@ -198,7 +198,7 @@ function Agenda() {
                <h3 className="section-title">Solicitações ({pendentes.length})</h3>
                <div className="agenda-grid">
                   {pendentes.length === 0 ? (
-                    <p style={{color: '#aaa'}}>Nenhuma solicitação pendente.</p>
+                    <p style={{color: 'var(--text-muted)'}}>Nenhuma solicitação pendente.</p>
                   ) : (
                     pendentes.map(renderCard)
                   )}
@@ -215,7 +215,7 @@ function Agenda() {
                         className="btn-refresh"
                         style={{fontSize: '0.9rem', padding: '6px 12px'}}
                       >
-                        {showFinalizados ? '👁️ Ocultar' : '👁️ Visualizar'}
+                        {showFinalizados ? 'Ocultar' : 'Visualizar'}
                       </button>
                   </div>
                   

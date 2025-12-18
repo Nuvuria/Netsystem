@@ -1,0 +1,184 @@
+.responsive-layout-container {
+    display: flex;
+    min-height: 100vh;
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+
+/* ===== UNIVERSAL FOOTER (Mobile & Desktop) ===== */
+.universal-footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #0a0a1a;
+    border-top: 2px solid var(--primary-color);
+    padding: 10px 0;
+    z-index: 1000;
+    box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+}
+
+.footer-nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.footer-btn {
+    background: linear-gradient(145deg, #1a1a2e, #16213e);
+    border: 2px solid var(--primary-color);
+    color: var(--text-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 0; /* Remove padding */
+    width: 60px; /* Perfect circle size */
+    height: 60px; /* Perfect circle size */
+    border-radius: 50%; /* Make it circular */
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 4px 15px rgba(157, 0, 255, 0.3);
+}
+
+.footer-btn:hover {
+    transform: translateY(-5px) scale(1.1);
+    box-shadow: 0 10px 25px rgba(157, 0, 255, 0.6);
+    background: var(--primary-color);
+    color: white;
+}
+
+.btn-icon {
+    font-size: 28px; /* Larger icon for circle button */
+}
+
+/* Sidebar Removed Styles Override */
+.app-sidebar {
+    display: none !important; /* Force hide everywhere */
+}
+
+.app-content {
+    margin-left: 0 !important; /* Remove sidebar margin */
+    width: 100% !important;
+    padding: 30px;
+    padding-bottom: 100px; /* More space for floating button */
+}
+
+/* Mobile Adjustments */
+@media (max-width: 768px) {
+    .app-content {
+        padding: 15px;
+        padding-bottom: 100px;
+    }
+    
+    .footer-btn {
+        width: 60px; /* Keep circle on mobile */
+        height: 60px;
+    }
+}
+
+.content-header {
+    margin-bottom: 30px;
+    border-bottom: 2px solid var(--secondary-color);
+    padding-bottom: 15px;
+}
+
+.header-flex {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.page-title {
+    color: var(--text-color);
+    font-size: 32px;
+    margin: 0;
+    text-shadow: 0 0 5px rgba(0, 212, 255, 0.3);
+}
+
+.mobile-footer {
+    display: none;
+}
+
+/* Mobile Styles */
+@media (max-width: 768px) {
+    .responsive-layout-container {
+        background: var(--mobile-bg) no-repeat center center !important;
+        background-size: cover !important;
+        background-attachment: fixed !important;
+    }
+
+    .app-sidebar {
+        display: none;
+    }
+
+    .app-content {
+        margin-left: 0;
+        width: 100%;
+        padding: 15px;
+        padding-bottom: 80px; /* Space for footer */
+    }
+
+    .content-header {
+        display: flex;
+        justify-content: center;
+        border-bottom: 1px solid var(--secondary-color);
+    }
+
+    .page-title {
+        font-size: 24px;
+        text-align: center;
+    }
+
+    .mobile-footer {
+        display: block;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background-color: #0a0a1a;
+        border-top: 1px solid var(--border-color);
+        padding: 10px 0;
+        z-index: 1000;
+        box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.5);
+    }
+
+    .mobile-footer-nav {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+    }
+
+    .mobile-footer-btn {
+        background: none;
+        border: none;
+        color: var(--text-muted);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        font-size: 10px;
+        gap: 5px;
+        cursor: pointer;
+        padding: 5px;
+        transition: all 0.3s;
+    }
+
+    .mobile-footer-btn.active {
+        color: var(--secondary-color);
+        text-shadow: 0 0 8px var(--secondary-color);
+    }
+
+    .mobile-footer-btn div:first-child {
+        font-size: 18px;
+    }
+    
+    .nav-button {
+        font-size: 14px;
+        padding: 8px 10px;
+    }
+}

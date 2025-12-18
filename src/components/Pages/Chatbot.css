@@ -1,0 +1,108 @@
+.chatbot-container {
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 80vh;
+}
+
+.chatbot-card {
+    background-color: var(--card-bg, #1a1a2e);
+    border: 1px solid var(--border-color, #333);
+    border-radius: 15px;
+    padding: 40px;
+    max-width: 600px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+.chatbot-header {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.chatbot-header h2 {
+    color: var(--primary-color, #9D00FF);
+    font-size: 2rem;
+    margin: 0;
+    text-shadow: 0 0 10px rgba(157, 0, 255, 0.5);
+}
+
+.badge-tech {
+    background: rgba(157, 0, 255, 0.1);
+    color: var(--secondary-color, #00D4FF);
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    border: 1px solid var(--secondary-color, #00D4FF);
+}
+
+.chatbot-desc {
+    color: var(--text-muted, #ccc);
+    margin-bottom: 30px;
+    line-height: 1.6;
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    margin-bottom: 40px;
+    background: rgba(0,0,0,0.2);
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.feature-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-color, #fff);
+    font-size: 0.9rem;
+}
+
+.check-icon {
+    font-size: 1.5rem;
+}
+
+.btn-chatbot-launch {
+    background: linear-gradient(45deg, var(--primary-color, #9D00FF), var(--secondary-color, #00D4FF));
+    color: white;
+    border: none;
+    padding: 15px 40px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 15px rgba(157, 0, 255, 0.4);
+    width: 100%;
+    max-width: 300px;
+}
+
+.btn-chatbot-launch:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 25px rgba(157, 0, 255, 0.6);
+}
+
+.desktop-warning {
+    margin-top: 30px;
+    padding: 15px;
+    background: rgba(255, 152, 0, 0.1);
+    border: 1px solid rgba(255, 152, 0, 0.3);
+    border-radius: 8px;
+    color: #ffd700;
+    font-size: 0.9rem;
+    text-align: left;
+}
+
+@media (max-width: 768px) {
+    .features-grid {
+        grid-template-columns: 1fr;
+    }
+}

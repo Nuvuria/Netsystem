@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 // import { useNavigate } from 'react-router-dom';
-import ResponsiveLayout from '../Layout/ResponsiveLayout';
 import { PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid } from 'recharts';
 import '../GlobalLayout.css';
 import './Inicio.css';
@@ -242,7 +241,6 @@ function Inicio() {
   const COLORS = ['#00ff00', '#555555'];
 
   return (
-    <ResponsiveLayout title="">
       <div className="inicio-container">
         {loading ? (
           <p>Carregando dados...</p>
@@ -551,7 +549,6 @@ function Inicio() {
           </>
         )}
       </div>
-    </ResponsiveLayout>
   );
 }
 
