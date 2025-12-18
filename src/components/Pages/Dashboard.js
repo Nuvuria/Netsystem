@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { 
-  BarChart, Bar, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer 
+  BarChart, Bar, LineChart, Line, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer 
 } from 'recharts';
 import './Dashboard.css';
 import '../GlobalLayout.css';
@@ -51,6 +51,27 @@ const Dashboard = () => {
     { name: 'Mai', total: 67 },
     { name: 'Jun', total: 75 },
   ];
+
+  const faturamentoData = [
+    { name: 'Jan', valor: 12500 },
+    { name: 'Fev', valor: 15000 },
+    { name: 'Mar', valor: 14200 },
+    { name: 'Abr', valor: 18000 },
+    { name: 'Mai', valor: 21000 },
+    { name: 'Jun', valor: 25000 },
+  ];
+
+  const agendaData = [
+    { name: 'Seg', pendentes: 4 },
+    { name: 'Ter', pendentes: 7 },
+    { name: 'Qua', pendentes: 2 },
+    { name: 'Qui', pendentes: 9 },
+    { name: 'Sex', pendentes: 5 },
+  ];
+
+  const formatCurrency = (value) => {
+    return `R$ ${value/1000}k`;
+  };
 
   return (
     <div 
@@ -116,6 +137,60 @@ const Dashboard = () => {
                   dot={{ r: 2, fill: '#00d4ff' }}
                 />
               </LineChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
+
+        {/* Gráfico 3: Faturamento Mensal */}
+        <div className="chart-container">
+          <h3 className="chart-title">Faturamento Mensal</h3>
+          <div className="chart-wrapper">
+            <ResponsiveContainer width="100%" height="100%">
+              <AreaChart data={faturamentoData}>
+                <defs>
+                  <linearGradient id="colorValor" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="#82ca9d" stopOpacity={0.8}/>
+                    <stop offset="95%" stopColor="#82ca9d" stopOpacity={0}/>
+                  </linearGradient>
+                </defs>
+                <CartesianGrid strokeDasharray="3 3" stroke="#444" vertical={false} />
+                <XAxis dataKey="name" stroke="#ccc" tick={{ fontSize: 10 }} interval={0} />
+                <YAxis 
+                  stroke="#ccc" 
+                  tick={{ fontSize: 10 }} 
+                  width={40}
+                  tickFormatter={formatCurrency}
+                />
+                <Tooltip 
+                  contentStyle={{ backgroundColor: '#1f1f2e', border: 'none', color: '#fff', fontSize: '12px' }}
+                  formatter={(value) => [`R$ ${value.toFixed(2)}`, 'Valor']}
+                />
+                <Area 
+                  type="monotone" 
+                  dataKey="valor" 
+                  stroke="#82ca9d" 
+                  fillOpacity={1} 
+                  fill="url(#colorValor)" 
+                />
+              </AreaChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
+
+        {/* Gráfico 4: Notificações na Agenda */}
+        <div className="chart-container">
+          <h3 className="chart-title">Agenda (Pendentes)</h3>
+          <div className="chart-wrapper">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={agendaData}>
+                <CartesianGrid strokeDasharray="3 3" stroke="#444" vertical={false} />
+                <XAxis dataKey="name" stroke="#ccc" tick={{ fontSize: 10 }} interval={0} />
+                <YAxis stroke="#ccc" tick={{ fontSize: 10 }} width={30} />
+                <Tooltip 
+                  contentStyle={{ backgroundColor: '#1f1f2e', border: 'none', color: '#fff', fontSize: '12px' }} 
+                />
+                <Bar dataKey="pendentes" fill="#8884d8" radius={[4, 4, 0, 0]} barSize={20} />
+              </BarChart>
             </ResponsiveContainer>
           </div>
         </div>
