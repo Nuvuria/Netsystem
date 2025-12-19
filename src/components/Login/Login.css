@@ -266,7 +266,7 @@ button:disabled {
   }
 
   .desktop-right {
-    background-image: url('../../imag.png');
+    background-image: url('../../assets/backgroundmobile.jpeg');
     background-size: cover;
     background-position: center;
     display: flex;

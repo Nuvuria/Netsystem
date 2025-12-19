@@ -228,7 +228,7 @@ input:focus, select:focus {
 }
 
 /* Mobile Cards Styles */
-.mobile-cards-container {
+.mobile-view {
     display: none;
     gap: 15px;
 }
@@ -275,7 +275,7 @@ input:focus, select:focus {
         display: none;
     }
 
-    .mobile-cards-container {
+    .mobile-view {
         display: flex;
         flex-direction: column;
         gap: 15px;
@@ -305,7 +305,4 @@ input:focus, select:focus {
     }
 }
 
-/* Default state for mobile view on desktop */
-.mobile-view {
-    display: none;
-}
+
