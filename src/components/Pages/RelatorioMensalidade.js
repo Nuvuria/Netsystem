@@ -3,6 +3,7 @@ import {
   PieChart, Pie, Cell, 
   BarChart, Bar, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer 
 } from 'recharts'; 
+import './RelatorioMensalidade.css';
 
 const API_BASE = process.env.REACT_APP_API_BASE_URL || 'http://localhost:3001'; 
 
@@ -130,11 +131,11 @@ function RelatorioMensalidade() {
     <div className="relatorio-container">
       
       {/* Filtros */}
-      <div className="filtros-container" style={{ marginBottom: '20px', display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
+      <div className="relatorio-filtros">
           <select 
             value={diaSelecionado} 
             onChange={e => setDiaSelecionado(e.target.value)}
-            style={{ padding: '10px', borderRadius: '5px', border: 'none', minWidth: '80px' }}
+            className="relatorio-select"
           >
               <option value="">Dia</option>
               {Array.from({length: 31}, (_, i) => i + 1).map(d => (
@@ -144,7 +145,7 @@ function RelatorioMensalidade() {
           <select 
             value={mesSelecionado} 
             onChange={e => setMesSelecionado(Number(e.target.value))}
-            style={{ padding: '10px', borderRadius: '5px', border: 'none' }}
+            className="relatorio-select"
           >
               {['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'].map((m, i) => (
                   <option key={i} value={i+1}>{m}</option>
@@ -153,7 +154,7 @@ function RelatorioMensalidade() {
           <select 
             value={anoSelecionado} 
             onChange={e => setAnoSelecionado(Number(e.target.value))}
-            style={{ padding: '10px', borderRadius: '5px', border: 'none' }}
+            className="relatorio-select"
           >
               {[2024, 2025, 2026, 2027].map(y => (
                   <option key={y} value={y}>{y}</option>
@@ -161,26 +162,26 @@ function RelatorioMensalidade() {
           </select>
       </div>
 
-      {loading ? <p style={{color: '#fff', textAlign: 'center'}}>Carregando dados...</p> : (
+      {loading ? <p className="loading-text">Carregando dados...</p> : (
           <>
             {/* KPIs */} 
-            <div className="kpi-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '20px', marginBottom: '30px' }}> 
-                <div className="kpi-card" style={{ background: '#333', padding: '20px', borderRadius: '10px', borderLeft: '5px solid #00ff00' }}>
-                    <h3 style={{color: '#aaa', margin: '0 0 10px 0'}}>Hoje</h3>
-                    <p style={{fontSize: '2em', fontWeight: 'bold', margin: 0}}>R$ {totais.hoje.toFixed(2)}</p>
+            <div className="relatorio-kpi-row"> 
+                <div className="kpi-card success">
+                    <h3>Hoje</h3>
+                    <p className="kpi-value">R$ {totais.hoje.toFixed(2)}</p>
                 </div>
-                <div className="kpi-card" style={{ background: '#333', padding: '20px', borderRadius: '10px', borderLeft: '5px solid #00ff00' }}>
-                    <h3 style={{color: '#aaa', margin: '0 0 10px 0'}}>Mês Atual</h3>
-                    <p style={{fontSize: '2em', fontWeight: 'bold', margin: 0}}>R$ {totais.mes.toFixed(2)}</p>
+                <div className="kpi-card success">
+                    <h3>Mês Atual</h3>
+                    <p className="kpi-value">R$ {totais.mes.toFixed(2)}</p>
                 </div>
             </div> 
 
             {/* Gráficos */} 
-            <div className="dashboard-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '20px' }}> 
+            <div className="relatorio-charts-row"> 
                 
-                <div className="chart-card" style={{ background: '#333', padding: '20px', borderRadius: '10px' }}> 
-                    <h3 style={{ marginBottom: '20px' }}>Status das Mensalidades</h3> 
-                    <div style={{ height: 300, width: '100%' }}>
+                <div className="chart-card"> 
+                    <h3>Status das Mensalidades</h3> 
+                    <div className="chart-wrapper">
                         <ResponsiveContainer>
                             <PieChart> 
                                 <Pie 
@@ -189,8 +190,10 @@ function RelatorioMensalidade() {
                                     nameKey="status" 
                                     cx="50%" 
                                     cy="50%" 
-                                    innerRadius={isMobile ? "40%" : 60}
-                                    outerRadius={isMobile ? "70%" : 80}
+                                    innerRadius="60%"
+                                    outerRadius="80%"
+                                    paddingAngle={5}
+                                    dataKey="qtd"
                                     label 
                                 > 
                                 {porStatus.map((item, index) => ( 
@@ -198,21 +201,21 @@ function RelatorioMensalidade() {
                                 ))} 
                                 </Pie> 
                                 <Tooltip contentStyle={{ backgroundColor: '#333', border: 'none', color: '#fff' }} />
-                                <Legend /> 
+                                <Legend verticalAlign="bottom" height={36}/> 
                             </PieChart> 
                         </ResponsiveContainer>
                     </div> 
                 </div> 
 
-                <div className="chart-card" style={{ background: '#333', padding: '20px', borderRadius: '10px' }}> 
-                    <h3 style={{ marginBottom: '20px' }}>Quantidade por Status</h3> 
-                    <div style={{ height: 300, width: '100%' }}>
+                <div className="chart-card"> 
+                    <h3>Quantidade por Status</h3> 
+                    <div className="chart-wrapper">
                         <ResponsiveContainer>
-                            <BarChart data={porStatus}> 
-                                <XAxis dataKey="status" stroke="#ccc" /> 
-                                <YAxis stroke="#ccc" /> 
-                                <Tooltip contentStyle={{ backgroundColor: '#333', border: 'none', color: '#fff' }} /> 
-                                <Bar dataKey="qtd" fill="#00ff00">
+                            <BarChart data={porStatus} layout="vertical" margin={{ top: 5, right: 30, left: 40, bottom: 5 }}> 
+                                <XAxis type="number" stroke="#ccc" hide={isMobile} /> 
+                                <YAxis dataKey="status" type="category" stroke="#ccc" width={isMobile ? 60 : 120} tick={{fill: '#ccc', fontSize: isMobile ? 10 : 12}} /> 
+                                <Tooltip cursor={{fill: '#2a2a2a'}} contentStyle={{ backgroundColor: '#333', border: 'none', color: '#fff' }} /> 
+                                <Bar dataKey="qtd" fill="#00ff00" barSize={20} radius={[0, 4, 4, 0]}>
                                     {porStatus.map((item, index) => ( 
                                         <Cell key={`cell-${index}`} fill={COLORS[item.status] || COLORS_LIST[index % COLORS_LIST.length]} /> 
                                     ))} 
@@ -225,28 +228,34 @@ function RelatorioMensalidade() {
             </div> 
 
             {/* Lista de Pagamentos */}
-            <div style={{ marginTop: '30px', background: '#333', padding: '20px', borderRadius: '10px' }}>
-                <h3>Já Pagaram ({pagamentosFiltrados.filter(p => !diaSelecionado || new Date(p.dataEvento).getDate() == diaSelecionado).length})</h3>
-                <div style={{ marginTop: '15px' }}>
+            <div className="paid-list-section">
+                <div className="paid-list-header">
+                    <h3 className="paid-list-title">Já Pagaram</h3>
+                    <span className="paid-count-badge">{pagamentosFiltrados.filter(p => !diaSelecionado || new Date(p.dataEvento).getDate() == diaSelecionado).length}</span>
+                </div>
+                
+                <div className="paid-list-container">
                     {pagamentosFiltrados.filter(p => !diaSelecionado || new Date(p.dataEvento).getDate() == diaSelecionado).length === 0 ? (
-                        <p style={{ color: '#aaa' }}>Nenhum pagamento registrado neste período.</p>
+                        <p className="empty-state-text">Nenhum pagamento registrado neste período.</p>
                     ) : (
-                        <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                        <table className="paid-table">
                             <thead>
-                                <tr style={{ borderBottom: '1px solid #444', textAlign: 'left' }}>
-                                    <th style={{ padding: '10px' }}>Cliente</th>
-                                    <th style={{ padding: '10px' }}>Valor</th>
-                                    <th style={{ padding: '10px' }}>Data</th>
+                                <tr>
+                                    <th>Cliente</th>
+                                    <th>Valor</th>
+                                    <th>Data</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {pagamentosFiltrados
                                     .filter(p => !diaSelecionado || new Date(p.dataEvento).getDate() == diaSelecionado)
                                     .map((item) => (
-                                    <tr key={item.id} style={{ borderBottom: '1px solid #444' }}>
-                                        <td style={{ padding: '10px' }}>{item.cliente?.nome || 'Desconhecido'}</td>
-                                        <td style={{ padding: '10px', color: '#00ff00' }}>R$ {item.valor.toFixed(2)}</td>
-                                        <td style={{ padding: '10px', fontSize: '0.9em', color: '#ccc' }}>
+                                    <tr key={item.id}>
+                                        <td>
+                                            <span className="client-name-bold">{item.cliente?.nome || 'Desconhecido'}</span>
+                                        </td>
+                                        <td className="value-text">R$ {item.valor.toFixed(2)}</td>
+                                        <td className="date-text">
                                             {new Date(item.dataEvento).toLocaleDateString('pt-BR')}
                                         </td>
                                     </tr>

@@ -27,7 +27,7 @@ import './Chatbot.css';
           </div>
           
           <p className="chatbot-desc">
-            Utilize esta ferramenta para conectar seu WhatsApp. A versão web abre o WhatsApp Web em nova aba.
+            Utilize esta ferramenta para conectar seu WhatsApp se a origem do seu acesso for computadores e notebooks.
           </p>
           
           <div className="features-grid">
