@@ -95,6 +95,37 @@ const Dashboard = () => {
     >
      
       
+      {/* Logout Button Top Left */}
+      <button
+        onClick={handleLogout}
+        title="Sair"
+        style={{ 
+          position: 'absolute', 
+          top: '5px', 
+          left: '2px', 
+          background: 'transparent', 
+          border: 'none', 
+          cursor: 'pointer',
+          zIndex: 1000,
+          padding: '10px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center'
+        }}
+      >
+        <div className="btn-icon">
+            <svg width="32" height="32" viewBox="0 0 24 24" className="icone-neon-mensalix" style={{ stroke: 'url(#gradiente-mensalix-logout)' }}>
+                <defs>
+                    <linearGradient id="gradiente-mensalix-logout" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stopColor="#9D00FF" />
+                        <stop offset="100%" stopColor="#00D4FF" />
+                    </linearGradient>
+                </defs>
+                <path d="M19 12H5M12 19L5 12L12 5" />
+            </svg>
+        </div>
+      </button>
+
       {/* Seção de Navegação (Cards) */}
       <div className="dashboard-grid">
         {cards.map((card, index) => (
@@ -210,21 +241,23 @@ const Dashboard = () => {
       {/* Universal Footer (Same as ResponsiveLayout) */}
       <footer className="universal-footer">
         <nav className="footer-nav" style={{ position: 'relative' }}>
-          <button
-            className="footer-btn logout-btn"
-            onClick={handleLogout}
-            title="Sair"
-            style={{ position: 'absolute', left: '20px' }}
-          >
-            <div className="btn-icon">🚪</div>
-          </button>
-
+          
           <button
             className="footer-btn dashboard-home-btn"
             onClick={() => window.location.reload()}
             title="Atualizar Dashboard"
           >
-            <div className="btn-icon">⚡</div>
+            <div className="btn-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" className="icone-neon-mensalix">
+                    <defs>
+                        <linearGradient id="gradiente-mensalix" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stopColor="#9D00FF" />
+                            <stop offset="100%" stopColor="#00D4FF" />
+                        </linearGradient>
+                    </defs>
+                    <path d="M4 20 L4 4 L12 16 L20 4 L20 20" />
+                </svg>
+            </div>
           </button>
         </nav>
       </footer>

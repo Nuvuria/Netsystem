@@ -174,48 +174,7 @@
     margin-bottom: 0;
 }
 
-/* Responsive for Charts Row */
-@media (max-width: 768px) {
-    .charts-row {
-        grid-template-columns: 1fr;
-        display: flex;
-        flex-direction: column;
-    }
-
-    .kpi-aligned-row {
-        grid-template-columns: 1fr;
-        display: flex;
-        flex-direction: column;
-    }
-
-    .kpi-group-left, .kpi-group-right {
-        gap: 10px;
-    }
-
-    /* Force full width on mobile to prevent side-by-side issues */
-    .chart-card {
-        width: 100% !important;
-        max-width: 100% !important;
-        min-width: 100% !important;
-        margin-right: 0 !important;
-        margin-left: 0 !important;
-        box-sizing: border-box !important;
-    }
-
-    /* Ensure container doesn't overflow */
-    .inicio-container {
-        padding: 10px;
-        overflow-x: hidden;
-        width: 100%;
-        box-sizing: border-box;
-    }
-
-    .left-column {
-        width: 100% !important;
-        display: flex !important;
-        flex-direction: column !important;
-    }
-}
+/* Responsive for Charts Row - Moved to bottom consolidated block */
 
 /* List Cards (Compact) */
 .chart-card {
@@ -428,7 +387,7 @@
 }
 
 
-/* ===== MOBILE ADJUSTMENTS (NOVO) ===== */
+/* ===== MOBILE ADJUSTMENTS ===== */
 @media (max-width: 768px) {
     .inicio-container {
         padding: 10px;
@@ -437,80 +396,91 @@
         background-position: center;
         background-attachment: scroll;
         min-height: 100vh;
+        overflow-x: hidden;
+        width: 100%;
+        box-sizing: border-box;
     }
 
     /* KPI Grid Compacto */
-    .kpi-grid {
-        grid-template-columns: 1fr 1fr; /* Força 2 colunas */
+    .kpi-aligned-row {
+        grid-template-columns: 1fr;
+        display: flex;
+        flex-direction: column;
         gap: 10px;
-        margin-bottom: 15px;
+    }
+
+    .kpi-group-left, .kpi-group-right {
+        gap: 10px;
     }
 
     .kpi-card {
-        padding: 10px; /* Card muito mais compacto */
-        min-height: 80px;
+        padding: 15px;
+        min-height: auto;
     }
 
     .kpi-card h3 {
-        font-size: 0.7em; /* Texto pequeno */
+        font-size: 0.8em;
         margin-bottom: 5px;
-        letter-spacing: 0;
     }
 
     .kpi-value {
-        font-size: 1.5em; /* Valor menor */
+        font-size: 1.8em;
     }
 
-    /* Dashboard Compacto */
-    .dashboard-grid {
-        grid-template-columns: 1fr; /* Stack principal (Lists abaixo dos charts) */
+    /* Layout de Colunas */
+    .inicio-content-grid {
+        display: flex;
+        flex-direction: column;
         gap: 15px;
     }
 
-    /* Left Column (Charts) - LADO A LADO */
     .left-column {
-        display: grid;
-        grid-template-columns: 1fr 1fr; /* 2 colunas para os gráficos */
-        gap: 10px;
-        width: 100%;
+        width: 100% !important;
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 15px;
     }
 
-    .left-column .chart-card {
-        min-height: 180px; /* Altura reduzida */
-        padding: 8px;
+    .right-column {
+        gap: 15px;
+    }
+
+    /* Charts Row - Stacked vertically on mobile */
+    .charts-row {
         display: flex;
         flex-direction: column;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .left-column .chart-card h3 {
-        font-size: 0.8em; /* Título menor */
-        text-align: center;
-        margin-bottom: 5px;
-        height: 30px; /* Altura fixa para alinhar */
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .chart-wrapper {
-        height: 120px !important; /* Gráficos bem pequenos */
+        gap: 15px;
         width: 100%;
     }
-    
+
     .chart-card {
-        padding: 10px;
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 100% !important;
+        margin: 0 !important;
+        box-sizing: border-box !important;
+        padding: 15px;
+        min-height: auto;
+    }
+
+    /* Ensure chart wrapper has explicit height for Recharts */
+    .chart-wrapper {
+        height: auto !important;
+        min-height: 0 !important; /* Allow it to shrink */
+        width: 100% !important;
+        margin-top: 10px;
+        display: block; /* Ensure it's not hidden */
+        position: relative; /* Context for absolute positioning if needed */
+        overflow: visible !important; /* Allow chart to overflow if needed */
     }
 
     /* Listas compactas */
-    .right-column {
-        gap: 10px;
-    }
-    
-    /* Ajustes internos de listas se houver (genérico) */
     ul, li {
         font-size: 0.9em;
-        padding: 5px !important;
+    }
+    
+    .btn-slim {
+        padding: 6px 12px !important;
+        font-size: 0.8em !important;
     }
 }

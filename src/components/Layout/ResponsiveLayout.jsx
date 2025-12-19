@@ -106,7 +106,17 @@ const ResponsiveLayout = ({ children, title }) => {
             onClick={() => handleNavigation('/dashboard')}
             title="Voltar ao Dashboard"
           >
-            <div className="btn-icon">⚡</div>
+            <div className="btn-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" className="icone-neon-mensalix">
+                    <defs>
+                        <linearGradient id="gradiente-mensalix-layout" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stopColor="#9D00FF" />
+                            <stop offset="100%" stopColor="#00D4FF" />
+                        </linearGradient>
+                    </defs>
+                    <path stroke="url(#gradiente-mensalix-layout)" d="M4 20 L4 4 L12 16 L20 4 L20 20" />
+                </svg>
+            </div>
           </button>
         </nav>
       </footer>

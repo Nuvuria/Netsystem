@@ -246,12 +246,85 @@ function Inicio() {
     window.open(url, '_blank');
   };
 
-  const dataGrafico = [
-    { name: 'Ativos', value: stats.clientesAtivos },
-    { name: 'Inativos/Outros', value: stats.totalClientes - stats.clientesAtivos }
-  ];
+  const hasData = (Number(stats.clientesAtivos) || 0) > 0 || (Number(stats.totalClientes) || 0) > 0;
 
-  const COLORS = ['#9D00FF', '#333333'];
+  const renderStatusChart = () => {
+    const ativos = Number(stats.clientesAtivos) || 0;
+    const total = Number(stats.totalClientes) || 0;
+    const inativos = total - ativos;
+    
+    // Fallback seguro para evitar divisão por zero
+    const percentAtivos = total > 0 ? Math.round((ativos / total) * 100) : 0;
+    const percentInativos = total > 0 ? 100 - percentAtivos : 0;
+
+    if (!hasData) {
+      return (
+        <div style={{ padding: '20px', textAlign: 'center', color: '#aaa' }}>
+          Sem dados para exibir
+        </div>
+      );
+    }
+
+    // Versão Simplificada e Robusta (Barras de Progresso CSS)
+    return (
+      <div style={{ padding: '0', width: '100%', boxSizing: 'border-box' }}>
+        <div style={{ marginBottom: '20px' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '5px', fontSize: '0.9rem' }}>
+            <span style={{ color: '#9D00FF', fontWeight: 'bold' }}>Ativos</span>
+            <span style={{ color: '#fff' }}>{ativos} ({percentAtivos}%)</span>
+          </div>
+          <div style={{ width: '100%', height: '12px', background: '#333', borderRadius: '6px', overflow: 'hidden' }}>
+            <div style={{ width: `${percentAtivos}%`, height: '100%', background: '#9D00FF', transition: 'width 1s ease' }}></div>
+          </div>
+        </div>
+
+        <div>
+          <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '5px', fontSize: '0.9rem' }}>
+            <span style={{ color: '#666', fontWeight: 'bold' }}>Inativos / Outros</span>
+            <span style={{ color: '#ccc' }}>{inativos} ({percentInativos}%)</span>
+          </div>
+          <div style={{ width: '100%', height: '12px', background: '#333', borderRadius: '6px', overflow: 'hidden' }}>
+            <div style={{ width: `${percentInativos}%`, height: '100%', background: '#666', transition: 'width 1s ease' }}></div>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  const renderPlanosChart = () => {
+    const planos = stats.planos || [];
+    
+    if (planos.length === 0) {
+      return (
+        <div style={{ padding: '20px', textAlign: 'center', color: '#aaa' }}>
+          Sem dados de planos
+        </div>
+      );
+    }
+
+    // Encontrar o valor máximo para calcular proporções
+    const maxVal = Math.max(...planos.map(p => p.value));
+
+    // Versão Simplificada e Robusta (Lista de Barras CSS)
+    return (
+      <div style={{ padding: '0', width: '100%', boxSizing: 'border-box', overflowY: 'auto', maxHeight: '300px' }}>
+        {planos.map((plano, index) => {
+          const percent = maxVal > 0 ? (plano.value / maxVal) * 100 : 0;
+          return (
+            <div key={index} style={{ marginBottom: '15px' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px', fontSize: '0.85rem' }}>
+                <span style={{ color: '#fff' }}>{plano.name}</span>
+                <span style={{ color: '#00D4FF', fontWeight: 'bold' }}>{plano.value}</span>
+              </div>
+              <div style={{ width: '100%', height: '8px', background: '#333', borderRadius: '4px', overflow: 'hidden' }}>
+                <div style={{ width: `${percent}%`, height: '100%', background: '#2196F3', borderRadius: '4px', transition: 'width 1s ease' }}></div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    );
+  };
 
   return (
       <div className="inicio-container">
@@ -341,53 +414,71 @@ function Inicio() {
               <div className="charts-row">
                   <div className="chart-card">
                     <h3>Status dos Clientes</h3>
-                    <div className="chart-wrapper">
-                      <ResponsiveContainer width="100%" height="100%">
+                    <div className="chart-wrapper" style={{ minHeight: isMobile ? 'auto' : '250px', position: 'relative' }}>
+                      {isMobile ? renderStatusChart() : (
+                      !hasData ? (
+                        <div style={{
+                          position: 'absolute', top: 0, left: 0, right: 0, bottom: 0,
+                          display: 'flex', alignItems: 'center', justifyContent: 'center',
+                          color: '#aaa', fontSize: '0.9rem'
+                        }}>
+                          Sem dados para exibir
+                        </div>
+                      ) : (
+                      <ResponsiveContainer key="desktop-pie" width="99%" height="100%">
                         <PieChart>
                           <Pie
-                            data={dataGrafico}
+                            data={[
+                              { name: 'Ativos', value: Number(stats.clientesAtivos) || 0 },
+                              { name: 'Inativos/Outros', value: (Number(stats.totalClientes) || 0) - (Number(stats.clientesAtivos) || 0) }
+                            ]}
                             cx="50%"
                             cy="50%"
-                            innerRadius={isMobile ? "50%" : 70}
-                            outerRadius={isMobile ? "80%" : 100}
+                            innerRadius={70}
+                            outerRadius={100}
                             fill="#8884d8"
                             paddingAngle={5}
                             dataKey="value"
+                            stroke="none"
                           >
-                            {dataGrafico.map((entry, index) => (
-                              <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                            {['#9D00FF', '#333333'].map((color, index) => (
+                              <Cell key={`cell-${index}`} fill={color} />
                             ))}
                           </Pie>
                           <Tooltip 
-                            contentStyle={{ backgroundColor: '#333', border: 'none' }}
+                            contentStyle={{ backgroundColor: '#1a1a2e', border: '1px solid #444', borderRadius: '8px' }}
                             itemStyle={{ color: '#fff' }}
                           />
-                          <Legend verticalAlign="bottom" height={36} iconSize={10} wrapperStyle={{ fontSize: '12px' }}/>
+                          <Legend verticalAlign="bottom" height={36} iconSize={10} wrapperStyle={{ fontSize: '12px', color: '#fff' }}/>
                         </PieChart>
                       </ResponsiveContainer>
+                      )
+                      )}
                     </div>
                   </div>
 
                   <div className="chart-card">
                     <h3>Planos Mais Utilizados</h3>
-                    <div className="chart-wrapper">
-                      <ResponsiveContainer width="100%" height="100%">
+                    <div className="chart-wrapper" style={{ minHeight: isMobile ? 'auto' : '250px' }}>
+                      {isMobile ? renderPlanosChart() : (
+                      <ResponsiveContainer key="desktop-bar" width="100%" height="100%">
                         <BarChart
                           data={stats.planos || []}
                           layout="vertical"
-                          margin={isMobile ? { top: 5, right: 10, left: 10, bottom: 5 } : { top: 5, right: 30, left: 40, bottom: 5 }}
+                          margin={{ top: 5, right: 30, left: 40, bottom: 5 }}
                         >
                           <CartesianGrid strokeDasharray="3 3" stroke="#444" horizontal={false} />
-                          <XAxis type="number" stroke="#ccc" hide={isMobile} />
-                          <YAxis dataKey="name" type="category" stroke="#ccc" width={isMobile ? 80 : 100} tick={{fill: '#ccc', fontSize: isMobile ? 10 : 12}} />
+                          <XAxis type="number" stroke="#ccc" />
+                          <YAxis dataKey="name" type="category" stroke="#ccc" width={100} tick={{fill: '#ccc', fontSize: 12}} />
                           <Tooltip 
                             cursor={{fill: '#2a2a2a'}}
                             contentStyle={{ backgroundColor: '#333', border: 'none' }}
                             itemStyle={{ color: '#fff' }}
                           />
-                          <Bar dataKey="value" fill="#2196F3" barSize={isMobile ? 15 : 20} radius={[0, 4, 4, 0]} />
+                          <Bar dataKey="value" fill="#2196F3" barSize={20} radius={[0, 4, 4, 0]} />
                         </BarChart>
                       </ResponsiveContainer>
+                      )}
                     </div>
                   </div>
                 </div>

@@ -23,12 +23,12 @@ function RelatorioMensalidade() {
   const [pagamentosFiltrados, setPagamentosFiltrados] = useState([]);
 
   const COLORS = { 
-    Ativo: '#00ff00', 
+    Ativo: '#9D00FF', 
     Pendente: '#ffaa00', 
     Inativo: '#ff4444', 
     Outros: '#8884d8'
   }; 
-  const COLORS_LIST = ['#00ff00', '#ffaa00', '#ff4444', '#8884d8', '#0088fe'];
+  const COLORS_LIST = ['#9D00FF', '#ffaa00', '#ff4444', '#8884d8', '#0088fe'];
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth <= 768);
@@ -128,6 +128,49 @@ function RelatorioMensalidade() {
     ); 
   }; 
 
+  const renderMobileStatusList = () => {
+    if (porStatus.length === 0) {
+      return <div style={{ color: '#aaa', textAlign: 'center', padding: '20px' }}>Sem dados para exibir</div>;
+    }
+
+    const total = porStatus.reduce((acc, curr) => acc + curr.qtd, 0);
+
+    return (
+      <div style={{ padding: '10px', width: '100%', boxSizing: 'border-box' }}>
+        {porStatus.map((item, index) => {
+          const percent = total > 0 ? Math.round((item.qtd / total) * 100) : 0;
+          const color = COLORS[item.status] || COLORS_LIST[index % COLORS_LIST.length];
+          
+          return (
+            <div key={index} style={{ marginBottom: '15px' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '5px', fontSize: '0.9rem' }}>
+                <span style={{ color: color, fontWeight: 'bold' }}>{item.status}</span>
+                <span style={{ color: '#fff' }}>{item.qtd} ({percent}%)</span>
+              </div>
+              <div style={{ width: '100%', height: '10px', background: '#333', borderRadius: '5px', overflow: 'hidden' }}>
+                <div style={{ width: `${percent}%`, height: '100%', background: color, transition: 'width 1s ease' }}></div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    );
+  };
+
+  const renderMobileStatusGrid = () => {
+      if (porStatus.length === 0) return null;
+      return (
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', padding: '10px', width: '100%', boxSizing: 'border-box' }}>
+              {porStatus.map((item, index) => (
+                  <div key={index} style={{ background: '#1a1a2e', padding: '15px', borderRadius: '8px', borderLeft: `4px solid ${COLORS[item.status] || COLORS_LIST[index % COLORS_LIST.length]}` }}>
+                      <h4 style={{ margin: '0 0 5px 0', color: '#ccc', fontSize: '0.8rem' }}>{item.status}</h4>
+                      <p style={{ margin: 0, fontSize: '1.2rem', fontWeight: 'bold', color: '#fff' }}>{item.qtd}</p>
+                  </div>
+              ))}
+          </div>
+      );
+  };
+
   return ( 
     <div className="relatorio-container">
       <div className="relatorio-content-wrapper">
@@ -164,7 +207,7 @@ function RelatorioMensalidade() {
           </select>
       </div>
 
-      {loading ? <p className="loading-text">Carregando dados...</p> : (
+      {!loading && (
           <>
             {/* KPIs */} 
             <div className="relatorio-kpi-row"> 
@@ -183,7 +226,8 @@ function RelatorioMensalidade() {
                 
                 <div className="chart-card"> 
                     <h3>Status das Mensalidades</h3> 
-                    <div className="chart-wrapper">
+                    <div className="chart-wrapper" style={{ minHeight: isMobile ? 'auto' : '300px' }}>
+                        {isMobile ? renderMobileStatusList() : (
                         <ResponsiveContainer>
                             <PieChart> 
                                 <Pie 
@@ -206,24 +250,27 @@ function RelatorioMensalidade() {
                                 <Legend verticalAlign="bottom" height={36}/> 
                             </PieChart> 
                         </ResponsiveContainer>
+                        )}
                     </div> 
                 </div> 
 
                 <div className="chart-card"> 
                     <h3>Quantidade por Status</h3> 
-                    <div className="chart-wrapper">
+                    <div className="chart-wrapper" style={{ minHeight: isMobile ? 'auto' : '300px' }}>
+                        {isMobile ? renderMobileStatusGrid() : (
                         <ResponsiveContainer>
                             <BarChart data={porStatus} layout="vertical" margin={{ top: 5, right: 30, left: 40, bottom: 5 }}> 
-                                <XAxis type="number" stroke="#ccc" hide={isMobile} /> 
-                                <YAxis dataKey="status" type="category" stroke="#ccc" width={isMobile ? 60 : 120} tick={{fill: '#ccc', fontSize: isMobile ? 10 : 12}} /> 
+                                <XAxis type="number" stroke="#ccc" /> 
+                                <YAxis dataKey="status" type="category" stroke="#ccc" width={120} tick={{fill: '#ccc', fontSize: 12}} /> 
                                 <Tooltip cursor={{fill: '#2a2a2a'}} contentStyle={{ backgroundColor: '#333', border: 'none', color: '#fff' }} /> 
-                                <Bar dataKey="qtd" fill="#00ff00" barSize={20} radius={[0, 4, 4, 0]}>
+                                <Bar dataKey="qtd" fill="#9D00FF" barSize={20} radius={[0, 4, 4, 0]}>
                                     {porStatus.map((item, index) => ( 
                                         <Cell key={`cell-${index}`} fill={COLORS[item.status] || COLORS_LIST[index % COLORS_LIST.length]} /> 
                                     ))} 
                                 </Bar>
                             </BarChart> 
                         </ResponsiveContainer>
+                        )}
                     </div> 
                 </div> 
 

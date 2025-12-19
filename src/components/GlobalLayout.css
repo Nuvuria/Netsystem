@@ -1,3 +1,30 @@
+/* ===== Icone Neon Mensalix ===== */
+.icone-neon-mensalix { 
+   /* Define a cor base como um gradiente */ 
+   stroke: url(#gradiente-mensalix); /* Isso requer uma definição de gradiente no SVG */ 
+   /* Alternativa mais simples se o gradiente no SVG for complexo: */ 
+   /* stroke: #00D4FF; (Usa a cor ciano como base) */ 
+ 
+   fill: none; /* Sem preenchimento */ 
+   stroke-width: 2px; /* Espessura da linha */ 
+   stroke-linecap: round; 
+   stroke-linejoin: round; 
+ 
+   /* O EFEITO DE BRILHO NEON */ 
+   /* Sombra externa roxa e interna azul para dar profundidade */ 
+   filter: drop-shadow(0 0 5px rgba(157, 0, 255, 0.7)) 
+           drop-shadow(0 0 10px rgba(0, 212, 255, 0.5)); 
+   
+   transition: all 0.3s ease; 
+ } 
+ 
+ /* Efeito ao passar o mouse (opcional) */ 
+ .icone-neon-mensalix:hover { 
+   filter: drop-shadow(0 0 8px rgba(157, 0, 255, 1)) 
+           drop-shadow(0 0 15px rgba(0, 212, 255, 0.8)); 
+   transform: scale(1.05); /* Leve aumento */ 
+ }
+
 /* ===== GLOBAL RESPONSIVE LAYOUT SYSTEM ===== */
 /* Criado por Elon Musk AI - Sistema unificado e responsivo */
 

@@ -56,7 +56,7 @@
 }
 
 .relatorio-select:focus {
-    border-color: #00ff00;
+    border-color: #9D00FF;
 }
 
 /* KPI Row - Matches Inicio's grid style */
@@ -85,7 +85,7 @@
 }
 
 .kpi-card.success {
-    border-left: 5px solid #00ff00;
+    border-left: 5px solid #9D00FF;
 }
 
 .kpi-card h3 {
@@ -163,8 +163,8 @@
 }
 
 .paid-count-badge {
-    background: #00ff00;
-    color: #000;
+    background: #9D00FF;
+    color: #fff;
     padding: 4px 12px;
     border-radius: 20px;
     font-weight: 800;
@@ -207,7 +207,7 @@
 }
 
 .value-text {
-    color: #00ff00;
+    color: #9D00FF;
     font-weight: bold;
     font-family: monospace;
     font-size: 15px;
