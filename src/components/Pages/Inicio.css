@@ -1,16 +1,45 @@
 .inicio-container {
+    /* Palette Override - Tesla/SpaceX Inspired */
+    --primary-color: #9D00FF;      /* Roxo Elétrico */
+    --secondary-color: #00D4FF;    /* Azul Ciano Neon */
+    --background-color: #050510;   /* Preto Profundo (Navy) */
+    --card-bg: #0b0b1a;            /* Slightly lighter Navy for contrast */
+    --surface-color: #151525;      /* Lighter surface for inputs/hovers */
+    --text-color: #F0F8FF;         /* Branco Gelo */
+    --text-muted: #a0a0b0;         /* Muted text */
+    --border-color: #2a2a40;       /* Subtle border */
+    
+    /* Neon Status Colors */
+    --neon-green: #00FF99;         /* Success */
+    --neon-red: #FF0055;           /* Danger/Overdue */
+    --neon-yellow: #FFD700;        /* Warning */
+    --neon-blue: #00D4FF;          /* Info */
+
     padding: 20px;
-    max-width: 1400px; /* Aumentado para dar mais espaço */
+    max-width: 1400px;
     margin: 0 auto;
-    color: #e0e0e0;
+    color: var(--text-color);
+    background-color: var(--background-color);
+    background-image: url('../../assets/backgroundimgdesktop.jpeg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    min-height: 100vh;
+}
+
+@media (max-width: 768px) {
+    .inicio-container {
+        background-image: none;
+    }
 }
 
 /* KPI Cards */
 .kpi-aligned-row {
     display: grid;
-    grid-template-columns: 1fr 1.4fr; /* Matches charts-row 1fr 1.4fr */
-    gap: 25px; /* Matches charts-row gap */
+    grid-template-columns: 1fr 1.4fr;
+    gap: 25px;
     margin-bottom: 30px;
     width: 100%;
 }
@@ -31,8 +60,8 @@
 }
 
 .kpi-card {
-    background-color: #1e1e1e;
-    border-left: 5px solid #e92131;
+    background-color: var(--card-bg);
+    border-left: 5px solid var(--primary-color); /* Default Primary */
     border-radius: 8px;
     padding: 25px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
@@ -40,18 +69,21 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    width: 100%; /* Ensure it fills the grid cell */
+    width: 100%;
     box-sizing: border-box;
+    border: 1px solid var(--border-color);
+    border-left-width: 5px;
 }
 
 .kpi-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+    border-color: var(--secondary-color); /* Glow effect on hover */
 }
 
 .kpi-card h3 {
     margin: 0 0 10px;
-    color: #a0a0a0;
+    color: var(--text-muted);
     font-size: 0.9em;
     text-transform: uppercase;
     letter-spacing: 1px;
@@ -61,31 +93,39 @@
     font-size: 2.5em;
     font-weight: 700;
     margin: 0;
-    color: #fff;
+    color: var(--text-color);
 }
 
 .kpi-card.alert {
-    border-color: #ffc107;
+    border-left-color: var(--neon-yellow);
 }
 
 .kpi-card.alert h3 {
-    color: #ffc107;
+    color: var(--neon-yellow);
 }
 
 .kpi-card.danger {
-    border-color: #dc3545;
+    border-left-color: var(--neon-red);
 }
 
 .kpi-card.danger h3 {
-    color: #dc3545;
+    color: var(--neon-red);
 }
 
 .kpi-card.success {
-    border-color: #e92131;
+    border-left-color: var(--neon-green);
 }
 
 .kpi-card.success h3 {
-    color: #e92131;
+    color: var(--neon-green);
+}
+
+.kpi-card.info {
+    border-left-color: var(--neon-blue);
+}
+
+.kpi-card.info h3 {
+    color: var(--neon-blue);
 }
 
 /* Inicio Content Grid (Renamed from dashboard-grid to avoid conflicts) */
@@ -168,6 +208,19 @@
 }
 
 /* List Cards (Compact) */
+.chart-card {
+    background-color: var(--card-bg);
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    border: 1px solid var(--border-color);
+}
+
+.chart-card h3 {
+    color: var(--text-color);
+    margin-bottom: 15px;
+}
+
 .chart-card.warning-card,
 .chart-card.overdue-card,
 .chart-card.info-card,
@@ -200,28 +253,22 @@
     gap: 20px;
 }
 
-.chart-card {
-    background-color: #1e1e1e;
-    border: 1px solid #333;
-    border-radius: 12px;
-    padding: 20px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-}
+/* .chart-card styles moved to consolidated block above to avoid duplicates and ensure palette consistency */
 
 .overdue-card {
-    border-top: 4px solid #ff9800; /* Laranja para vencidos/atrasados */
+    border-top: 4px solid var(--neon-red); /* Laranja/Vermelho para vencidos/atrasados */
 }
 
 .warning-card {
-    border-top: 4px solid #ff4444; /* Vermelho para alerta de hoje */
+    border-top: 4px solid var(--neon-yellow); /* Amarelo para alerta de hoje */
 }
 
 .info-card {
-    border-top: 4px solid #2196F3; /* Azul para alerta futuro */
+    border-top: 4px solid var(--neon-blue); /* Azul para alerta futuro */
 }
 
 .success-card {
-    border-top: 4px solid #e92131; /* Verde para sucesso/pago */
+    border-top: 4px solid var(--neon-green); /* Verde para sucesso/pago */
 }
 
 /* Compact Cards styles moved to List Cards section above */
@@ -261,12 +308,12 @@
 .card-header h3 {
     margin: 0;
     font-size: 1.1em;
-    color: #fff;
+    color: var(--text-color);
 }
 
 .badge-count {
-    background-color: #444;
-    color: #fff;
+    background-color: var(--border-color);
+    color: var(--text-color);
     padding: 2px 8px;
     border-radius: 12px;
     font-size: 0.8em;
@@ -274,16 +321,18 @@
 }
 
 .badge-count.overdue {
-    background-color: #ff9800;
-    color: #000;
+    background-color: var(--neon-red);
+    color: #fff;
 }
 
 .badge-count.info {
-    background-color: #2196F3;
+    background-color: var(--neon-blue);
+    color: #000;
 }
 
 .badge-count.success {
-    background-color: #e92131;
+    background-color: var(--neon-green);
+    color: #000;
 }
 
 
@@ -299,7 +348,7 @@
     justify-content: space-between;
     align-items: center;
     padding: 8px 0;
-    border-bottom: 1px solid #333;
+    border-bottom: 1px solid var(--border-color);
 }
 
 .vencendo-item:last-child {
@@ -314,7 +363,7 @@
 
 .vencendo-info strong {
     font-size: 0.9em;
-    color: #fff;
+    color: var(--text-color);
 }
 
 .vencendo-info span {
@@ -338,18 +387,28 @@
 }
 
 .btn-slim.cobranca {
-    background-color: #ff9800;
-    color: #000;
+    background-color: var(--neon-red);
+    color: white;
 }
 
 .btn-slim.pago {
-    background-color: #e92131;
-    color: white;
+    background-color: var(--neon-green);
+    color: #000;
 }
 
 .btn-slim.lembrete {
-    background-color: #2196F3;
-    color: white;
+    background-color: var(--neon-blue);
+    color: #000;
+}
+
+.btn-slim.contato {
+    background-color: var(--primary-color);
+    color: #fff;
+}
+
+.btn-slim.instalado {
+    background-color: var(--neon-blue);
+    color: #000;
 }
 
 
@@ -357,6 +416,7 @@
 @media (max-width: 768px) {
     .inicio-container {
         padding: 10px; /* Reduz padding do container */
+        background-image: none; /* Remove background image on mobile */
     }
 
     /* KPI Grid Compacto */

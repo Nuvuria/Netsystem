@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ResponsiveLayout from '../Layout/ResponsiveLayout';
 import '../Layout/GlobalLayout.css';
+import './Finalizados.css';
 
 const Finalizados = () => {
   const navigate = useNavigate();
@@ -94,7 +95,7 @@ const Finalizados = () => {
 
   return (
     <ResponsiveLayout>
-      <div style={{ padding: '20px' }}>
+      <div className="finalizados-container">
         <div className="finalizados-header-container">
           <h2 className="finalizados-title">Finalizados</h2>
           <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>

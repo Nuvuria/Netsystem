@@ -3,7 +3,18 @@
     display: flex;
     justify-content: center;
     align-items: flex-start;
-    min-height: 80vh;
+    min-height: 100vh;
+    background-image: url('../../assets/backgroundimgdesktop.jpeg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+@media (max-width: 768px) {
+    .chatbot-container {
+        background-image: none;
+    }
 }
 
 .chatbot-card {

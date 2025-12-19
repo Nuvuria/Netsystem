@@ -1,3 +1,19 @@
+.finalizados-container {
+    padding: 20px;
+    background-image: url('../../assets/backgroundimgdesktop.jpeg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    min-height: 100vh;
+}
+
+@media (max-width: 768px) {
+    .finalizados-container {
+        background-image: none;
+    }
+}
+
 .finalizados-header-container {
     display: flex;
     justify-content: space-between;

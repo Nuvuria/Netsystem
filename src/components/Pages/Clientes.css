@@ -1,8 +1,32 @@
 .clientes-container {
+    /* Palette Override */
+    --primary-color: #9D00FF;      /* Roxo Elétrico */
+    --secondary-color: #00D4FF;    /* Azul Ciano Neon */
+    --background-color: #050510;   /* Preto Profundo (Navy) */
+    --card-bg: #0b0b1a;            /* Slightly lighter Navy for contrast */
+    --surface-color: #0b0b1a;      /* Match card-bg */
+    --text-color: #F0F8FF;         /* Branco Gelo */
+    --text-muted: #a0a0b0;         /* Muted text for dark mode */
+    --border-color: #2a2a40;       /* Subtle border */
+    --primary-hover: #7000FF;      /* Hover state */
+    
     padding: 20px;
     max-width: 1200px;
     margin: 0 auto;
     color: var(--text-color);
+    background-color: var(--background-color);
+    background-image: url('../../assets/backgroundimgdesktop.jpeg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    min-height: 100vh;
+}
+
+@media (max-width: 768px) {
+    .clientes-container {
+        background-image: none;
+    }
 }
 
 .form-section {
@@ -56,7 +80,7 @@ input:focus, select:focus {
 
 .btn-save {
     padding: 12px;
-    background-color: var(--primary-color);
+    background: linear-gradient(135deg, #7000FF, #00C2FF); /* Gradient Suggestion */
     color: white;
     border: none;
     border-radius: 4px;
@@ -68,13 +92,13 @@ input:focus, select:focus {
 }
 
 .btn-save:hover {
-    background-color: var(--primary-hover);
+    background: linear-gradient(135deg, #00C2FF, #7000FF);
     box-shadow: 0 0 15px rgba(157, 0, 255, 0.5);
 }
 
 .btn-novo {
     padding: 10px 20px;
-    background-color: var(--primary-color);
+    background: linear-gradient(135deg, #7000FF, #00C2FF); /* Gradient Suggestion */
     color: white;
     border: none;
     border-radius: 4px;
@@ -88,7 +112,7 @@ input:focus, select:focus {
 }
 
 .btn-novo:hover {
-    background-color: var(--primary-hover);
+    background: linear-gradient(135deg, #00C2FF, #7000FF);
     box-shadow: 0 0 15px rgba(157, 0, 255, 0.5);
 }
 

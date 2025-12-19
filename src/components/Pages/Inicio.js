@@ -238,7 +238,7 @@ function Inicio() {
     { name: 'Inativos/Outros', value: stats.totalClientes - stats.clientesAtivos }
   ];
 
-  const COLORS = ['#00ff00', '#555555'];
+  const COLORS = ['#9D00FF', '#333333'];
 
   return (
       <div className="inicio-container">
@@ -299,7 +299,7 @@ function Inicio() {
 
             <div className="kpi-aligned-row">
             <div className="kpi-group-left">
-              <div className="kpi-card">
+              <div className="kpi-card info">
                 <h3>Total Clientes</h3>
                 <p className="kpi-value">{stats.totalClientes}</p>
               </div>
@@ -493,29 +493,7 @@ function Inicio() {
                     )}
                 </div>
 
-                <div className="chart-card success-card" style={{ marginTop: '25px' }}>
-                    <div className="card-header">
-                        <h3>✅ Já Pagaram (Mês Atual)</h3>
-                        <span className="badge-count success">{stats.clientesPagos ? stats.clientesPagos.length : 0}</span>
-                    </div>
-                    {(!stats.clientesPagos || stats.clientesPagos.length === 0) ? (
-                    <p className="empty-msg">Nenhum pagamento registrado este mês.</p>
-                    ) : (
-                    <ul className="vencendo-list">
-                        {stats.clientesPagos.map(cliente => (
-                        <li key={cliente.id} className="vencendo-item">
-                            <div className="vencendo-info">
-                                <strong>{cliente.nome}</strong>
-                                <span>Pago em: {new Date(cliente.dataUltimoPagamento).toLocaleDateString()}</span>
-                            </div>
-                            <div style={{ display: 'flex', gap: '5px' }}>
-                                <span className="btn-slim pago" style={{ cursor: 'default' }}>Pago</span>
-                            </div>
-                        </li>
-                        ))}
-                    </ul>
-                    )}
-                </div>
+
 
                 <div className="chart-card warning-card installation-card" style={{ marginTop: '25px' }}>
                     <div className="card-header">
@@ -534,14 +512,14 @@ function Inicio() {
                               </div>
                               <div style={{ display: 'flex', gap: '5px' }}>
                                   <button 
-                                      className="btn-slim cobranca"
+                                      className="btn-slim contato"
                                       onClick={() => handleEnviarWhatsappInstalacao(cliente)}
                                       title="Contato"
                                   >
                                       Contato
                                   </button>
                                   <button 
-                                      className="btn-slim pago"
+                                      className="btn-slim instalado"
                                       onClick={() => handleMarcarInstalado(cliente)}
                                       title="Marcar como instalado"
                                   >

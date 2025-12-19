@@ -7,6 +7,18 @@
     width: 100%;
     padding: 20px;
     box-sizing: border-box;
+    background-image: url('../../assets/backgroundimgdesktop.jpeg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    min-height: 100vh;
+}
+
+@media (max-width: 768px) {
+    .relatorio-container {
+        background-image: none;
+    }
 }
 
 /* Filters */
