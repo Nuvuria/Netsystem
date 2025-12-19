@@ -238,9 +238,17 @@ input:focus, select:focus {
         display: none;
     }
 
-    .mobile-view {
-        display: grid;
-        grid-template-columns: 1fr;
+    .mobile-cards-container {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        max-height: 85vh; /* Altura para mostrar ~5 cards e rolar o resto */
+        overflow-y: auto;
+        padding-right: 5px;
+        border: 1px solid var(--border-color); /* Opcional: borda para delimitar a area de rolagem */
+        border-radius: 8px;
+        padding: 10px;
+        background-color: rgba(0,0,0,0.2);
     }
 
     .header-actions {
