@@ -247,6 +247,7 @@ import '../GlobalLayout.css';
 
   return (
       <div className="clientes-container">
+        <div className="clientes-content-wrapper">
         
         {/* Modal de Formulário */}
         {isModalOpen && (
@@ -563,6 +564,7 @@ import '../GlobalLayout.css';
             </div>
         </div>
       </div>
+    </div>
   );
 }
 

@@ -129,7 +129,7 @@ function RelatorioMensalidade() {
 
   return ( 
     <div className="relatorio-container">
-      
+      <div className="relatorio-content-wrapper">
       {/* Filtros */}
       <div className="relatorio-filtros">
           <select 
@@ -268,6 +268,7 @@ function RelatorioMensalidade() {
 
           </>
       )}
+      </div>
     </div> 
   ); 
 } 

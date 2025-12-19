@@ -242,6 +242,7 @@ function Inicio() {
 
   return (
       <div className="inicio-container">
+        <div className="inicio-content-wrapper">
         {loading ? (
           <p>Carregando dados...</p>
         ) : (
@@ -537,6 +538,7 @@ function Inicio() {
             </div>
           </>
         )}
+        </div>
       </div>
   );
 }
