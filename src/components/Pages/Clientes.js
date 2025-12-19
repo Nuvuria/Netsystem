@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 // import { useNavigate } from 'react-router-dom';
 import { useNotification } from '../../context/NotificationContext';
 import { useConfirmModal } from '../../context/ConfirmModalContext';
+import LoadingSpinner from '../Common/LoadingSpinner';
 import './Clientes.css';
 import '../GlobalLayout.css';
 
@@ -253,6 +254,7 @@ import '../GlobalLayout.css';
 
   return (
       <div className="clientes-container">
+        <LoadingSpinner isLoading={loading} />
         <div className="clientes-content-wrapper">
         
         {/* Modal de Formulário */}
@@ -372,7 +374,7 @@ import '../GlobalLayout.css';
               </div>
           </div>
 
-          {loading ? <p>Carregando...</p> : (
+          {!loading && (
             <>
                 {/* Tabela para Desktop */}
                 <div className="table-responsive desktop-view">
@@ -420,8 +422,8 @@ import '../GlobalLayout.css';
                     </table>
                 </div>
 
-                {/* Cards para Mobile */}
-                <div className="mobile-cards-container">
+                {/* Card para Mobile */}
+                <div className="mobile-view">
                     {clientes.map((cliente) => (
                         <div key={cliente.id} className="cliente-card">
                             <div className="cliente-card-header">

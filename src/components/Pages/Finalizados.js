@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useNotification } from '../../context/NotificationContext';
 import ResponsiveLayout from '../Layout/ResponsiveLayout';
+import LoadingSpinner from '../Common/LoadingSpinner';
 import '../Layout/GlobalLayout.css';
 import './Finalizados.css';
 
@@ -139,11 +140,7 @@ const Finalizados = () => {
            </div>
         </div>
 
-        {carregando && (
-          <div className="loading-state">
-            🔄 Carregando dados do {filtroAtivo}...
-          </div>
-        )}
+        <LoadingSpinner isLoading={carregando} />
 
         <div className="cards-grid">
           {todosItens.length === 0 ? (

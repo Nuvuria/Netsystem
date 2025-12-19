@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import ResponsiveLayout from '../Layout/ResponsiveLayout';
 import { useNotification } from '../../context/NotificationContext';
+import { useConfirmModal } from '../../context/ConfirmModalContext';
+import LoadingSpinner from '../Common/LoadingSpinner';
 import './Agenda.css';
 import '../GlobalLayout.css';
 
@@ -187,7 +189,9 @@ function Agenda() {
           </button>
         </div>
 
-        {loading ? <p>Carregando...</p> : (
+        <LoadingSpinner isLoading={loading} />
+
+        {!loading && (
           <>
             {/* Seção Avisados */}
             {avisados.length > 0 && (

@@ -3,6 +3,7 @@ import {
   PieChart, Pie, Cell, 
   BarChart, Bar, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer 
 } from 'recharts'; 
+import LoadingSpinner from '../Common/LoadingSpinner';
 import './RelatorioMensalidade.css';
 
 const API_BASE = process.env.REACT_APP_API_BASE_URL || 'http://localhost:3001'; 
@@ -130,6 +131,7 @@ function RelatorioMensalidade() {
   return ( 
     <div className="relatorio-container">
       <div className="relatorio-content-wrapper">
+      <LoadingSpinner isLoading={loading} />
       {/* Filtros */}
       <div className="relatorio-filtros">
           <select 

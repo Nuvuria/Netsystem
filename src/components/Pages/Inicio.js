@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid } from 'recharts';
 import { useNotification } from '../../context/NotificationContext';
 import { useConfirmModal } from '../../context/ConfirmModalContext';
+import LoadingSpinner from '../Common/LoadingSpinner';
 import '../GlobalLayout.css';
 import './Inicio.css';
 
@@ -254,10 +255,9 @@ function Inicio() {
 
   return (
       <div className="inicio-container">
+        <LoadingSpinner isLoading={loading} />
         <div className="inicio-content-wrapper">
-        {loading ? (
-          <p>Carregando dados...</p>
-        ) : (
+        {!loading && (
           <>
             {/* Seção de Agenda e Link */}
             <div className="agenda-section-inicio" style={{marginBottom: '20px'}}>
@@ -342,7 +342,7 @@ function Inicio() {
                   <div className="chart-card">
                     <h3>Status dos Clientes</h3>
                     <div className="chart-wrapper">
-                      <ResponsiveContainer>
+                      <ResponsiveContainer width="100%" height="100%">
                         <PieChart>
                           <Pie
                             data={dataGrafico}
@@ -371,7 +371,7 @@ function Inicio() {
                   <div className="chart-card">
                     <h3>Planos Mais Utilizados</h3>
                     <div className="chart-wrapper">
-                      <ResponsiveContainer>
+                      <ResponsiveContainer width="100%" height="100%">
                         <BarChart
                           data={stats.planos || []}
                           layout="vertical"
@@ -379,7 +379,7 @@ function Inicio() {
                         >
                           <CartesianGrid strokeDasharray="3 3" stroke="#444" horizontal={false} />
                           <XAxis type="number" stroke="#ccc" hide={isMobile} />
-                          <YAxis dataKey="name" type="category" stroke="#ccc" width={isMobile ? 50 : 100} tick={{fill: '#ccc', fontSize: isMobile ? 10 : 12}} />
+                          <YAxis dataKey="name" type="category" stroke="#ccc" width={isMobile ? 80 : 100} tick={{fill: '#ccc', fontSize: isMobile ? 10 : 12}} />
                           <Tooltip 
                             cursor={{fill: '#2a2a2a'}}
                             contentStyle={{ backgroundColor: '#333', border: 'none' }}

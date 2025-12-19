@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNotification } from '../../context/NotificationContext';
 import { useConfirmModal } from '../../context/ConfirmModalContext';
+import LoadingSpinner from '../Common/LoadingSpinner';
 import './Planos.css';
 import '../GlobalLayout.css';
 
@@ -158,9 +159,9 @@ function Planos() {
                 )}
 
                 {/* Lista de Planos */}
-                {loading ? (
-                    <p className="loading-msg">Carregando planos...</p>
-                ) : planos.length === 0 ? (
+                <LoadingSpinner isLoading={loading} />
+                {!loading && (
+                    planos.length === 0 ? (
                     <div className="empty-planos">
                         <p>Nenhum plano cadastrado.</p>
                     </div>
@@ -191,7 +192,7 @@ function Planos() {
                             </div>
                         ))}
                     </div>
-                )}
+                ))}
 
             </div>
         </div>
