@@ -9,9 +9,7 @@
 }
 
 @media (max-width: 768px) {
-  .agenda-container {
-    background-image: none;
-  }
+  /* Background preserved on mobile */
 }
 
 .agenda-header-card {

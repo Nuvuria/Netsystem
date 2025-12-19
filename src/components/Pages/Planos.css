@@ -8,9 +8,7 @@
 }
 
 @media (max-width: 768px) {
-    .planos-container {
-        background-image: none;
-    }
+    /* Background preserved on mobile */
 }
 
 .planos-header {

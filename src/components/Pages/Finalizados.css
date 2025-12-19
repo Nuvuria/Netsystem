@@ -9,9 +9,7 @@
 }
 
 @media (max-width: 768px) {
-    .finalizados-container {
-        background-image: none;
-    }
+    /* Background preserved on mobile */
 }
 
 .finalizados-header-container {

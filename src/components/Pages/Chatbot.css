@@ -12,9 +12,7 @@
 }
 
 @media (max-width: 768px) {
-    .chatbot-container {
-        background-image: none;
-    }
+    /* Background preserved on mobile */
 }
 
 .chatbot-card {

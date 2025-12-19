@@ -32,9 +32,7 @@
 }
 
 @media (max-width: 768px) {
-    .clientes-container {
-        background-image: none;
-    }
+    /* Background preserved on mobile */
 }
 
 .form-section {

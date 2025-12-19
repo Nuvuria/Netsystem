@@ -25,9 +25,7 @@
 }
 
 @media (max-width: 768px) {
-    .relatorio-container {
-        background-image: none;
-    }
+    /* Background preserved on mobile */
 }
 
 /* Filters */
