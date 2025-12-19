@@ -1,0 +1,118 @@
+.notification-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    pointer-events: none; /* Allow clicks to pass through container */
+}
+
+.notification-toast {
+    pointer-events: auto; /* Enable clicks on toast */
+    background: rgba(16, 16, 37, 0.95);
+    backdrop-filter: blur(10px);
+    color: #fff;
+    padding: 16px 20px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    min-width: 300px;
+    max-width: 450px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+    border-left: 4px solid;
+    cursor: pointer;
+    animation: slideIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    overflow: hidden;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+.notification-icon {
+    font-size: 1.2rem;
+}
+
+.notification-message {
+    flex: 1;
+    font-size: 0.95rem;
+    font-weight: 500;
+    line-height: 1.4;
+}
+
+.notification-close {
+    font-size: 1.2rem;
+    opacity: 0.5;
+    transition: opacity 0.2s;
+}
+
+.notification-toast:hover .notification-close {
+    opacity: 1;
+}
+
+/* Types */
+.notification-success {
+    border-color: #00FF99;
+    box-shadow: 0 4px 15px rgba(0, 255, 153, 0.15);
+}
+
+.notification-error {
+    border-color: #FF0055;
+    box-shadow: 0 4px 15px rgba(255, 0, 85, 0.15);
+}
+
+.notification-warning {
+    border-color: #FFD700;
+    box-shadow: 0 4px 15px rgba(255, 215, 0, 0.15);
+}
+
+.notification-info {
+    border-color: #00D4FF;
+    box-shadow: 0 4px 15px rgba(0, 212, 255, 0.15);
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .notification-container {
+        top: 20px;
+        right: 0;
+        left: 0;
+        align-items: center;
+        padding: 0 20px;
+    }
+
+    .notification-toast {
+        width: 100%;
+        min-width: auto;
+        max-width: 100%;
+        margin-bottom: 5px;
+    }
+}
+
+/* Progress Bar (Optional Visual Flair) */
+.notification-progress {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 3px;
+    background: rgba(255, 255, 255, 0.2);
+    width: 100%;
+    animation: progress 4s linear forwards;
+}
+
+@keyframes progress {
+    from { width: 100%; }
+    to { width: 0%; }
+}

@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
+import { useNotification } from '../../context/NotificationContext';
 import './AgendamentoExterno.css';
 
 const AgendamentoExterno = () => {
+  const { showNotification } = useNotification();
   const [formData, setFormData] = useState({
     nome: '',
     telefone: '',
@@ -28,7 +30,7 @@ const AgendamentoExterno = () => {
     const nomeUsuario = params.get('user');
 
     if (!usuarioId && !nomeUsuario) {
-        alert('Link inválido (Identificação do usuário faltando). Peça um novo link.');
+        showNotification('Link inválido (Identificação do usuário faltando). Peça um novo link.', 'error');
         setLoading(false);
         return;
     }
@@ -43,11 +45,11 @@ const AgendamentoExterno = () => {
         setSubmitted(true);
       } else {
         const errData = await res.json();
-        alert(`Erro ao enviar solicitação: ${errData.error || 'Tente novamente.'}`);
+        showNotification(`Erro ao enviar solicitação: ${errData.error || 'Tente novamente.'}`, 'error');
       }
     } catch (error) {
       console.error(error);
-      alert('Erro de conexão.');
+      showNotification('Erro de conexão.', 'error');
     } finally {
       setLoading(false);
     }

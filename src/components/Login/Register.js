@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useNotification } from '../../context/NotificationContext';
 import './Register.css';
 
 const Register = () => {
+  const { showNotification } = useNotification();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -12,7 +14,7 @@ const Register = () => {
     e.preventDefault();
 
     if (password !== confirmPassword) {
-      alert('❌ As senhas não coincidem!');
+      showNotification('As senhas não coincidem!', 'warning');
       return;
     }
 
@@ -26,14 +28,14 @@ const Register = () => {
       const data = await response.json();
 
       if (response.ok) {
-        alert('✅ Registro realizado com sucesso!');
+        showNotification('Registro realizado com sucesso!', 'success');
         navigate('/');
       } else {
-        alert(`❌ Erro: ${data.message || 'Erro ao registrar'}`);
+        showNotification(`Erro: ${data.message || 'Erro ao registrar'}`, 'error');
       }
     } catch (error) {
       console.error('[ERRO]', error);
-      alert('❌ Erro inesperado. Tente novamente.');
+      showNotification('Erro inesperado. Tente novamente.', 'error');
     }
   };
 

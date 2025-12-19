@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from 'react';
 // import { useNavigate } from 'react-router-dom';
+import { useNotification } from '../../context/NotificationContext';
+import { useConfirmModal } from '../../context/ConfirmModalContext';
 import './Clientes.css';
 import '../GlobalLayout.css';
 
   function Clientes() {
     // const navigate = useNavigate();
+    const { showNotification } = useNotification();
+    const { showConfirm } = useConfirmModal();
     const [clientes, setClientes] = useState([]);
   const [planosDisponiveis, setPlanosDisponiveis] = useState([]);
   const [novoCliente, setNovoCliente] = useState({
@@ -59,7 +63,7 @@ import '../GlobalLayout.css';
 
   const handleSalvarPlano = async (e) => {
       e.preventDefault();
-      if (!novoPlano.nome || !novoPlano.valor) return alert('Nome e Valor são obrigatórios');
+      if (!novoPlano.nome || !novoPlano.valor) return showNotification('Nome e Valor são obrigatórios', 'warning');
 
       try {
           const res = await fetch(PLANOS_URL, {
@@ -72,18 +76,19 @@ import '../GlobalLayout.css';
               setShowPlanoForm(false);
               setNovoPlano({ nome: '', valor: '', descricao: '' });
               fetchPlanos();
-              alert('Plano salvo com sucesso!');
+              showNotification('Plano salvo com sucesso!', 'success');
           } else {
-              alert('Erro ao salvar plano');
+              showNotification('Erro ao salvar plano', 'error');
           }
       } catch (error) {
           console.error(error);
-          alert('Erro ao conectar com o servidor');
+          showNotification('Erro ao conectar com o servidor', 'error');
       }
   };
 
   const handleExcluirPlano = async (id) => {
-      if (!window.confirm('Tem certeza que deseja excluir este plano?')) return;
+      const confirmed = await showConfirm('Excluir Plano', 'Tem certeza que deseja excluir este plano?');
+      if (!confirmed) return;
 
       try {
           const res = await fetch(`${PLANOS_URL}/${id}`, {
@@ -94,7 +99,7 @@ import '../GlobalLayout.css';
           if (res.ok) {
               fetchPlanos();
           } else {
-              alert('Erro ao excluir plano');
+              showNotification('Erro ao excluir plano', 'error');
           }
       } catch (error) {
           console.error(error);
@@ -128,7 +133,7 @@ import '../GlobalLayout.css';
     e.preventDefault();
     // Validacao basica
     if (!novoCliente.numeroTelefone) {
-      alert('Número de telefone é obrigatório!');
+      showNotification('Número de telefone é obrigatório!', 'warning');
       return;
     }
 
@@ -140,21 +145,22 @@ import '../GlobalLayout.css';
       });
 
       if (res.ok) {
-        alert('Cliente salvo com sucesso!');
+        showNotification('Cliente salvo com sucesso!', 'success');
         closeModal();
         fetchClientes();
       } else {
         const data = await res.json();
-        alert(`Erro ao salvar: ${data.error || 'Erro desconhecido'}`);
+        showNotification(`Erro ao salvar: ${data.error || 'Erro desconhecido'}`, 'error');
       }
     } catch (err) {
       console.error('Erro ao salvar:', err);
-      alert('Erro de conexão ao salvar cliente.');
+      showNotification('Erro de conexão ao salvar cliente.', 'error');
     }
   };
 
   const handleExcluirCliente = async (id) => {
-    if (!window.confirm('Tem certeza que deseja excluir este cliente?')) return;
+    const confirmed = await showConfirm('Excluir Cliente', 'Tem certeza que deseja excluir este cliente?');
+    if (!confirmed) return;
 
     try {
       const res = await fetch(`${API_URL}/${id}`, { 
@@ -164,7 +170,7 @@ import '../GlobalLayout.css';
       if (res.ok) {
         fetchClientes();
       } else {
-        alert('Erro ao excluir cliente.');
+        showNotification('Erro ao excluir cliente.', 'error');
       }
     } catch (err) {
       console.error('Erro ao excluir:', err);
@@ -190,7 +196,7 @@ import '../GlobalLayout.css';
       const status = getValue('Status');
 
       if (!nome && !telefone) {
-        alert('Formato inválido ou área de transferência vazia.');
+        showNotification('Formato inválido ou área de transferência vazia.', 'warning');
         return;
       }
 
@@ -209,7 +215,7 @@ import '../GlobalLayout.css';
       
     } catch (err) {
       console.error('Erro ao ler área de transferência:', err);
-      alert('Não foi possível acessar a área de transferência. Verifique as permissões.');
+      showNotification('Não foi possível acessar a área de transferência. Verifique as permissões.', 'error');
     }
   };
 

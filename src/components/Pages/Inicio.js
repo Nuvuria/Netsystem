@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from 'react';
 // import { useNavigate } from 'react-router-dom';
 import { PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid } from 'recharts';
+import { useNotification } from '../../context/NotificationContext';
+import { useConfirmModal } from '../../context/ConfirmModalContext';
 import '../GlobalLayout.css';
 import './Inicio.css';
 
 const API_BASE = process.env.REACT_APP_API_BASE_URL || 'http://localhost:3001';
 
 function Inicio() {
+  const { showNotification } = useNotification();
+  const { showConfirm } = useConfirmModal();
   // const navigate = useNavigate();
   const [stats, setStats] = useState({
     totalClientes: 0,
@@ -52,7 +56,8 @@ function Inicio() {
   };
 
   const concluirAgendamento = async (id) => {
-      if(!window.confirm('Marcar como finalizado?')) return;
+      const confirmed = await showConfirm('Finalizar Agendamento', 'Tem certeza que deseja marcar como finalizado?');
+      if (!confirmed) return;
       const token = localStorage.getItem('token');
       try {
           const res = await fetch(`${API_BASE}/agenda/${id}`, {
@@ -138,10 +143,11 @@ function Inicio() {
     }
   };
 
-  const handleEnviarWhatsapp = (cliente) => {
-    if (!window.confirm(`Você tem certeza que deseja cobrar ${cliente.nome}?`)) return;
+  const handleEnviarWhatsapp = async (cliente) => {
+    const confirmed = await showConfirm('Confirmar Cobrança', `Você tem certeza que deseja cobrar ${cliente.nome}?`);
+    if (!confirmed) return;
     if (!cliente.numeroTelefone) {
-        alert("Cliente sem número de telefone cadastrado.");
+        showNotification("Cliente sem número de telefone cadastrado.", "error");
         return;
     }
     const message = "Olá! 🔔 Lembramos que sua mensalidade vence hoje. 🗓️ Para garantir a continuidade dos serviços e evitar bloqueios, por favor, realize o pagamento. 💳 Agradecemos a preferência! 🤝";
@@ -150,10 +156,11 @@ function Inicio() {
     window.open(url, '_blank');
   };
 
-  const handleEnviarWhatsappLembrete = (cliente) => {
-    if (!window.confirm(`Você tem certeza que deseja enviar lembrete para ${cliente.nome}?`)) return;
+  const handleEnviarWhatsappLembrete = async (cliente) => {
+    const confirmed = await showConfirm('Enviar Lembrete', `Você tem certeza que deseja enviar lembrete para ${cliente.nome}?`);
+    if (!confirmed) return;
     if (!cliente.numeroTelefone) {
-        alert("Cliente sem número de telefone cadastrado.");
+        showNotification("Cliente sem número de telefone cadastrado.", "error");
         return;
     }
     const message = "Olá! 👋 Apenas um lembrete amigável: sua mensalidade vence em 5 dias. 🗓️ Se programe para evitar atrasos! 🚀 Agradecemos a parceria! 🤝";
@@ -162,10 +169,11 @@ function Inicio() {
     window.open(url, '_blank');
   };
 
-  const handleEnviarWhatsappInstalacao = (cliente) => {
-    if (!window.confirm(`Enviar mensagem de instalação para ${cliente.nome}?`)) return;
+  const handleEnviarWhatsappInstalacao = async (cliente) => {
+    const confirmed = await showConfirm('Enviar Instalação', `Enviar mensagem de instalação para ${cliente.nome}?`);
+    if (!confirmed) return;
     if (!cliente.numeroTelefone) {
-        alert("Cliente sem número de telefone cadastrado.");
+        showNotification("Cliente sem número de telefone cadastrado.", "error");
         return;
     }
     const message = "Olá, você ja está disponivel para instalação da sua internet ?";
@@ -175,7 +183,8 @@ function Inicio() {
   };
 
   const handleRegistrarPagamento = async (cliente) => {
-    if (!window.confirm(`Você tem certeza que deseja confirmar o pagamento de ${cliente.nome}?`)) return;
+    const confirmed = await showConfirm('Registrar Pagamento', `Você tem certeza que deseja confirmar o pagamento de ${cliente.nome}?`);
+    if (!confirmed) return;
 
     try {
         const token = localStorage.getItem('token');
@@ -187,19 +196,20 @@ function Inicio() {
             }
         });
         if (res.ok) {
-            // alert('Pagamento registrado com sucesso!'); // Feedback visual rápido é melhor, talvez remover o alert se for incômodo, mas manter por segurança
+            showNotification('Pagamento registrado com sucesso!', 'success');
             fetchDashboardData(); // Recarrega os dados e remove o cliente da lista
         } else {
-            alert('Erro ao registrar pagamento.');
+            showNotification('Erro ao registrar pagamento.', 'error');
         }
     } catch (e) {
         console.error(e);
-        alert('Erro ao conectar com o servidor.');
+        showNotification('Erro ao conectar com o servidor.', 'error');
     }
   };
 
   const handleMarcarInstalado = async (cliente) => {
-    if (!window.confirm(`Marcar ${cliente.nome} como instalado (Ativo)?`)) return;
+    const confirmed = await showConfirm('Confirmar Instalação', `Marcar ${cliente.nome} como instalado (Ativo)?`);
+    if (!confirmed) return;
     try {
       const token = localStorage.getItem('token');
       const res = await fetch(`${API_BASE}/clientes/${cliente.id}/status`, {
@@ -212,19 +222,21 @@ function Inicio() {
       });
       if (res.ok) {
         fetchDashboardData();
+        showNotification('Instalação marcada com sucesso!', 'success');
       } else {
-        alert('Erro ao atualizar status.');
+        showNotification('Erro ao atualizar status.', 'error');
       }
     } catch (e) {
       console.error(e);
-      alert('Erro ao conectar com o servidor.');
+      showNotification('Erro ao conectar com o servidor.', 'error');
     }
   };
 
-  const handleEnviarWhatsappCobranca = (cliente) => {
-    if (!window.confirm(`Você tem certeza que deseja cobrar ${cliente.nome}?`)) return;
+  const handleEnviarWhatsappCobranca = async (cliente) => {
+    const confirmed = await showConfirm('Cobrar Atraso', `Você tem certeza que deseja cobrar ${cliente.nome}?`);
+    if (!confirmed) return;
     if (!cliente.numeroTelefone) {
-        alert("Cliente sem número de telefone cadastrado.");
+        showNotification("Cliente sem número de telefone cadastrado.", "error");
         return;
     }
     const message = `Olá ${cliente.nome}! ⚠️ Notamos que sua mensalidade venceu dia ${cliente.vencimento}. 🗓️ Por favor, regularize seu pagamento para evitar a suspensão dos serviços. 💳 Se já pagou, desconsidere. 🤝`;

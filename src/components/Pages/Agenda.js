@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import ResponsiveLayout from '../Layout/ResponsiveLayout';
+import { useNotification } from '../../context/NotificationContext';
 import './Agenda.css';
 import '../GlobalLayout.css';
 
 function Agenda() {
+  const { showNotification } = useNotification();
+  const { showConfirm } = useConfirmModal();
   const [agendamentos, setAgendamentos] = useState([]);
   const [loading, setLoading] = useState(false);
   const [showFinalizados, setShowFinalizados] = useState(false);
@@ -29,9 +32,11 @@ function Agenda() {
         setAgendamentos(data);
       } else {
         console.error('Erro ao carregar agenda');
+        showNotification('Erro ao carregar agenda', 'error');
       }
     } catch (e) {
       console.error(e);
+      showNotification('Erro ao conectar com servidor', 'error');
     } finally {
       setLoading(false);
     }
@@ -44,7 +49,7 @@ function Agenda() {
 
   const copiarLink = () => {
     navigator.clipboard.writeText(PUBLIC_LINK);
-    alert('Link copiado!');
+    showNotification('Link copiado!', 'success');
   };
 
   const atualizarStatus = async (id, novoStatus) => {
@@ -57,12 +62,13 @@ function Agenda() {
       if (res.ok) carregar();
     } catch (e) {
       console.error(e);
-      alert('Erro ao atualizar status');
+      showNotification('Erro ao atualizar status', 'error');
     }
   };
 
   const excluir = async (id) => {
-    if (!window.confirm('Excluir este agendamento?')) return;
+    const confirmed = await showConfirm('Excluir Agendamento', 'Excluir este agendamento?');
+    if (!confirmed) return;
     try {
       const res = await fetch(`${API_BASE}/agenda/${id}`, { 
           method: 'DELETE',
@@ -71,7 +77,7 @@ function Agenda() {
       if (res.ok) carregar();
     } catch (e) {
       console.error(e);
-      alert('Erro ao excluir');
+      showNotification('Erro ao excluir', 'error');
     }
   };
 

@@ -1,8 +1,10 @@
 import React from 'react';
+import { useNotification } from '../../context/NotificationContext';
 import '../GlobalLayout.css';
 import './Chatbot.css';
  
  const Chatbot = () => {
+  const { showNotification } = useNotification();
   const handleOpenChatbot = () => {
     const width = 1200;
     const height = 800;
@@ -11,7 +13,7 @@ import './Chatbot.css';
     const features = `popup=yes,toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=${width},height=${height},left=${left},top=${top}`;
     const win = window.open('https://web.whatsapp.com', 'MensalixWhats', features);
     if (!win) {
-      alert('Permita pop-ups no navegador para abrir o WhatsApp Web.');
+      showNotification('Permita pop-ups no navegador para abrir o WhatsApp Web.', 'warning');
       return;
     }
     win.focus();

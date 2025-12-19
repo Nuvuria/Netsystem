@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from 'react';
+import { useNotification } from '../../context/NotificationContext';
+import { useConfirmModal } from '../../context/ConfirmModalContext';
 import './Planos.css';
 import '../GlobalLayout.css';
 
 const API_BASE = process.env.REACT_APP_API_BASE_URL || 'http://localhost:3001';
 
 function Planos() {
+    const { showNotification } = useNotification();
+    const { showConfirm } = useConfirmModal();
     const [planos, setPlanos] = useState([]);
     const [loading, setLoading] = useState(true);
     const [showForm, setShowForm] = useState(false);
@@ -37,7 +41,7 @@ function Planos() {
 
     const handleSave = async (e) => {
         e.preventDefault();
-        if (!nome || !valor) return alert('Nome e Valor são obrigatórios');
+        if (!nome || !valor) return showNotification('Nome e Valor são obrigatórios', 'warning');
 
         try {
             const token = localStorage.getItem('token');
@@ -56,17 +60,19 @@ function Planos() {
                 setValor('');
                 setDescricao('');
                 fetchPlanos();
+                showNotification('Plano salvo com sucesso!', 'success');
             } else {
-                alert('Erro ao salvar plano');
+                showNotification('Erro ao salvar plano', 'error');
             }
         } catch (error) {
             console.error(error);
-            alert('Erro ao conectar com o servidor');
+            showNotification('Erro ao conectar com o servidor', 'error');
         }
     };
 
     const handleDelete = async (id) => {
-        if (!window.confirm('Tem certeza que deseja excluir este plano?')) return;
+        const confirmed = await showConfirm('Excluir Plano', 'Tem certeza que deseja excluir este plano?');
+        if (!confirmed) return;
 
         try {
             const token = localStorage.getItem('token');
@@ -78,7 +84,7 @@ function Planos() {
             if (res.ok) {
                 fetchPlanos();
             } else {
-                alert('Erro ao excluir plano');
+                showNotification('Erro ao excluir plano', 'error');
             }
         } catch (error) {
             console.error(error);

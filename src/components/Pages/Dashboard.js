@@ -1,5 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useNotification } from '../../context/NotificationContext';
+import { useConfirmModal } from '../../context/ConfirmModalContext';
 import { 
   BarChart, Bar, LineChart, Line, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer 
 } from 'recharts';
@@ -9,6 +11,18 @@ import '../Layout/ResponsiveLayout.css';
 
 const Dashboard = () => {
   const navigate = useNavigate();
+  const { showNotification } = useNotification();
+  const { showConfirm } = useConfirmModal();
+
+  const handleLogout = async () => {
+    const confirmed = await showConfirm('Sair do Sistema', 'Tem certeza que deseja sair?');
+    if (!confirmed) return;
+
+    localStorage.removeItem('userId');
+    localStorage.removeItem('manterLogado');
+    showNotification('Logout efetuado com sucesso!', 'info');
+    navigate('/');
+  };
 
   const cards = [
     {
@@ -195,7 +209,16 @@ const Dashboard = () => {
 
       {/* Universal Footer (Same as ResponsiveLayout) */}
       <footer className="universal-footer">
-        <nav className="footer-nav">
+        <nav className="footer-nav" style={{ position: 'relative' }}>
+          <button
+            className="footer-btn logout-btn"
+            onClick={handleLogout}
+            title="Sair"
+            style={{ position: 'absolute', left: '20px' }}
+          >
+            <div className="btn-icon">🚪</div>
+          </button>
+
           <button
             className="footer-btn dashboard-home-btn"
             onClick={() => window.location.reload()}

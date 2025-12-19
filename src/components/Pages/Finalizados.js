@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useNotification } from '../../context/NotificationContext';
 import ResponsiveLayout from '../Layout/ResponsiveLayout';
 import '../Layout/GlobalLayout.css';
 import './Finalizados.css';
 
 const Finalizados = () => {
   const navigate = useNavigate();
+  const { showNotification } = useNotification();
   const [comandas, setComandas] = useState([]);
   const [filtroAtivo, setFiltroAtivo] = useState('semana');
   const [carregando, setCarregando] = useState(false);
@@ -19,7 +21,7 @@ const Finalizados = () => {
       
       if (!userId) {
         console.error('❌ UserId não encontrado no localStorage');
-        alert('Erro: Usuário não autenticado. Faça login novamente.');
+        showNotification('Erro: Usuário não autenticado. Faça login novamente.', 'error');
         navigate('/login');
         return;
       }

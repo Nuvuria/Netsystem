@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useNotification } from '../../context/NotificationContext';
 import './Login.css';
 
 const Login = () => {
+  const { showNotification } = useNotification();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
@@ -139,9 +141,9 @@ const Login = () => {
     } else {
       const isMobile = /Android|iPhone|iPad/i.test(navigator.userAgent);
       if (isMobile) {
-        alert("Para instalar, toque no menu do navegador (três pontos) e selecione 'Adicionar à Tela Inicial' ou 'Instalar Aplicativo'.");
+        showNotification("Para instalar, toque no menu do navegador (três pontos) e selecione 'Adicionar à Tela Inicial' ou 'Instalar Aplicativo'.", 'info', 6000);
       } else {
-        alert("Para instalar no Windows, clique no ícone de instalação (geralmente um + ou um computador) na barra de endereços do seu navegador.");
+        showNotification("Para instalar no Windows, clique no ícone de instalação na barra de endereços do seu navegador.", 'info', 6000);
       }
     }
   };
@@ -171,14 +173,14 @@ const Login = () => {
           localStorage.removeItem('manterLogado');
         }
         
-        alert('✅ Login realizado com sucesso!');
+        showNotification('Login realizado com sucesso!', 'success');
         navigate('/dashboard');
       } else {
-        alert(`❌ Erro: ${data.message || 'Falha no login.'}`);
+        showNotification(`Erro: ${data.message || 'Falha no login.'}`, 'error');
       }
     } catch (error) {
       console.error('Erro ao logar:', error);
-      alert('❌ Erro de conexão com o servidor.');
+      showNotification('Erro de conexão com o servidor.', 'error');
     } finally {
       setLoading(false);
     }

@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useNotification } from '../../context/NotificationContext';
 import './Profile.css';
 
 const Profile = () => {
   const navigate = useNavigate();
+  const { showNotification } = useNotification();
   const [user, setUser] = useState({
     username: 'Nome Exemplo',
     email: 'exemplo@email.com',
@@ -17,7 +19,7 @@ const Profile = () => {
   }, []);
 
   const handleLogout = () => {
-    alert('🔒 Logout efetuado!');
+    showNotification('Logout efetuado!', 'info');
     navigate('/');
   };
 
@@ -37,7 +39,7 @@ const Profile = () => {
   const handleSave = () => {
     setUser({ ...user, [editingField]: fieldValue });
     setEditingField('');
-    alert('✅ Dados atualizados (simulação)');
+    showNotification('Dados atualizados (simulação)', 'success');
   };
 
   return (

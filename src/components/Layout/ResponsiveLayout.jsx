@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { useNotification } from '../../context/NotificationContext';
 import '../GlobalLayout.css';
 import './ResponsiveLayout.css';
 
 const ResponsiveLayout = ({ children, title }) => {
+  const { showNotification } = useNotification();
   const [isMobile, setIsMobile] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
@@ -42,12 +44,6 @@ const ResponsiveLayout = ({ children, title }) => {
   */
 
   const handleNavigation = (path) => {
-    if (path === '/') {
-      // Lógica de Logout
-      localStorage.removeItem('userId');
-      localStorage.removeItem('manterLogado');
-      alert('🔒 Logout efetuado com sucesso!');
-    }
     navigate(path);
   };
 

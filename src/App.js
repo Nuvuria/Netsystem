@@ -4,6 +4,10 @@ import Login from './components/Login/Login.js';
 import Register from './components/Login/Register.js';
 
 import { SettingsProvider } from './context/SettingsContext';
+import { NotificationProvider } from './context/NotificationContext';
+import { ConfirmModalProvider } from './context/ConfirmModalContext';
+import NotificationContainer from './components/Notification/Notification';
+import ConfirmModal from './components/Notification/ConfirmModal';
 import LoginCodeRequest from './components/Login/LoginCodeRequest.js';
 import LoginCodeVerify from './components/Login/LoginCodeVerify.js';
 import RegisterCodeVerify from './components/Login/RegisterCodeVerify.js';
@@ -23,8 +27,12 @@ import AgendamentoExterno from './components/Pages/AgendamentoExterno.js';
 function App() {
   return (
     <SettingsProvider>
-      <Router>
-        <Routes>
+      <NotificationProvider>
+        <ConfirmModalProvider>
+          <Router>
+            <NotificationContainer />
+            <ConfirmModal />
+            <Routes>
           {/* Rota para Login */}
           <Route path="/" element={<Login />} />
 
@@ -71,7 +79,9 @@ function App() {
       
         
         </Routes>
-      </Router>
+        </Router>
+        </ConfirmModalProvider>
+      </NotificationProvider>
     </SettingsProvider>
   );
 }
