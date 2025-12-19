@@ -286,6 +286,10 @@ function Inicio() {
                                             Finalizar
                                         </button>
                                     </div>
+
+
+
+
                                 </div>
                             ))}
                         </div>
@@ -293,7 +297,8 @@ function Inicio() {
                 )}
             </div>
 
-            <div className="kpi-grid">
+            <div className="kpi-aligned-row">
+            <div className="kpi-group-left">
               <div className="kpi-card">
                 <h3>Total Clientes</h3>
                 <p className="kpi-value">{stats.totalClientes}</p>
@@ -302,6 +307,8 @@ function Inicio() {
                 <h3>Clientes Atrasados</h3>
                 <p className="kpi-value">{stats.clientesVencidos?.length || 0}</p>
               </div>
+            </div>
+            <div className="kpi-group-right">
               <div className="kpi-card success">
                 <h3>Clientes Pagos</h3>
                 <p className="kpi-value">{stats.clientesPagos?.length || 0}</p>
@@ -313,101 +320,66 @@ function Inicio() {
                 <small>Dia {new Date().getDate()}</small>
               </div>
             </div>
+          </div>
 
-            <div className="dashboard-grid">
-              {/* Coluna da Esquerda: Gráfico */}
-              <div className="left-column">
-                <div className="chart-card">
-                  <h3>Status dos Clientes</h3>
-                  <div className="chart-wrapper">
-                    <ResponsiveContainer>
-                      <PieChart>
-                        <Pie
-                          data={dataGrafico}
-                          cx="50%"
-                          cy="50%"
-                          innerRadius={isMobile ? "40%" : 60}
-                          outerRadius={isMobile ? "70%" : 80}
-                          fill="#8884d8"
-                          paddingAngle={5}
-                          dataKey="value"
-                        >
-                          {dataGrafico.map((entry, index) => (
-                            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                          ))}
-                        </Pie>
-                        <Tooltip 
-                          contentStyle={{ backgroundColor: '#333', border: 'none' }}
-                          itemStyle={{ color: '#fff' }}
-                        />
-                        <Legend verticalAlign="bottom" height={36} iconSize={10} wrapperStyle={{ fontSize: '12px' }}/>
-                      </PieChart>
-                    </ResponsiveContainer>
-                  </div>
-                </div>
-
-                <div className="chart-card">
-                  <h3>Planos Mais Utilizados</h3>
-                  <div className="chart-wrapper">
-                    <ResponsiveContainer>
-                      <BarChart
-                        data={stats.planos || []}
-                        layout="vertical"
-                        margin={isMobile ? { top: 5, right: 10, left: 10, bottom: 5 } : { top: 5, right: 30, left: 40, bottom: 5 }}
-                      >
-                        <CartesianGrid strokeDasharray="3 3" stroke="#444" horizontal={false} />
-                        <XAxis type="number" stroke="#ccc" hide={isMobile} />
-                        <YAxis dataKey="name" type="category" stroke="#ccc" width={isMobile ? 50 : 100} tick={{fill: '#ccc', fontSize: isMobile ? 10 : 12}} />
-                        <Tooltip 
-                          cursor={{fill: '#2a2a2a'}}
-                          contentStyle={{ backgroundColor: '#333', border: 'none' }}
-                          itemStyle={{ color: '#fff' }}
-                        />
-                        <Bar dataKey="value" fill="#2196F3" barSize={isMobile ? 15 : 20} radius={[0, 4, 4, 0]} />
-                      </BarChart>
-                    </ResponsiveContainer>
-                  </div>
-                </div>
-              </div>
-
-              {/* Coluna da Direita: Listas */}
-              <div className="right-column">
-                <div className="chart-card warning-card">
-                    <div className="card-header">
-                        <h3>📦 Instalação pendente</h3>
-                        <span className="badge-count">{clientesPendentesInstalacao.length}</span>
+          <div className="inicio-content-grid">
+            
+            <div className="left-column">
+              <div className="charts-row">
+                  <div className="chart-card">
+                    <h3>Status dos Clientes</h3>
+                    <div className="chart-wrapper">
+                      <ResponsiveContainer>
+                        <PieChart>
+                          <Pie
+                            data={dataGrafico}
+                            cx="50%"
+                            cy="50%"
+                            innerRadius={isMobile ? "50%" : 70}
+                            outerRadius={isMobile ? "80%" : 100}
+                            fill="#8884d8"
+                            paddingAngle={5}
+                            dataKey="value"
+                          >
+                            {dataGrafico.map((entry, index) => (
+                              <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                            ))}
+                          </Pie>
+                          <Tooltip 
+                            contentStyle={{ backgroundColor: '#333', border: 'none' }}
+                            itemStyle={{ color: '#fff' }}
+                          />
+                          <Legend verticalAlign="bottom" height={36} iconSize={10} wrapperStyle={{ fontSize: '12px' }}/>
+                        </PieChart>
+                      </ResponsiveContainer>
                     </div>
-                    {clientesPendentesInstalacao.length === 0 ? (
-                      <p className="empty-msg">Nenhum cliente com instalação pendente.</p>
-                    ) : (
-                      <ul className="vencendo-list">
-                        {clientesPendentesInstalacao.map(cliente => (
-                          <li key={cliente.id} className="vencendo-item">
-                              <div className="vencendo-info">
-                                  <strong>{cliente.nome}</strong>
-                                  <span>{cliente.numeroTelefone}</span>
-                              </div>
-                              <div style={{ display: 'flex', gap: '5px' }}>
-                                  <button 
-                                      className="btn-slim cobranca"
-                                      onClick={() => handleEnviarWhatsappInstalacao(cliente)}
-                                      title="Contato"
-                                  >
-                                      Contato
-                                  </button>
-                                  <button 
-                                      className="btn-slim pago"
-                                      onClick={() => handleMarcarInstalado(cliente)}
-                                      title="Marcar como instalado"
-                                  >
-                                      Instalado
-                                  </button>
-                              </div>
-                          </li>
-                        ))}
-                      </ul>
-                    )}
+                  </div>
+
+                  <div className="chart-card">
+                    <h3>Planos Mais Utilizados</h3>
+                    <div className="chart-wrapper">
+                      <ResponsiveContainer>
+                        <BarChart
+                          data={stats.planos || []}
+                          layout="vertical"
+                          margin={isMobile ? { top: 5, right: 10, left: 10, bottom: 5 } : { top: 5, right: 30, left: 40, bottom: 5 }}
+                        >
+                          <CartesianGrid strokeDasharray="3 3" stroke="#444" horizontal={false} />
+                          <XAxis type="number" stroke="#ccc" hide={isMobile} />
+                          <YAxis dataKey="name" type="category" stroke="#ccc" width={isMobile ? 50 : 100} tick={{fill: '#ccc', fontSize: isMobile ? 10 : 12}} />
+                          <Tooltip 
+                            cursor={{fill: '#2a2a2a'}}
+                            contentStyle={{ backgroundColor: '#333', border: 'none' }}
+                            itemStyle={{ color: '#fff' }}
+                          />
+                          <Bar dataKey="value" fill="#2196F3" barSize={isMobile ? 15 : 20} radius={[0, 4, 4, 0]} />
+                        </BarChart>
+                      </ResponsiveContainer>
+                    </div>
+                  </div>
                 </div>
+
+
                 <div className="chart-card overdue-card">
                     <div className="card-header">
                         <h3>🚫 Vencidos / Atrasados</h3>
@@ -544,7 +516,46 @@ function Inicio() {
                     </ul>
                     )}
                 </div>
+
+                <div className="chart-card warning-card installation-card" style={{ marginTop: '25px' }}>
+                    <div className="card-header">
+                        <h3>📦 Instalação pendente</h3>
+                        <span className="badge-count">{clientesPendentesInstalacao.length}</span>
+                    </div>
+                    {clientesPendentesInstalacao.length === 0 ? (
+                      <p className="empty-msg">Nenhum cliente com instalação pendente.</p>
+                    ) : (
+                      <ul className="vencendo-list">
+                        {clientesPendentesInstalacao.map(cliente => (
+                          <li key={cliente.id} className="vencendo-item">
+                              <div className="vencendo-info">
+                                  <strong>{cliente.nome}</strong>
+                                  <span>{cliente.numeroTelefone}</span>
+                              </div>
+                              <div style={{ display: 'flex', gap: '5px' }}>
+                                  <button 
+                                      className="btn-slim cobranca"
+                                      onClick={() => handleEnviarWhatsappInstalacao(cliente)}
+                                      title="Contato"
+                                  >
+                                      Contato
+                                  </button>
+                                  <button 
+                                      className="btn-slim pago"
+                                      onClick={() => handleMarcarInstalado(cliente)}
+                                      title="Marcar como instalado"
+                                  >
+                                      Instalado
+                                  </button>
+                              </div>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                </div>
               </div>
+              
+              {/* Coluna da Direita removida/mesclada */}
             </div>
           </>
         )}

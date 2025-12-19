@@ -7,11 +7,27 @@
 }
 
 /* KPI Cards */
-.kpi-grid {
+.kpi-aligned-row {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 20px;
+    grid-template-columns: 1fr 1.4fr; /* Matches charts-row 1fr 1.4fr */
+    gap: 25px; /* Matches charts-row gap */
     margin-bottom: 30px;
+    width: 100%;
+}
+
+.kpi-group-left, .kpi-group-right {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+@media (max-width: 768px) {
+    .kpi-aligned-row {
+        grid-template-columns: 1fr;
+    }
+    .kpi-group-left, .kpi-group-right {
+        gap: 10px;
+    }
 }
 
 .kpi-card {
@@ -24,6 +40,8 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
+    width: 100%; /* Ensure it fills the grid cell */
+    box-sizing: border-box;
 }
 
 .kpi-card:hover {
@@ -70,32 +88,73 @@
     color: #e92131;
 }
 
-/* Dashboard Main Grid */
-.dashboard-grid {
-    display: grid;
-    grid-template-columns: 1.2fr 1fr; /* Coluna do gráfico maior, lista menor */
+/* Inicio Content Grid (Renamed from dashboard-grid to avoid conflicts) */
+.inicio-content-grid {
+    display: flex;
+    flex-direction: column;
     gap: 25px;
-    align-items: start;
 }
 
-/* Left Column (Chart) */
+/* Left Column (Main Content) */
 .left-column {
     display: flex;
     flex-direction: column;
-    gap: 25px; /* Substitui marginTop */
+    gap: 25px;
+    width: 100%;
 }
 
-.left-column .chart-card {
-    min-height: 400px;
+/* Charts Row Container */
+.charts-row {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr; /* Aumentado a coluna da direita (Planos) */
+    gap: 25px;
+    width: 100%;
+}
+
+.charts-row .chart-card {
+    min-height: auto;
+    height: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 20px 15px;
+    margin-bottom: 0;
+}
+
+/* Responsive for Charts Row */
+@media (max-width: 768px) {
+    .charts-row {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* List Cards (Compact) */
+.chart-card.warning-card,
+.chart-card.overdue-card,
+.chart-card.info-card,
+.chart-card.success-card {
+    padding: 8px 15px;
+    min-height: auto;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box;
+    align-self: stretch;
+}
+
+/* Specific styling for centered Installation card */
+.chart-card.installation-card {
+    width: 100% !important;
+    max-width: 100% !important;
+    align-self: stretch !important;
 }
 
 .chart-wrapper {
     width: 100%;
-    height: 300px; /* Altura padrão Desktop */
+    height: 250px; /* Reduced from 300px for better density */
+    margin-top: 10px;
 }
 
 /* Right Column (Lists) */
@@ -127,6 +186,32 @@
 
 .success-card {
     border-top: 4px solid #e92131; /* Verde para sucesso/pago */
+}
+
+/* Compact Cards styles moved to List Cards section above */
+
+.chart-card.warning-card .card-header,
+.chart-card.overdue-card .card-header,
+.chart-card.info-card .card-header,
+.chart-card.success-card .card-header {
+    margin-bottom: 5px;
+    gap: 10px;
+}
+
+.chart-card.warning-card .card-header h3,
+.chart-card.overdue-card .card-header h3,
+.chart-card.info-card .card-header h3,
+.chart-card.success-card .card-header h3 {
+    font-size: 0.9rem;
+}
+
+.chart-card.warning-card .empty-msg,
+.chart-card.overdue-card .empty-msg,
+.chart-card.info-card .empty-msg,
+.chart-card.success-card .empty-msg {
+    margin: 0;
+    font-size: 0.85rem;
+    padding-bottom: 2px;
 }
 
 /* Card Header e Badges */
