@@ -30,6 +30,7 @@
     background-attachment: fixed;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     min-height: 100vh;
+    box-sizing: border-box;
 }
 
 .inicio-content-wrapper {
@@ -424,8 +425,12 @@
 /* ===== MOBILE ADJUSTMENTS (NOVO) ===== */
 @media (max-width: 768px) {
     .inicio-container {
-        padding: 10px; /* Reduz padding do container */
-        /* background-image: none; REMOVED to enable background on mobile */
+        padding: 10px;
+        background-image: url('../../assets/backgroundmobile.jpeg');
+        background-size: cover;
+        background-position: center;
+        background-attachment: scroll;
+        min-height: 100vh;
     }
 
     /* KPI Grid Compacto */

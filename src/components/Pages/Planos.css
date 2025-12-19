@@ -5,10 +5,17 @@
     background-repeat: no-repeat;
     background-attachment: fixed;
     min-height: 100vh;
+    box-sizing: border-box;
 }
 
 @media (max-width: 768px) {
-    /* Background preserved on mobile */
+    .planos-container {
+        background-image: url('../../assets/backgroundmobile.jpeg');
+        background-size: cover;
+        background-position: center;
+        background-attachment: scroll;
+        min-height: 100vh;
+    }
 }
 
 .planos-header {

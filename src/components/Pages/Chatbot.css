@@ -9,10 +9,17 @@
     background-position: center;
     background-repeat: no-repeat;
     background-attachment: fixed;
+    box-sizing: border-box;
 }
 
 @media (max-width: 768px) {
-    /* Background preserved on mobile */
+    .chatbot-container {
+        background-image: url('../../assets/backgroundmobile.jpeg');
+        background-size: cover;
+        background-position: center;
+        background-attachment: scroll;
+        min-height: 100vh;
+    }
 }
 
 .chatbot-card {
