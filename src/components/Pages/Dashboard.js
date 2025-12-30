@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useNotification } from '../../context/NotificationContext';
 import { useConfirmModal } from '../../context/ConfirmModalContext';
@@ -13,6 +13,34 @@ const Dashboard = () => {
   const navigate = useNavigate();
   const { showNotification } = useNotification();
   const { showConfirm } = useConfirmModal();
+
+  const [loading, setLoading] = useState(true);
+  const [dashboardData, setDashboardData] = useState(null);
+
+  useEffect(() => {
+    fetchDashboardData();
+  }, []);
+
+  const fetchDashboardData = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch(`${process.env.REACT_APP_API_BASE_URL || 'http://localhost:3001'}/dashboard`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      
+      if (response.ok) {
+        const data = await response.json();
+        setDashboardData(data);
+      } else {
+        console.error('Falha ao buscar dados do dashboard');
+      }
+    } catch (error) {
+      console.error('Erro ao buscar dados do dashboard:', error);
+      showNotification('Erro ao carregar dados', 'error');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleLogout = async () => {
     const confirmed = await showConfirm('Sair do Sistema', 'Tem certeza que deseja sair?');
@@ -51,41 +79,41 @@ const Dashboard = () => {
     }
   ];
 
-  // Dados fictícios para os gráficos
-  const notificationData = [
-    { name: 'Erro', value: 2, fill: '#ff4d4f' },
-    { name: 'Aviso', value: 5, fill: '#faad14' },
-    { name: 'Info', value: 12, fill: '#1890ff' },
-  ];
+  // Dados reais de planos
+  const planosData = dashboardData?.planos && dashboardData.planos.length > 0
+    ? dashboardData.planos
+    : [
+        { name: 'Nenhum', value: 0 }
+      ];
 
-  const clientesData = [
-    { name: 'Jan', total: 45 },
-    { name: 'Fev', total: 52 },
-    { name: 'Mar', total: 48 },
-    { name: 'Abr', total: 61 },
-    { name: 'Mai', total: 67 },
-    { name: 'Jun', total: 75 },
-  ];
+  const clientesData = dashboardData?.clientesData && dashboardData.clientesData.length > 0
+    ? dashboardData.clientesData
+    : [
+        { name: 'Jan', total: 0 },
+        { name: 'Fev', total: 0 },
+        { name: 'Mar', total: 0 },
+        { name: 'Abr', total: 0 },
+        { name: 'Mai', total: 0 },
+        { name: 'Jun', total: 0 },
+      ];
 
-  const faturamentoData = [
-    { name: 'Jan', valor: 12500 },
-    { name: 'Fev', valor: 15000 },
-    { name: 'Mar', valor: 14200 },
-    { name: 'Abr', valor: 18000 },
-    { name: 'Mai', valor: 21000 },
-    { name: 'Jun', valor: 25000 },
-  ];
+  // Faturamento Real ou Placeholder
+  const faturamentoData = dashboardData?.faturamentoData && dashboardData.faturamentoData.length > 0
+    ? dashboardData.faturamentoData
+    : [
+        { name: 'Jan', valor: 0 },
+        { name: 'Fev', valor: 0 },
+        { name: 'Mar', valor: 0 },
+        { name: 'Abr', valor: 0 },
+        { name: 'Mai', valor: 0 },
+        { name: 'Jun', valor: 0 },
+      ];
 
-  const agendaData = [
-    { name: 'Seg', pendentes: 4 },
-    { name: 'Ter', pendentes: 7 },
-    { name: 'Qua', pendentes: 2 },
-    { name: 'Qui', pendentes: 9 },
-    { name: 'Sex', pendentes: 5 },
-  ];
+  const agendaPendentes = dashboardData?.agendaPendentes || [];
 
   const formatCurrency = (value) => {
-    return `R$ ${value/1000}k`;
+    if (value >= 1000) return `R$ ${value/1000}k`;
+    return `R$ ${value}`;
   };
 
   return (
@@ -144,23 +172,25 @@ const Dashboard = () => {
 
       {/* Seção de Gráficos */}
       <div className="dashboard-charts-section">
-        {/* Gráfico de Notificações */}
+        {/* Gráfico de Planos */}
         <div className="chart-container">
-          <h3 className="chart-title">Notificações</h3>
+          <h3 className="chart-title">Planos Mais Utilizados</h3>
           <div className="chart-wrapper">
              <ResponsiveContainer width="100%" height="100%">
-                <AreaChart data={notificationData}>
-                  <defs>
-                    <linearGradient id="colorValue" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="#8884d8" stopOpacity={0.8}/>
-                      <stop offset="95%" stopColor="#8884d8" stopOpacity={0}/>
-                    </linearGradient>
-                  </defs>
+                <BarChart data={planosData}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="#444" vertical={false} />
+                  <XAxis dataKey="name" stroke="#ccc" tick={{ fontSize: 10 }} interval={0} />
+                  <YAxis stroke="#ccc" tick={{ fontSize: 10 }} width={30} allowDecimals={false} />
                   <Tooltip 
+                    cursor={{ fill: 'rgba(255, 255, 255, 0.1)' }}
                     contentStyle={{ backgroundColor: '#1f1f2e', border: 'none', color: '#fff', fontSize: '12px' }}
                   />
-                  <Area type="monotone" dataKey="value" stroke="#8884d8" fillOpacity={1} fill="url(#colorValue)" />
-                </AreaChart>
+                  <Bar dataKey="value" fill="#8884d8" barSize={20}>
+                    {planosData.map((entry, index) => (
+                      <cell key={`cell-${index}`} fill={['#8884d8', '#82ca9d', '#ffc658', '#ff8042', '#0088fe'][index % 5]} />
+                    ))}
+                  </Bar>
+                </BarChart>
              </ResponsiveContainer>
           </div>
         </div>
@@ -220,20 +250,29 @@ const Dashboard = () => {
         </div>
 
         {/* Gráfico de Agenda Pendentes */}
-        <div className="chart-container">
-          <h3 className="chart-title">Notificações Agenda</h3>
-          <div className="chart-wrapper">
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={agendaData}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#444" vertical={false} />
-                <XAxis dataKey="name" stroke="#ccc" tick={{ fontSize: 10 }} interval={0} />
-                <YAxis stroke="#ccc" tick={{ fontSize: 10 }} width={30} />
-                <Tooltip 
-                  contentStyle={{ backgroundColor: '#1f1f2e', border: 'none', color: '#fff', fontSize: '12px' }} 
-                />
-                <Bar dataKey="pendentes" fill="#8884d8" radius={[4, 4, 0, 0]} barSize={20} />
-              </BarChart>
-            </ResponsiveContainer>
+        <div className="chart-container" style={{ overflowY: 'auto' }}>
+          <h3 className="chart-title">Notificações Agenda (Pendentes)</h3>
+          <div className="agenda-list" style={{ padding: '10px', color: '#fff' }}>
+             {agendaPendentes.length === 0 ? (
+                <p style={{ textAlign: 'center', color: '#ccc' }}>Nenhuma pendência na agenda.</p>
+             ) : (
+                <ul style={{ listStyle: 'none', padding: 0 }}>
+                    {agendaPendentes.map(item => (
+                        <li key={item.id} style={{ 
+                            marginBottom: '8px', 
+                            padding: '8px', 
+                            backgroundColor: 'rgba(255,255,255,0.05)', 
+                            borderRadius: '4px',
+                            borderLeft: '3px solid #ffaa00'
+                        }}>
+                            <div style={{ fontWeight: 'bold', fontSize: '14px' }}>{item.nome}</div>
+                            <div style={{ fontSize: '12px', color: '#ccc' }}>
+                                {new Date(item.data).toLocaleDateString()} - {item.tipo}
+                            </div>
+                        </li>
+                    ))}
+                </ul>
+             )}
           </div>
         </div>
       </div>
